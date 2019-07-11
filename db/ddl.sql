@@ -7,8 +7,8 @@
  * - updated_at
  * - updated_by
  *
- * ...but I'm uncertain as to when it's a nice practice
- * or if it's adding unnecesary complexity.
+ * ...but I'm uncertain as to whether it's a nice 
+ * practice or if it's adding unnecesary complexity.
  */
 
 
