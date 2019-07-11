@@ -10,7 +10,7 @@
  * ...but I'm uncertain as to when it's a nice practice
  * or if it's adding unnecesary complexity.
  */
- 
+
 
 /********************************************
   account
@@ -37,16 +37,16 @@
 DROP TABLE IF EXISTS account CASCADE;
 
 CREATE TABLE account (
-	"id" SERIAL PRIMARY KEY,
-	"email" VARCHAR(255) NULL,
-	"name" VARCHAR(255) NULL,
-	"password" VARCHAR(255) NULL,
+  "id" SERIAL PRIMARY KEY,
+  "email" VARCHAR(255) NULL,
+  "name" VARCHAR(255) NULL,
+  "password" VARCHAR(255) NULL,
   "signature" BYTEA NULL,
-	"is_admin" BOOLEAN NULL,
+  "is_admin" BOOLEAN NULL,
   "created_at" TIMESTAMP NOT NULL DEFAULT NOW(),
-	"created_by" INT NOT NULL REFERENCES account(id),
-	"updated_at" TIMESTAMP NOT NULL DEFAULT NOW(),
-	"updated_by" INT NOT NULL REFERENCES account(id)
+  "created_by" INT NOT NULL REFERENCES account(id),
+  "updated_at" TIMESTAMP NOT NULL DEFAULT NOW(),
+  "updated_by" INT NOT NULL REFERENCES account(id)
   CHECK ((is_admin) OR ("name" IS NOT NULL AND "signature" IS NOT NULL))
 );
 
@@ -65,9 +65,9 @@ CREATE TABLE award_type (
   "id" SERIAL PRIMARY KEY,
   "name" VARCHAR(255) NOT NULL,
   "created_at" TIMESTAMP NOT NULL DEFAULT NOW(),
-	"created_by" INT NOT NULL,
-	"updated_at" TIMESTAMP NOT NULL DEFAULT NOW(),
-	"updated_by" INT NOT NULL
+  "created_by" INT NOT NULL,
+  "updated_at" TIMESTAMP NOT NULL DEFAULT NOW(),
+  "updated_by" INT NOT NULL
 );
 
 ALTER TABLE award_type OWNER TO "tttAdmin";
@@ -85,9 +85,9 @@ CREATE TABLE region (
   "id" SERIAL PRIMARY KEY,
   "name" VARCHAR(255) NOT NULL,
   "created_at" TIMESTAMP NOT NULL DEFAULT NOW(),
-	"created_by" INT NOT NULL REFERENCES account(id),
-	"updated_at" TIMESTAMP NOT NULL DEFAULT NOW(),
-	"updated_by" INT NOT NULL REFERENCES account(id)
+  "created_by" INT NOT NULL REFERENCES account(id),
+  "updated_at" TIMESTAMP NOT NULL DEFAULT NOW(),
+  "updated_by" INT NOT NULL REFERENCES account(id)
 );
 
 ALTER TABLE region OWNER TO "tttAdmin";
@@ -102,13 +102,13 @@ GRANT ALL ON TABLE region TO "tttAdmin";
 DROP TABLE IF EXISTS person CASCADE;
 
 CREATE TABLE person (
-	"id" SERIAL PRIMARY KEY,
-	"email" VARCHAR(255) NULL,
-	"name" VARCHAR(255) NULL,
+  "id" SERIAL PRIMARY KEY,
+  "email" VARCHAR(255) NULL,
+  "name" VARCHAR(255) NULL,
   "created_at" TIMESTAMP NOT NULL DEFAULT NOW(),
-	"created_by" INT NOT NULL REFERENCES account(id),
-	"updated_at" TIMESTAMP NOT NULL DEFAULT NOW(),
-	"updated_by" INT NOT NULL REFERENCES account(id)
+  "created_by" INT NOT NULL REFERENCES account(id),
+  "updated_at" TIMESTAMP NOT NULL DEFAULT NOW(),
+  "updated_by" INT NOT NULL REFERENCES account(id)
 );
 
 ALTER TABLE person OWNER TO "tttAdmin";
@@ -126,9 +126,9 @@ CREATE TABLE person_region (
   "person_id" INT NOT NULL REFERENCES person(id),
   "region_id" INT NOT NULL REFERENCES region(id),
   "created_at" TIMESTAMP NOT NULL DEFAULT NOW(),
-	"created_by" INT NOT NULL REFERENCES account(id),
-	"updated_at" TIMESTAMP NOT NULL DEFAULT NOW(),
-	"updated_by" INT NOT NULL REFERENCES account(id)
+  "created_by" INT NOT NULL REFERENCES account(id),
+  "updated_at" TIMESTAMP NOT NULL DEFAULT NOW(),
+  "updated_by" INT NOT NULL REFERENCES account(id)
 );
 
 ALTER TABLE person_region OWNER TO "tttAdmin";
@@ -143,15 +143,15 @@ GRANT ALL ON TABLE person_region TO "tttAdmin";
 DROP TABLE IF EXISTS award CASCADE;
 
 CREATE TABLE award (
-	"id" SERIAL PRIMARY KEY,
-	"award_type_id" INT NOT NULL REFERENCES award_type(id),
-	"person_id" INT NOT NULL REFERENCES person(id),
-	"awarded_date" DATE NULL,
+  "id" SERIAL PRIMARY KEY,
+  "award_type_id" INT NOT NULL REFERENCES award_type(id),
+  "person_id" INT NOT NULL REFERENCES person(id),
+  "awarded_date" DATE NULL,
   "awarded_time" TIME NULL,
   "created_at" TIMESTAMP NOT NULL DEFAULT NOW(),
-	"created_by" INT NOT NULL REFERENCES award(id),
-	"updated_at" TIMESTAMP NOT NULL DEFAULT NOW(),
-	"updated_by" INT NOT NULL REFERENCES award(id)
+  "created_by" INT NOT NULL REFERENCES award(id),
+  "updated_at" TIMESTAMP NOT NULL DEFAULT NOW(),
+  "updated_by" INT NOT NULL REFERENCES award(id)
 );
 
 ALTER TABLE award OWNER TO "tttAdmin";
