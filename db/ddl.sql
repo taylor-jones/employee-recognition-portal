@@ -1,25 +1,7 @@
-/**
- * General Notes:
- *
- * There following columns are present in each table:
- * - created_at
- * - created_by
- * - updated_at
- * - updated_by
- *
- * ...but I'm uncertain as to whether it's a nice 
- * practice or if it's adding unnecesary complexity.
- */
-
-
-
-
-
-
 /********************************************
   TYPES
  *******************************************/
-DELETE TYPE IF EXISTS operation;
+DROP TYPE IF EXISTS CRUD_OPERATION CASCADE;
 CREATE TYPE CRUD_OPERATION AS ENUM ('insert', 'update', 'delete');
 
 
@@ -32,7 +14,7 @@ DROP TABLE IF EXISTS log CASCADE;
 CREATE TABLE log (
   "id" BIGINT NOT NULL PRIMARY KEY,
   "account_id" INT NOT NULL REFERENCES account(id),
-  "controller_class" VARCHAR(255) NOT,
+  "controller_class" VARCHAR(255) NULL,
   "operation" CRUD_OPERATION NOT NULL,
   "property" VARCHAR(255) NOT NULL,
   "changed_from" VARCHAR(255) NULL,
@@ -107,7 +89,7 @@ DROP TABLE IF EXISTS region CASCADE;
 
 CREATE TABLE region (
   "id" INT PRIMARY KEY,
-  "name" VARCHAR(255) NOT NULL,
+  "name" VARCHAR(255) NOT NULL
 );
 
 ALTER TABLE region OWNER TO "tttAdmin";
@@ -116,35 +98,35 @@ GRANT ALL ON TABLE region TO "tttAdmin";
 
 
 /********************************************
-  person
+  employee
 ********************************************/
 
-DROP TABLE IF EXISTS person CASCADE;
+DROP TABLE IF EXISTS employee CASCADE;
 
-CREATE TABLE person (
+CREATE TABLE employee (
   "id" INT PRIMARY KEY,
   "email" VARCHAR(255) NULL,
-  "name" VARCHAR(255) NULL,
+  "name" VARCHAR(255) NULL
 );
 
-ALTER TABLE person OWNER TO "tttAdmin";
-GRANT ALL ON TABLE person TO "tttAdmin";
+ALTER TABLE employee OWNER TO "tttAdmin";
+GRANT ALL ON TABLE employee TO "tttAdmin";
 
 
 
 /********************************************
-  person_region
+  employee_region
 ********************************************/
 
-DROP TABLE IF EXISTS person_region CASCADE;
+DROP TABLE IF EXISTS employee_region CASCADE;
 
-CREATE TABLE person_region (
-  "person_id" INT NOT NULL REFERENCES person(id),
-  "region_id" INT NOT NULL REFERENCES region(id),
+CREATE TABLE employee_region (
+  "employee_id" INT NOT NULL REFERENCES employee(id),
+  "region_id" INT NOT NULL REFERENCES region(id)
 );
 
-ALTER TABLE person_region OWNER TO "tttAdmin";
-GRANT ALL ON TABLE person_region TO "tttAdmin";
+ALTER TABLE employee_region OWNER TO "tttAdmin";
+GRANT ALL ON TABLE employee_region TO "tttAdmin";
 
 
 
@@ -157,13 +139,9 @@ DROP TABLE IF EXISTS award CASCADE;
 CREATE TABLE award (
   "id" INT PRIMARY KEY,
   "award_type_id" INT NOT NULL REFERENCES award_type(id),
-  "person_id" INT NOT NULL REFERENCES person(id),
+  "employee_id" INT NOT NULL REFERENCES employee(id),
   "awarded_date" DATE NULL,
-  "awarded_time" TIME NULL,
-  "created_at" TIMESTAMP NOT NULL DEFAULT NOW(),
-  "created_by" INT NOT NULL REFERENCES award(id),
-  "updated_at" TIMESTAMP NOT NULL DEFAULT NOW(),
-  "updated_by" INT NOT NULL REFERENCES award(id)
+  "awarded_time" TIME NULL
 );
 
 ALTER TABLE award OWNER TO "tttAdmin";
