@@ -1,0 +1,5 @@
+<input [(ngModel)]="username" placeholder="Username">{{username}}
+<br>
+<input [(ngModel)]="password" placeholder="Password">{{password}}
+<br>
+<button (click)="handleLogin()" [disabled]="!username || !password">Click me!</button>
