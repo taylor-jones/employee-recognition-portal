@@ -36,6 +36,7 @@ INSERT INTO award_type VALUES
   (21, 'Longest Engagement'),
   (22, 'Show Me The Money');
 
+
 -- https://theoffice.fandom.com/wiki/Branch
 INSERT INTO region VALUES
   (1, 'Scranton'),
@@ -117,7 +118,6 @@ INSERT INTO employee_region VALUES
   (24, 4),
   (25, 4),
   (26, 4);
-
 
 
 -- https://theoffice.fandom.com/wiki/Dundie
