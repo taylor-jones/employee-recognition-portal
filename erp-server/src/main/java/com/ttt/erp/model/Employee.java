@@ -1,4 +1,4 @@
-package com.osu.cs467.employeerecognitionservice.domain;
+package com.ttt.erp.model;
 
 import java.time.LocalDateTime;
 

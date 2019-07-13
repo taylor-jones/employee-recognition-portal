@@ -1,6 +1,6 @@
-package com.osu.cs467.employeerecognitionservice.service;
+package com.ttt.erp.service;
 
-import com.osu.cs467.employeerecognitionservice.domain.Employee;
+import com.ttt.erp.model.Employee;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

@@ -1,7 +1,7 @@
-package com.osu.cs467.employeerecognitionservice.contoller;
+package com.ttt.erp.controller;
 
-import com.osu.cs467.employeerecognitionservice.domain.Employee;
-import com.osu.cs467.employeerecognitionservice.service.EmployeeService;
+import com.ttt.erp.model.Employee;
+import com.ttt.erp.service.EmployeeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
