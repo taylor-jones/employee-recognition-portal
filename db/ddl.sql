@@ -1,32 +1,4 @@
 /********************************************
-  TYPES
- *******************************************/
-DROP TYPE IF EXISTS CRUD_OPERATION CASCADE;
-CREATE TYPE CRUD_OPERATION AS ENUM ('insert', 'update', 'delete');
-
-
-
-/********************************************
-  log
- *******************************************/
-DROP TABLE IF EXISTS log CASCADE;
-
-CREATE TABLE log (
-  "id" BIGINT NOT NULL PRIMARY KEY,
-  "account_id" INT NOT NULL REFERENCES account(id),
-  "controller_class" VARCHAR(255) NULL,
-  "operation" CRUD_OPERATION NOT NULL,
-  "property" VARCHAR(255) NOT NULL,
-  "changed_from" VARCHAR(255) NULL,
-  "changed_to" VARCHAR(255) NULL,
-  "modified_at" TIMESTAMP NOT NULL DEFAULT NOW()
-);
-
-ALTER TABLE log OWNER TO "tttAdmin";
-GRANT ALL ON TABLE log TO "tttAdmin";
-
-
-/********************************************
   account
 
   NOTE: The name 'account' is used because the 
@@ -57,7 +29,7 @@ CREATE TABLE account (
   "password" VARCHAR(255) NULL,
   "signature" BYTEA NULL,
   "is_admin" BOOLEAN NULL,
-  CHECK ((is_admin) OR ("name" IS NOT NULL AND "signature" IS NOT NULL))
+  CHECK (is_admin OR "name" IS NOT NULL)
 );
 
 ALTER TABLE account OWNER TO "tttAdmin";
@@ -140,9 +112,39 @@ CREATE TABLE award (
   "id" INT PRIMARY KEY,
   "award_type_id" INT NOT NULL REFERENCES award_type(id),
   "employee_id" INT NOT NULL REFERENCES employee(id),
+  "account_id" INT NOT NULL REFERENCES account(id),
+  "description" VARCHAR(1000) NULL,
   "awarded_date" DATE NULL,
   "awarded_time" TIME NULL
 );
 
 ALTER TABLE award OWNER TO "tttAdmin";
 GRANT ALL ON TABLE award TO "tttAdmin";
+
+
+/********************************************
+  TYPES
+ *******************************************/
+DROP TYPE IF EXISTS CRUD_OPERATION CASCADE;
+CREATE TYPE CRUD_OPERATION AS ENUM ('insert', 'update', 'delete');
+
+
+
+/********************************************
+  log
+ *******************************************/
+DROP TABLE IF EXISTS log CASCADE;
+
+CREATE TABLE log (
+  "id" BIGINT NOT NULL PRIMARY KEY,
+  "account_id" INT NOT NULL REFERENCES account(id),
+  "controller_class" VARCHAR(255) NULL,
+  "operation" CRUD_OPERATION NOT NULL,
+  "property" VARCHAR(255) NOT NULL,
+  "changed_from" VARCHAR(255) NULL,
+  "changed_to" VARCHAR(255) NULL,
+  "modified_at" TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+ALTER TABLE log OWNER TO "tttAdmin";
+GRANT ALL ON TABLE log TO "tttAdmin";
