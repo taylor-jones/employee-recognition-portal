@@ -36,7 +36,7 @@ public class Employee {
 
     // relationships
 
-    @ManyToMany(fetch = FetchType.EAGER,
+    @ManyToMany(fetch = FetchType.LAZY,
         cascade = {
         CascadeType.PERSIST,
         CascadeType.MERGE

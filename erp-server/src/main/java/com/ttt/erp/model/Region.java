@@ -29,7 +29,7 @@ public class Region {
 
     // relationships
 
-    @ManyToMany(fetch = FetchType.EAGER,
+    @ManyToMany(fetch = FetchType.LAZY,
         cascade = { CascadeType.PERSIST, CascadeType.MERGE },
         mappedBy = "regions")
     private Set<Employee> employees = new HashSet<>();
