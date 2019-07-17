@@ -1,5 +1,7 @@
 package com.ttt.erp.model;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -13,7 +15,7 @@ public class UserAccount {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id")
     @NotNull
-    private Long id;
+    private Integer id;
 
     @Column(name = "email", unique = true)
     @Size(max = 100)
@@ -25,13 +27,15 @@ public class UserAccount {
     private String username;
 
     @NotNull
-    @Size(min = 8, max = 16)
+    @Size(min = 4, max = 16)
     @Column(name = "password")
     private String password;
 
+    // https://gist.github.com/vegaasen/7ffb86fe380f33655ba3c59fc28459e5
     @Lob
+    @Type(type = "org.hibernate.type.BinaryType")
     @Column(name = "signature")
-    private String signature;
+    private byte[] signature;
 
     @NotNull
     @Column(name = "is_admin")
@@ -41,7 +45,15 @@ public class UserAccount {
     // constructors
 
     public UserAccount() {}
-    public UserAccount(Long id, String email, String username, String password, String signature, Boolean isAdmin) {
+
+    public UserAccount(String email, String username, String password, byte[] signature, Boolean isAdmin) {
+        this.email = email;
+        this.username = username;
+        this.signature = signature;
+        this.isAdmin = isAdmin;
+    }
+
+    public UserAccount(Integer id, String email, String username, String password, byte[] signature, Boolean isAdmin) {
         this.id = id;
         this.email = email;
         this.username = username;
@@ -52,7 +64,7 @@ public class UserAccount {
 
     // getters
 
-    public Long getId() {
+    public Integer getId() {
         return this.id;
     }
 
@@ -68,7 +80,7 @@ public class UserAccount {
         return this.password;
     }
 
-    public String getSignature() {
+    public byte[] getSignature() {
         return this.signature;
     }
 
@@ -79,7 +91,7 @@ public class UserAccount {
 
     // setters
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -95,7 +107,7 @@ public class UserAccount {
         this.password = password;
     }
 
-    public void setSignature(String signature) {
+    public void setSignature(byte[] signature) {
         this.signature = signature;
     }
 

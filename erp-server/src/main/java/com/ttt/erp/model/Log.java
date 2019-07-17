@@ -17,7 +17,7 @@ public class Log {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
-    private Long id;
+    private Integer id;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "user_account_id", nullable = false)
@@ -49,7 +49,7 @@ public class Log {
     // constructors
 
     public Log() {}
-    public Log(Long id, UserAccount userAccount, String controllerClass, String operation, String property, String changedFrom, String changedTo, Date modifiedAt) {
+    public Log(Integer id, UserAccount userAccount, String controllerClass, String operation, String property, String changedFrom, String changedTo, Date modifiedAt) {
         this.id = id;
         this.userAccount = userAccount;
         this.controllerClass = controllerClass;
@@ -63,7 +63,7 @@ public class Log {
 
     // getters
 
-    public Long getId() {
+    public Integer getId() {
         return this.id;
     }
 
@@ -98,7 +98,7 @@ public class Log {
 
     // setters
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

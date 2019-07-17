@@ -16,7 +16,7 @@ public class Award {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
-    private Long id;
+    private Integer id;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "award_type_id", nullable = false)
@@ -58,7 +58,7 @@ public class Award {
         this.awardedTime = awardedTime;
     }
 
-    public Award(Long id, AwardType awardType, Employee employee, UserAccount userAccount,
+    public Award(Integer id, AwardType awardType, Employee employee, UserAccount userAccount,
                  String description, Date awardedDate, Date awardedTime) {
         this.id = id;
         this.awardType = awardType;
@@ -72,7 +72,7 @@ public class Award {
 
     // getters
 
-    public Long getId() {
+    public Integer getId() {
         return this.id;
     }
 
@@ -103,7 +103,7 @@ public class Award {
 
     // setters
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

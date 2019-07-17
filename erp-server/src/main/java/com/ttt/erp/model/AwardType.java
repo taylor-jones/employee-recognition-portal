@@ -15,7 +15,7 @@ public class AwardType {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
-    private Long id;
+    private Integer id;
 
     @NotNull
     @Size(max = 100)
@@ -31,7 +31,7 @@ public class AwardType {
         this.name = name;
     }
 
-    public AwardType(Long id, String name) {
+    public AwardType(Integer id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -39,7 +39,7 @@ public class AwardType {
 
     // getters
 
-    public Long getId() {
+    public Integer getId() {
         return this.id;
     }
 
@@ -50,7 +50,7 @@ public class AwardType {
 
     // setters
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

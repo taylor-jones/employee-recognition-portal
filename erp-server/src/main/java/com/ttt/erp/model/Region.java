@@ -18,7 +18,7 @@ public class Region {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @NotNull
     @Column(name = "id")
-    private Long id;
+    private Integer id;
 
     @NotNull
     @Size(max = 35)
@@ -44,7 +44,7 @@ public class Region {
         this.name = name;
     }
 
-    public Region(Long id, String name) {
+    public Region(Integer id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -52,7 +52,7 @@ public class Region {
 
     // getters
 
-    public Long getId() {
+    public Integer getId() {
         return this.id;
     }
 
@@ -63,7 +63,7 @@ public class Region {
 
     // setters
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

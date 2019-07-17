@@ -16,7 +16,7 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id")
     @NotNull
-    private Long id;
+    private Integer id;
 
     @NotNull
     @Size(min = 1, max = 100)
@@ -57,7 +57,7 @@ public class Employee {
         this.lastName = lastName;
     }
 
-    public Employee(Long id, String email, String firstName, String lastName) {
+    public Employee(Integer id, String email, String firstName, String lastName) {
         this.id = id;
         this.email = email;
         this.firstName = firstName;
@@ -67,7 +67,7 @@ public class Employee {
 
     // getters
 
-    public Long getId() {
+    public Integer getId() {
         return this.id;
     }
 
@@ -86,7 +86,7 @@ public class Employee {
 
     // setters
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

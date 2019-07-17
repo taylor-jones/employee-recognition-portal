@@ -102,7 +102,7 @@ GRANT ALL ON TABLE award TO "tttAdmin";
  *******************************************/
 DROP TABLE IF EXISTS log CASCADE;
 CREATE TABLE log (
-  "id" BIGINT NOT NULL PRIMARY KEY,
+  "id" INT NOT NULL PRIMARY KEY,
   "user_account_id" INT NOT NULL REFERENCES user_account(id),
   "controller_class" VARCHAR(255) NULL,
   "operation" CRUD_OPERATION NOT NULL,
