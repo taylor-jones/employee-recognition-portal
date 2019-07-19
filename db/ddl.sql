@@ -105,7 +105,8 @@ CREATE TABLE log (
   "id" BIGINT NOT NULL PRIMARY KEY,
   "user_account_id" INT NOT NULL REFERENCES user_account(id),
   "controller_class" VARCHAR(255) NULL,
-  "operation" CRUD_OPERATION NOT NULL,
+  "subject_id" BIGINT NOT NULL
+  "operation" varchar(50) NULL,
   "property" VARCHAR(255) NOT NULL,
   "changed_from" VARCHAR(255) NULL,
   "changed_to" VARCHAR(255) NULL,
