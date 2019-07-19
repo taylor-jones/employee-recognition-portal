@@ -42,7 +42,6 @@ public class UserAccountController {
         return this.awardRepository.findByUserAccount(userAccount);
     }
 
-
     // TODO: get actual userId from cookie
     @PostMapping
     public Optional<UserAccount> addUserAccount (
@@ -72,5 +71,10 @@ public class UserAccountController {
     @GetMapping
     public List<UserAccount> getAll() {
         return repository.findAll();
+    }
+
+    @GetMapping("/{username}")
+    public UserAccount getUserAccount(@PathVariable("username") final String username) {
+        return repository.findByUsername(username);
     }
 }
