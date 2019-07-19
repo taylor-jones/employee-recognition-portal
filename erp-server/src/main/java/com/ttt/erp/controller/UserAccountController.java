@@ -28,7 +28,7 @@ public class UserAccountController {
     }
 
     @GetMapping("/{username}")
-    public List<UserAccount> getUserAccount(@PathVariable("username") final String username) {
+    public UserAccount getUserAccount(@PathVariable("username") final String username) {
         return userAccountRepository.findByUsername(username);
     }
 }

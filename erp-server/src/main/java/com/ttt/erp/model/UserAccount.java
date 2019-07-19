@@ -1,8 +1,12 @@
 package com.ttt.erp.model;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Collection;
 
 @Entity
 @Table(name = "user_account")
@@ -13,7 +17,7 @@ public class UserAccount {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id")
     @NotNull
-    private Long id;
+    private Integer id;
 
     @Column(name = "email", unique = true)
     @Size(max = 100)
@@ -41,7 +45,7 @@ public class UserAccount {
     // constructors
 
     public UserAccount() {}
-    public UserAccount(Long id, String email, String username, String password, String signature, Boolean isAdmin) {
+    public UserAccount(Integer id, String email, String username, String password, String signature, Boolean isAdmin) {
         this.id = id;
         this.email = email;
         this.username = username;
@@ -49,10 +53,34 @@ public class UserAccount {
         this.isAdmin = isAdmin;
     }
 
+//    @Override
+//    public boolean isAccountNonExpired() {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isAccountNonLocked() {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isCredentialsNonExpired() {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isEnabled() {
+//        return true;
+//    }
+//
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        return null;
+//    }
 
     // getters
 
-    public Long getId() {
+    public Integer getId() {
         return this.id;
     }
 
@@ -79,7 +107,7 @@ public class UserAccount {
 
     // setters
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
