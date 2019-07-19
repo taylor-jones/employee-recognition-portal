@@ -2,6 +2,7 @@ package com.ttt.erp.model;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.data.rest.core.annotation.RestResource;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -18,19 +19,20 @@ public class Award {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "award_type_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private AwardType awardType;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "employee_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Employee employee;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_account_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @RestResource(path = "user", rel = "user")
     private UserAccount userAccount;
 
     @Size(max = 1000)

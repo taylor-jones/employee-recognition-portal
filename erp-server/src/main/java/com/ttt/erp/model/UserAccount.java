@@ -1,5 +1,6 @@
 package com.ttt.erp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -26,6 +27,7 @@ public class UserAccount {
     @Column(name = "username")
     private String username;
 
+    @JsonIgnore
     @NotNull
     @Size(min = 4, max = 16)
     @Column(name = "password")

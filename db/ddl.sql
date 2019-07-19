@@ -12,10 +12,10 @@ DROP TABLE IF EXISTS user_account CASCADE;
 CREATE TABLE user_account (
   "id" INT PRIMARY KEY,
   "email" VARCHAR(255) NULL,
-  "username" VARCHAR(255) NULL,
-  "password" VARCHAR(255) NULL,
+  "username" VARCHAR(255) NOT NULL,
+  "password" VARCHAR(255) NOT NULL,
   "signature" BYTEA NULL,
-  "is_admin" BOOLEAN NULL,
+  "is_admin" BOOLEAN NULL DEFAULT FALSE,
   CHECK (is_admin OR "username" IS NOT NULL)
 );
 

@@ -36,6 +36,10 @@ public class Employee {
 
     // relationships
 
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "employee")
+//    @OnDelete(action = OnDeleteAction.CASCADE)
+//    private Set<Award> awards = new HashSet<>();
+
     @ManyToMany(fetch = FetchType.LAZY,
         cascade = {
         CascadeType.PERSIST,
@@ -43,7 +47,8 @@ public class Employee {
     })
     @JoinTable(name = "employee_region",
         joinColumns = { @JoinColumn(name = "employee_id") },
-        inverseJoinColumns = { @JoinColumn(name = "region_id") })
+        inverseJoinColumns = { @JoinColumn(name = "region_id") }
+    )
     private Set<Region> regions = new HashSet<>();
 
 
