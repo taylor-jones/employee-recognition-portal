@@ -23,7 +23,7 @@ public class UserAccountController {
     }
 
     @GetMapping("/{id}")
-    public List<UserAccount> getUserAccount(@PathVariable("id") final Long id) {
+    public UserAccount getUserAccount(@PathVariable("id") final Long id) {
         return userAccountRepository.findById(id);
     }
 
