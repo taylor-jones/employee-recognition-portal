@@ -13,7 +13,7 @@ export class CanvasService {
   }
 
   addSignature(imgBase64: string): Observable<string> {
-    return this.httpClient.post<string>('/api/v1/signature', {"signature": imgBase64}, {headers: this.headers});
+    return this.httpClient.post<string>('/api/signatures', {"signature": imgBase64}, {headers: this.headers});
   }
 
 }
