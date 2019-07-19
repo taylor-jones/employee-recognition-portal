@@ -1,0 +1,17 @@
+<div id="canvas-cont">
+  <canvas 
+    id="canvas" 
+    width="500" 
+    height="300" 
+    (mousedown)="penDown($event)" 
+    (mousemove)="penMove($event)"
+    (mouseup)="penUp()">
+  </canvas>
+  <section>
+    <p>Locked: {{!unlocked}}</p>
+    <button (click)="clearCanvas()">Reset</button>
+    <button (click)="randomPath()">Random</button>
+    <button (click)="toggleLock()">Toggle lock</button>
+    <button (click)="canvasToData()">To data</button>
+  </section>
+</div>
