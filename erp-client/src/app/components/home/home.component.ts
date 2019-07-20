@@ -9,6 +9,7 @@ import {Employee} from '../../models/employee.model';
 })
 export class HomeComponent implements OnInit {
 
+  awards: Employee[] = [];
   employees: Employee[] = [];
   employee: Employee;
   errorMessage: string;
@@ -43,6 +44,21 @@ export class HomeComponent implements OnInit {
       },
       (error) => {
         this.errorMessage = 'Failed to load employee';
+      },
+      () => {
+        // If you want to do something
+      }
+    );
+  }
+
+  getAllAwards(): void {
+    this.awards = [];
+    this.employeeService.getAllAwards().subscribe(
+      (awards) => {
+        this.awards = awards;
+      },
+      (error) => {
+        this.errorMessage = 'Failed to load awards';
       },
       () => {
         // If you want to do something

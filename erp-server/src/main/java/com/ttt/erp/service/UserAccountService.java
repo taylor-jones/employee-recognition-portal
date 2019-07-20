@@ -2,7 +2,6 @@ package com.ttt.erp.service;
 
 import com.ttt.erp.model.UserAccount;
 import com.ttt.erp.repository.UserAccountRepository;
-<<<<<<< HEAD
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +15,14 @@ public class UserAccountService extends LogService {
     @Autowired
     private UserAccountRepository repository;
 
+
+    public UserAccount getUserByUsername(String username) {
+        UserAccount userAccount = new UserAccount();
+        return userAccount;
+    }
+
     // create new user
-    public Optional<UserAccount> createUser (Long userAccountId, UserAccount user) {
+    public Optional<UserAccount> createUser(Long userAccountId, UserAccount user) {
         try {
             UserAccount newUser = repository.save(user);
             logInsert(userAccountId, newUser.getClass().getSimpleName(), newUser.getId());
@@ -58,30 +63,4 @@ public class UserAccountService extends LogService {
             return new ResponseEntity<>("Failed", HttpStatus.BAD_REQUEST);
         }
     }
-=======
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
-
-import static java.util.Objects.requireNonNull;
-
-@Service
-public class UserAccountService {
-
-    private final UserAccountRepository userAccountRepository;
-
-    public UserAccountService(UserAccountRepository userAccountRepository) {
-        this.userAccountRepository = requireNonNull(userAccountRepository);
-    }
-
-//    @Override
-//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        UserAccount user = this.userAccountRepository.findByUsername(username);
-//        if (user == null) {
-//            throw new UsernameNotFoundException(username);
-//        }
-//        return user;
-//    }
->>>>>>> Uses Deprecated resoruces.
 }

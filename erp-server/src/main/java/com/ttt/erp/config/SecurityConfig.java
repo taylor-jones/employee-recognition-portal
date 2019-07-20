@@ -1,6 +1,8 @@
 package com.ttt.erp.config;
 
-import com.ttt.erp.service.UserAccountService;
+import com.ttt.erp.service.AuthenticationFailureHandler;
+import com.ttt.erp.service.AuthenticationSuccessHandler;
+import com.ttt.erp.service.UnauthorizedEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,20 +11,30 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.sql.DataSource;
 
+import static java.util.Objects.requireNonNull;
+
 // https://github.com/Baeldung/spring-security-registration/issues/65
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private DataSource dataSource;
+    private final AuthenticationSuccessHandler authenticationSuccessHandler;
+    private final AuthenticationFailureHandler authenticationFailureHandler;
+    private final UnauthorizedEntryPoint unauthorizedEntryPoint;
+    private final DataSource dataSource;
+
+    public SecurityConfig(AuthenticationSuccessHandler authenticationSuccessHandler, AuthenticationFailureHandler authenticationFailureHandler, UnauthorizedEntryPoint unauthorizedEntryPoint, DataSource dataSource) {
+        this.authenticationSuccessHandler = requireNonNull(authenticationSuccessHandler);
+        this.authenticationFailureHandler = requireNonNull(authenticationFailureHandler);
+        this.unauthorizedEntryPoint = requireNonNull(unauthorizedEntryPoint);
+        this.dataSource = dataSource;
+    }
 
     @Bean
     public static PasswordEncoder passwordEncoder() {
@@ -54,20 +66,32 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/api/admin/**").hasRole("ADMIN")
-                .antMatchers("/api/**").authenticated()
+        http
+                .headers()
+                .cacheControl().disable()
+                .and()
+//            	.cors()
+//            .and()
+                .authorizeRequests()
+                    .antMatchers("/api/admin/**").hasRole("ADMIN")
+                .antMatchers("/api/**").hasRole("USER")
+                .antMatchers("/api/user").authenticated()
                 .and()
                 .formLogin()
-                    .loginProcessingUrl("/api/login").permitAll()
-                    .usernameParameter("username")
-                    .passwordParameter("password")
+                .loginProcessingUrl("/api/login").permitAll()
+                .usernameParameter("username")
+                .passwordParameter("password")
+                .successHandler(authenticationSuccessHandler)
+                .failureHandler(authenticationFailureHandler)
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(unauthorizedEntryPoint)
                 .and()
                 .logout()
-                    .logoutUrl("/api/logout").permitAll()
-                    .deleteCookies("JSESSIONID")
+                .logoutUrl("/api/logout").permitAll()
+//                .logoutSuccessHandler(ajaxLogoutSuccessHandler)
+                .deleteCookies("JSESSIONID")
                 .and()
-                .cors().disable();
-        http.exceptionHandling().accessDeniedPage("/403");
+                .csrf().disable();
     }
 }

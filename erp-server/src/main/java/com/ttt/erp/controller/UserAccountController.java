@@ -7,6 +7,7 @@ import com.ttt.erp.repository.UserAccountRepository;
 import com.ttt.erp.service.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import com.ttt.erp.service.UserManager;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,6 +26,8 @@ public class UserAccountController {
     @Autowired
     UserAccountService service;
 
+    @Autowired
+    UserManager userManager;
 
     @GetMapping("/{id}")
     public UserAccount getUserAccount(@PathVariable("id") final Long id) {
