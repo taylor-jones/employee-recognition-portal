@@ -2,6 +2,7 @@ package com.ttt.erp.service;
 
 import com.ttt.erp.model.UserAccount;
 import com.ttt.erp.repository.UserAccountRepository;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,6 +17,12 @@ public class UserAccountService {
 
     public UserAccountService(UserAccountRepository userAccountRepository) {
         this.userAccountRepository = requireNonNull(userAccountRepository);
+    }
+
+    public UserAccount getUserByUsername(String username) {
+//        return this.userAccountRepository.findByUsername(username);
+        UserAccount userAccount = new UserAccount();
+        return userAccount;
     }
 
 //    @Override

@@ -2,22 +2,29 @@ package com.ttt.erp.controller;
 
 import com.ttt.erp.model.UserAccount;
 import com.ttt.erp.repository.UserAccountRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.ttt.erp.service.UserManager;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/users")
+//@RequestMapping("/api/users")
 public class UserAccountController {
 
-    @Autowired
-    UserAccountRepository userAccountRepository;
+    private final UserManager userManager;
+    private final UserAccountRepository userAccountRepository;
 
-    @GetMapping("")
+    public UserAccountController(UserManager userManager, UserAccountRepository userAccountRepository) {
+        this.userManager = userManager;
+        this.userAccountRepository = userAccountRepository;
+    }
+
+    @GetMapping(value = "/api/user")
+    public UserAccount getUser() {
+        return this.userManager.get();
+    }
+
+    @GetMapping("/api")
     public List<UserAccount> getAll() {
         return userAccountRepository.findAll();
     }
