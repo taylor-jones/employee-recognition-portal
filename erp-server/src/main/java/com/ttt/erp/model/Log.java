@@ -28,6 +28,10 @@ public class Log {
     @Column(name = "controller_class")
     private String controllerClass;
 
+    // TR: Can't use @JoinColumn here, since it will reference ids from lots of tables
+    @Column(name = "subject_id", nullable = false)
+    private Long subjectId;
+
     @Column(name = "operation")
     private String operation;
 
@@ -41,7 +45,7 @@ public class Log {
     private String changedTo;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "modified_at", nullable = false)
+    @Column(name = "modified_at", insertable = false, nullable = false)
     @LastModifiedDate
     private Date modifiedAt;
 
@@ -49,15 +53,45 @@ public class Log {
     // constructors
 
     public Log() {}
-    public Log(Long id, UserAccount userAccount, String controllerClass, String operation, String property, String changedFrom, String changedTo, Date modifiedAt) {
+    
+    public Log (
+        Long id, 
+        UserAccount userAccount, 
+        String controllerClass, 
+        Long subjectId,
+        String operation, 
+        String property, 
+        String changedFrom, 
+        String changedTo, 
+        Date modifiedAt
+    ) {
         this.id = id;
         this.userAccount = userAccount;
         this.controllerClass = controllerClass;
+        this.subjectId = subjectId;
         this.operation = operation;
         this.property = property;
         this.changedFrom = changedFrom;
         this.changedTo = changedTo;
         this.modifiedAt = modifiedAt;
+    }
+
+    public Log (
+        UserAccount userAccount, 
+        String controllerClass, 
+        Long subjectId, 
+        String operation, 
+        String property, 
+        String changedFrom, 
+        String changedTo
+    ) {
+        this.userAccount = userAccount;
+        this.controllerClass = controllerClass;
+        this.subjectId = subjectId;
+        this.operation = operation;
+        this.property = property;
+        this.changedFrom = changedFrom;
+        this.changedTo = changedTo;
     }
 
 
@@ -73,6 +107,10 @@ public class Log {
 
     public String controllerClass() {
         return this.controllerClass;
+    }
+
+    public Long subjectId() {
+        return this.subjectId;
     }
 
     public String operation() {
@@ -108,6 +146,10 @@ public class Log {
 
     public void setControllerClass(String controllerClass) {
         this.controllerClass = controllerClass;
+    }
+
+    public void setSubjectId(Long subjectId) {
+        this.subjectId = subjectId;
     }
 
     public void setOperation(String operation) {
