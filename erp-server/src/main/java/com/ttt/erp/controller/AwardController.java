@@ -28,27 +28,27 @@ public class AwardController {
     // TODO: get actual userId from cookie
     @PostMapping
     public Optional<Award> addAward (
-        @CookieValue(value = "userId", defaultValue = "1") String userAccountId,
+        @CookieValue(value = "userId", defaultValue = "1") String modifiedById,
         @RequestBody Award newAward) {
-        return this.service.createAward(Long.parseLong(userAccountId), newAward);
+        return this.service.createAward(Long.parseLong(modifiedById), newAward);
     }
 
     // TODO: get actual userId from cookie
     @PutMapping("/{id}")
     public Optional<Award> updateAwardById (
-        @CookieValue(value = "userId", defaultValue = "1") String userAccountId,
+        @CookieValue(value = "userId", defaultValue = "1") String modifiedById,
         @PathVariable("id") Long awardId,
         @RequestBody Award modified) {
-        return this.service.updateAward(Long.parseLong(userAccountId), awardId, modified);
+        return this.service.updateAward(Long.parseLong(modifiedById), awardId, modified);
     }
 
     // TODO: get actual userId from cookie
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteAwardById (
-        @CookieValue(value = "userId", defaultValue = "1") String userAccountId,
+        @CookieValue(value = "userId", defaultValue = "1") String modifiedById,
         @PathVariable("id") Long awardId
     ) {
-        return this.service.deleteAward(Long.parseLong(userAccountId), awardId);
+        return this.service.deleteAward(Long.parseLong(modifiedById), awardId);
     }
 
     @GetMapping
