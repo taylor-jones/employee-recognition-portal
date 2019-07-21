@@ -62,7 +62,7 @@ public class LogService {
   }
 
   public Log logInsert (
-    Long userAccountId, 
+    Long userAccountId,
     String controllerClass,
     Long subjectId
   ) {

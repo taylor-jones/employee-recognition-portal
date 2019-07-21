@@ -1,8 +1,5 @@
 package com.ttt.erp.model;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Date;
@@ -11,27 +8,13 @@ import java.util.Date;
 @Entity
 @Table(name = "award")
 public class Award {
+
     // columns
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Long id;
-
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "award_type_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private AwardType awardType;
-
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "employee_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private Employee employee;
-
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "user_account_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private UserAccount userAccount;
 
     @Size(max = 1000)
     @Column(name = "description")
@@ -44,33 +27,60 @@ public class Award {
     private Date awardedTime;
 
 
+    // relationships
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "award_type_id", referencedColumnName = "id", nullable = false)
+    private AwardType awardType;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "employee_id", referencedColumnName = "id", nullable = false)
+    private Employee employee;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_account_id", referencedColumnName = "id", nullable = false)
+    private UserAccount userAccount;
+
+
     // constructors
 
     public Award() {}
 
-    public Award(AwardType awardType, Employee employee, UserAccount userAccount,
-                 String description, Date awardedDate, Date awardedTime) {
-        this.awardType = awardType;
-        this.employee = employee;
-        this.userAccount = userAccount;
-        this.description = description;
-        this.awardedDate = awardedDate;
-        this.awardedTime = awardedTime;
+    public Award(
+      AwardType awardType,
+      Employee employee, 
+      UserAccount userAccount,
+      String description, 
+      Date awardedDate, 
+      Date awardedTime
+    ) {
+      this.awardType = awardType;
+      this.employee = employee;
+      this.userAccount = userAccount;
+      this.description = description;
+      this.awardedDate = awardedDate;
+      this.awardedTime = awardedTime;
     }
 
-    public Award(Long id, AwardType awardType, Employee employee, UserAccount userAccount,
-                 String description, Date awardedDate, Date awardedTime) {
-        this.id = id;
-        this.awardType = awardType;
-        this.employee = employee;
-        this.userAccount = userAccount;
-        this.description = description;
-        this.awardedDate = awardedDate;
-        this.awardedTime = awardedTime;
+    public Award(
+      Long id, 
+      AwardType awardType,
+      Employee employee, 
+      UserAccount userAccount,
+      String description, 
+      Date awardedDate, 
+      Date awardedTime
+    ) {
+      this.id = id;
+      this.awardType = awardType;
+      this.employee = employee;
+      this.userAccount = userAccount;
+      this.description = description;
+      this.awardedDate = awardedDate;
+      this.awardedTime = awardedTime;
     }
 
 
-    // getters
+    // getters and setters
 
     public Long getId() {
         return this.id;
@@ -99,9 +109,7 @@ public class Award {
     public Date getAwardedTime() {
         return this.awardedTime;
     }
-    
 
-    // setters
 
     public void setId(Long id) {
         this.id = id;

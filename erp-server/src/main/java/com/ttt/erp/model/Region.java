@@ -1,5 +1,6 @@
 package com.ttt.erp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
@@ -29,11 +30,9 @@ public class Region {
 
     // relationships
 
-    @ManyToMany(fetch = FetchType.LAZY,
-        cascade = { CascadeType.PERSIST, CascadeType.MERGE },
-        mappedBy = "regions")
-    private Set<Employee> employees = new HashSet<>();
-
+    @OneToMany(targetEntity = EmployeeRegion.class, mappedBy = "region")
+    @JsonIgnore
+    private Set<EmployeeRegion> employees = new HashSet<>();
 
 
     // constructors
@@ -58,6 +57,10 @@ public class Region {
 
     public String getName() {
         return this.name;
+    }
+
+    Set<EmployeeRegion> getEmployees() {
+        return this.employees;
     }
 
 
