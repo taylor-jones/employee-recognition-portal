@@ -1,7 +1,6 @@
 package com.ttt.erp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -24,7 +23,6 @@ public class Region {
 
     @NotNull
     @Size(max = 35)
-    @NaturalId
     @Column(name = "name")
     private String name;
 
