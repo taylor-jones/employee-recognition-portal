@@ -1,5 +1,8 @@
 package com.ttt.erp.service;
 
+import com.ttt.erp.model.Award;
+import com.ttt.erp.model.Employee;
+import com.ttt.erp.model.EmployeeRegion;
 import com.ttt.erp.model.Region;
 import com.ttt.erp.repository.RegionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class RegionService extends LogService {
@@ -58,4 +61,38 @@ public class RegionService extends LogService {
         }
     }
 
+
+    /**
+     * Get all the employees associated with the region.
+     * @param region - the region to get all employees for
+     * @return an object of employees
+     */
+    public Set<Employee> findEmployees(Region region) {
+        Set<Employee> employees = new HashSet<>();
+        Set<EmployeeRegion> employeeRegions = region.getEmployees();
+
+        employeeRegions.forEach(er -> {
+            employees.add(er.getEmployee());
+        });
+
+        return employees;
+    };
+
+
+    /**
+     * Get all awards given to employees associated with the region.
+     * @param region - the region to get all employee awards for
+     * @return an object of awards
+     */
+    public List<Award> findAwards(Region region) {
+        List<Award> awards = new ArrayList<>();
+        Set<Employee> employees = this.findEmployees(region);
+
+        employees.forEach(employee -> {
+            List<Award> employeeAwards = employee.getAwards();
+            awards.addAll(employeeAwards);
+        });
+
+        return awards;
+    }
 }

@@ -1,5 +1,7 @@
 package com.ttt.erp.controller;
 
+import com.ttt.erp.model.Award;
+import com.ttt.erp.model.Employee;
 import com.ttt.erp.model.Region;
 import com.ttt.erp.repository.RegionRepository;
 import com.ttt.erp.service.RegionService;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/regions")
@@ -24,6 +27,31 @@ public class RegionController {
     public Region getRegion(@PathVariable("id") final Long id) {
         return repository.findById(id);
     }
+
+    /**
+     * Get all the employees for a particular region
+     * @param id - the region.id
+     * @return JSON array of employee objects, empty array if none found
+     */
+    @GetMapping("/{id}/employees")
+    public Set<Employee> getEmployees(@PathVariable("id") final Long id) {
+        Region region = this.repository.findById(id);
+        return this.service.findEmployees(region);
+    }
+
+
+    /**
+     * Get all the awards for a particular region
+     * @param id - the region.id
+     * @return JSON array of award objects, empty array if none found
+     */
+    @GetMapping("/{id}/awards")
+    public List<Award> getAwards(@PathVariable("id") final Long id) {
+        Region region = this.repository.findById(id);
+        return this.service.findAwards(region);
+    }
+
+
 
     // TODO: get actual userId from cookie
     @PostMapping

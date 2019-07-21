@@ -5,7 +5,6 @@ import com.ttt.erp.model.Employee;
 import com.ttt.erp.model.Region;
 import com.ttt.erp.repository.AwardRepository;
 import com.ttt.erp.repository.EmployeeRepository;
-import com.ttt.erp.repository.RegionRepository;
 import com.ttt.erp.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,10 +23,10 @@ public class EmployeeController {
 
     @Autowired
     AwardRepository awardRepository;
-    RegionRepository regionRepository;
 
     @Autowired
-    EmployeeService service;
+    EmployeeService employeeService;
+
 
     @GetMapping("/{id}")
     public Employee getEmployee(@PathVariable("id") final Long id) {
@@ -54,7 +53,7 @@ public class EmployeeController {
     @GetMapping("/{id}/regions")
     public Set<Region> getRegions(@PathVariable("id") final Long id) {
         Employee employee = this.employeeRepository.findById(id);
-        return this.service.findRegions(employee);
+        return this.employeeService.findRegions(employee);
     }
 
 
@@ -63,8 +62,9 @@ public class EmployeeController {
     public Optional<Employee> addEmployee (
         @CookieValue(value = "userId", defaultValue = "1") String modifiedById,
         @RequestBody Employee newEmployee) {
-        return this.service.createEmployee(Long.parseLong(modifiedById), newEmployee);
+        return this.employeeService.createEmployee(Long.parseLong(modifiedById), newEmployee);
     }
+
 
     // TODO: get actual userId from cookie
     @PutMapping("/{id}")
@@ -72,8 +72,9 @@ public class EmployeeController {
         @CookieValue(value = "userId", defaultValue = "1") String modifiedById,
         @PathVariable("id") Long employeeId,
         @RequestBody Employee modified) {
-        return this.service.updateEmployee(Long.parseLong(modifiedById), employeeId, modified);
+        return this.employeeService.updateEmployee(Long.parseLong(modifiedById), employeeId, modified);
     }
+
 
     // TODO: get actual userId from cookie
     @DeleteMapping("/{id}")
@@ -81,8 +82,9 @@ public class EmployeeController {
         @CookieValue(value = "userId", defaultValue = "1") String modifiedById,
         @PathVariable("id") Long employeeId
     ) {
-        return this.service.deleteEmployee(Long.parseLong(modifiedById), employeeId);
+        return this.employeeService.deleteEmployee(Long.parseLong(modifiedById), employeeId);
     }
+
 
     @GetMapping
     public List<Employee> getAll() {

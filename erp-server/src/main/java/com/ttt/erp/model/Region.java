@@ -58,7 +58,7 @@ public class Region {
         return this.name;
     }
 
-    Set<EmployeeRegion> getEmployees() {
+    public Set<EmployeeRegion> getEmployees() {
         return this.employees;
     }
 

@@ -6,9 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -47,7 +45,7 @@ public class Employee {
 
     @OneToMany(targetEntity = Award.class, mappedBy = "employee", cascade = CascadeType.ALL)
     @JsonIgnore
-    private Set<Award> awards = new HashSet<>();
+    private List<Award> awards = new ArrayList<>();
 
 
     // constructors
@@ -90,7 +88,7 @@ public class Employee {
         return this.regions;
     }
 
-    public Set<Award> getAwards() {
+    public List<Award> getAwards() {
         return this.awards;
     }
 
