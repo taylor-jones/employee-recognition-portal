@@ -1,7 +1,10 @@
 package com.ttt.erp.controller;
 
+import com.ttt.erp.model.Award;
 import com.ttt.erp.model.Employee;
+import com.ttt.erp.repository.AwardRepository;
 import com.ttt.erp.repository.EmployeeRepository;
+import com.ttt.erp.repository.RegionRepository;
 import com.ttt.erp.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,15 +18,31 @@ import java.util.Optional;
 public class EmployeeController {
 
     @Autowired
-    EmployeeRepository repository;
+    private EmployeeRepository employeeRepository;
+
+    @Autowired
+    AwardRepository awardRepository;
+    RegionRepository regionRepository;
 
     @Autowired
     EmployeeService service;
 
     @GetMapping("/{id}")
     public Employee getEmployee(@PathVariable("id") final Long id) {
-        return repository.findById(id);
+        return employeeRepository.findById(id);
     }
+
+    /**
+     * Get all the awards for a particular employee
+     * @param id - the employee.id
+     * @return JSON array of award object, empty array if none found
+     */
+    @GetMapping("/{id}/awards")
+    public List<Award> getAwards(@PathVariable("id") final Long id) {
+        Employee employee = this.employeeRepository.findById(id);
+        return this.awardRepository.findByEmployee(employee);
+    }
+
 
     // TODO: get actual userId from cookie
     @PostMapping
@@ -53,6 +72,6 @@ public class EmployeeController {
 
     @GetMapping
     public List<Employee> getAll() {
-        return repository.findAll();
+        return this.employeeRepository.findAll();
     }
 }
