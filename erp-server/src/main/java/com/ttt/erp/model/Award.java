@@ -17,7 +17,7 @@ public class Award {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Size(max = 1000)
+    @Size(max = 1000, message = "description may only be up to 1000 characters long.")
     @Column(name = "description")
     private String description;
 

@@ -31,7 +31,7 @@ public class Region {
 
     // relationships
 
-    @OneToMany(targetEntity = EmployeeRegion.class, mappedBy = "region")
+    @OneToMany(targetEntity = EmployeeRegion.class, mappedBy = "region", cascade=CascadeType.ALL)
     @JsonIgnore
     private Set<EmployeeRegion> employees = new HashSet<>();
 

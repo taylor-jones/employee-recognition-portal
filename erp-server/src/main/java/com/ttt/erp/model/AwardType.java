@@ -29,7 +29,7 @@ public class AwardType {
 
     // relationships
 
-    @OneToMany(targetEntity = Award.class, mappedBy = "awardType")
+    @OneToMany(targetEntity = Award.class, mappedBy = "awardType", cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Award> awards = new HashSet<>();
 

@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
@@ -24,19 +26,19 @@ public class UserAccount {
     private Long id;
 
     @Column(name = "email", unique = true)
+    @Email(message = "email should be a valid email address")
     @Size(max = 100)
     private String email;
 
-    @NotNull
+    @NotEmpty(message = "username must not be empty")
     @Size(min = 1, max = 50)
     @Column(name = "username")
     private String username;
 
-    @NotNull
-    @Size(min = 8, max = 16)
+    @NotEmpty(message = "password must not be empty")
+    @Size(max = 16)
     @Column(name = "password")
     private String password;
-
 
     @Column(name = "signature")
     private String signature;
@@ -47,7 +49,7 @@ public class UserAccount {
 
 
     // relationships
-    @OneToMany(targetEntity = Award.class, mappedBy = "userAccount")
+    @OneToMany(targetEntity = Award.class, mappedBy = "userAccount", cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Award> awards = new HashSet<>();
 

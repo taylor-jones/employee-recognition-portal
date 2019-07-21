@@ -41,11 +41,11 @@ public class Employee {
 
     // relationships
 
-    @OneToMany(targetEntity = EmployeeRegion.class, mappedBy = "employee")
+    @OneToMany(targetEntity = EmployeeRegion.class, mappedBy = "employee", cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<EmployeeRegion> regions = new HashSet<>();
 
-    @OneToMany(targetEntity = Award.class, mappedBy = "employee")
+    @OneToMany(targetEntity = Award.class, mappedBy = "employee", cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Award> awards = new HashSet<>();
 
