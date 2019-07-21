@@ -33,16 +33,16 @@ public class AwardService extends LogService {
     public Optional<Award> updateAward(Long userAccountId, Long awardId, Award modified) {
         try {
             Award existing = this.repository.findById(awardId);
-            modified.setId(existing.getId());
-            existing.setUserAccount(modified.getUserAccount());
-            existing.setDescription(modified.getDescription());
-            existing.setEmployee(modified.getEmployee());
-            existing.setAwardType(modified.getAwardType());
-            existing.setAwardedDate(modified.getAwardedDate());
-            existing.setAwardedTime(modified.getAwardedTime());
+            modified.setId(awardId);
+//            existing.setUserAccount(modified.getUserAccount());
+//            existing.setDescription(modified.getDescription());
+//            existing.setEmployee(modified.getEmployee());
+//            existing.setAwardType(modified.getAwardType());
+//            existing.setAwardedDate(modified.getAwardedDate());
+//            existing.setAwardedTime(modified.getAwardedTime());
 
             logUpdate(userAccountId, existing.getClass().getSimpleName(), existing.getId(), existing, modified);
-            return Optional.ofNullable(this.repository.save(existing));
+            return Optional.ofNullable(this.repository.save(modified));
         } catch (Exception e) {
             System.out.println("Error on Award update");
             e.printStackTrace();

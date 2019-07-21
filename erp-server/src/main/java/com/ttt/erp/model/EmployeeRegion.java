@@ -116,4 +116,15 @@ public class EmployeeRegion {
     public int hashCode() {
         return Objects.hash(id, employee, region, beginDate, endDate);
     }
+
+    @Override
+    public String toString() {
+        return "EmployeeRegion{" +
+            "id=" + id +
+            ", employee=" + employee +
+            ", region=" + region +
+            ", beginDate=" + beginDate +
+            ", endDate=" + endDate +
+            '}';
+    }
 }

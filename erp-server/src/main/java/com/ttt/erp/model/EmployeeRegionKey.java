@@ -47,7 +47,7 @@ public class EmployeeRegionKey implements Serializable {
     }
 
 
-    // equals / hashcode
+    // equals, hashcode, and toString
 
     @Override
     public boolean equals(Object o) {
@@ -61,5 +61,13 @@ public class EmployeeRegionKey implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(employeeId, regionId);
+    }
+
+    @Override
+    public String toString() {
+        return "EmployeeRegionKey{" +
+            "employeeId=" + employeeId +
+            ", regionId=" + regionId +
+            '}';
     }
 }

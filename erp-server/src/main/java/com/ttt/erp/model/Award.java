@@ -3,6 +3,7 @@ package com.ttt.erp.model;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.Objects;
 
 
 @Entity
@@ -137,5 +138,49 @@ public class Award {
 
     public void setAwardedTime(Date awardedTime) {
         this.awardedTime = awardedTime;
+    }
+
+
+    // equals, hashcode, and toString
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Award award = (Award) o;
+        return id.equals(award.id) &&
+            Objects.equals(description, award.description) &&
+            Objects.equals(awardedDate, award.awardedDate) &&
+            Objects.equals(awardedTime, award.awardedTime) &&
+            awardType.equals(award.awardType) &&
+            employee.equals(award.employee) &&
+            userAccount.equals(award.userAccount);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+            id,
+            description,
+            awardedDate,
+            awardedTime,
+            awardType,
+            employee,
+            userAccount
+        );
+    }
+
+    @Override
+    public String toString() {
+        return "Award{" +
+            "id=" + id +
+            ", description='" + description + '\'' +
+            ", awardedDate=" + awardedDate +
+            ", awardedTime=" + awardedTime +
+            ", awardType=" + awardType +
+            ", employee=" + employee +
+            ", userAccount=" + userAccount +
+            '}';
     }
 }

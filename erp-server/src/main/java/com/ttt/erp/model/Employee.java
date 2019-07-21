@@ -115,6 +115,8 @@ public class Employee {
 
 
 
+    // equals, hashcode, and toString
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -123,13 +125,21 @@ public class Employee {
         return id.equals(employee.id) &&
             email.equals(employee.email) &&
             firstName.equals(employee.firstName) &&
-            lastName.equals(employee.lastName) &&
-            Objects.equals(regions, employee.regions) &&
-            Objects.equals(awards, employee.awards);
+            lastName.equals(employee.lastName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, email, firstName, lastName, regions, awards);
+        return Objects.hash(id, email, firstName, lastName);
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+            "id=" + id +
+            ", email='" + email + '\'' +
+            ", firstName='" + firstName + '\'' +
+            ", lastName='" + lastName + '\'' +
+            '}';
     }
 }

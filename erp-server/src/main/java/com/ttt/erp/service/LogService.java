@@ -49,9 +49,13 @@ public class LogService {
       for (int i = 0; i < startFields.length; i++) {
         startFields[i].setAccessible(true);
         endFields[i].setAccessible(true);
-        if (startFields[i].get(start) != endFields[i].get(end)) {
+
+        String strStart = startFields[i].get(start).toString();
+        String strEnd = startFields[i].get(end).toString();
+
+        if (!strStart.equals(strEnd)) {
           diffs.add (
-            new PropertyChange(startFields[i].getName(), startFields[i].get(start).toString(), endFields[i].get(end).toString()) 
+            new PropertyChange(startFields[i].getName(), strStart, strEnd)
           );
         }
       }

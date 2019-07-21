@@ -7,6 +7,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 
 
 @Entity
@@ -101,35 +102,35 @@ public class Log {
         return this.id;
     }
 
-    public UserAccount userAccount() {
+    public UserAccount getUserAccount() {
         return this.userAccount;
     }
 
-    public String controllerClass() {
+    public String getControllerClass() {
         return this.controllerClass;
     }
 
-    public Long subjectId() {
+    public Long getSubjectId() {
         return this.subjectId;
     }
 
-    public String operation() {
+    public String getOperation() {
         return this.operation;
     }
 
-    public String property() {
+    public String getProperty() {
         return this.property;
     }
 
-    public String changedFrom() {
+    public String getChangedFrom() {
         return this.changedFrom;
     }
 
-    public String changedTo() {
+    public String getChangedTo() {
         return this.changedTo;
     }
 
-    public Date modifiedAt() {
+    public Date getModifiedAt() {
         return this.modifiedAt;
     }
 
@@ -170,5 +171,45 @@ public class Log {
 
     public void setModifiedAt(Date modifiedAt) {
         this.modifiedAt = modifiedAt;
+    }
+
+
+
+    // equals, hashcode, and toString
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Log log = (Log) o;
+        return id.equals(log.id) &&
+            userAccount.equals(log.userAccount) &&
+            Objects.equals(controllerClass, log.controllerClass) &&
+            Objects.equals(subjectId, log.subjectId) &&
+            Objects.equals(operation, log.operation) &&
+            Objects.equals(property, log.property) &&
+            Objects.equals(changedFrom, log.changedFrom) &&
+            Objects.equals(changedTo, log.changedTo) &&
+            modifiedAt.equals(log.modifiedAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, userAccount, controllerClass, subjectId, operation, property, changedFrom, changedTo, modifiedAt);
+    }
+
+    @Override
+    public String toString() {
+        return "Log{" +
+            "id=" + id +
+            ", userAccount=" + userAccount +
+            ", controllerClass='" + controllerClass + '\'' +
+            ", subjectId=" + subjectId +
+            ", operation='" + operation + '\'' +
+            ", property='" + property + '\'' +
+            ", changedFrom='" + changedFrom + '\'' +
+            ", changedTo='" + changedTo + '\'' +
+            ", modifiedAt=" + modifiedAt +
+            '}';
     }
 }

@@ -25,7 +25,7 @@ public class AwardController {
         return repository.findById(id);
     }
 
-
+    // TODO: get actual userId from cookie
     @PostMapping
     public Optional<Award> addAward (
         @CookieValue(value = "userId", defaultValue = "1") String userAccountId,
@@ -33,7 +33,7 @@ public class AwardController {
         return this.service.createAward(Long.parseLong(userAccountId), newAward);
     }
 
-
+    // TODO: get actual userId from cookie
     @PutMapping("/{id}")
     public Optional<Award> updateAwardById (
         @CookieValue(value = "userId", defaultValue = "1") String userAccountId,
@@ -42,7 +42,7 @@ public class AwardController {
         return this.service.updateAward(Long.parseLong(userAccountId), awardId, modified);
     }
 
-
+    // TODO: get actual userId from cookie
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteAwardById (
         @CookieValue(value = "userId", defaultValue = "1") String userAccountId,
@@ -51,10 +51,8 @@ public class AwardController {
         return this.service.deleteAward(Long.parseLong(userAccountId), awardId);
     }
 
-
     @GetMapping
     public List<Award> getAll() {
         return repository.findAll();
     }
-
 }

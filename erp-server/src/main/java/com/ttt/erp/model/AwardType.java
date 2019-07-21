@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -70,5 +71,30 @@ public class AwardType {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+
+    // equals, hashcode, and toString
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AwardType awardType = (AwardType) o;
+        return id.equals(awardType.id) &&
+            name.equals(awardType.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
+    }
+
+    @Override
+    public String toString() {
+        return "AwardType{" +
+            "id=" + id +
+            ", name='" + name + '\'' +
+            '}';
     }
 }

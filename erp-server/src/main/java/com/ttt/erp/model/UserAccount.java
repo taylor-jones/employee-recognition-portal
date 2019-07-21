@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 
@@ -34,12 +35,10 @@ public class UserAccount {
     @NotNull
     @Size(min = 8, max = 16)
     @Column(name = "password")
-    @JsonIgnore
     private String password;
 
-    @Lob
+
     @Column(name = "signature")
-    @JsonIgnore
     private String signature;
 
     @NotNull
@@ -61,6 +60,7 @@ public class UserAccount {
         this.id = id;
         this.email = email;
         this.username = username;
+        this.password = password;
         this.signature = signature;
         this.isAdmin = isAdmin;
     }
@@ -121,5 +121,38 @@ public class UserAccount {
 
     public void setIsAdmin(Boolean isAdmin) {
         this.isAdmin = isAdmin;
+    }
+
+
+    // equals, hashcode, and toString
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserAccount that = (UserAccount) o;
+        return id.equals(that.id) &&
+            Objects.equals(email, that.email) &&
+            username.equals(that.username) &&
+            password.equals(that.password) &&
+            Objects.equals(signature, that.signature) &&
+            isAdmin.equals(that.isAdmin);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, email, username, password, signature, isAdmin);
+    }
+
+    @Override
+    public String toString() {
+        return "UserAccount{" +
+            "id=" + id +
+            ", email='" + email + '\'' +
+            ", username='" + username + '\'' +
+            ", password='" + password + '\'' +
+            ", signature='" + signature + '\'' +
+            ", isAdmin=" + isAdmin +
+            '}';
     }
 }
