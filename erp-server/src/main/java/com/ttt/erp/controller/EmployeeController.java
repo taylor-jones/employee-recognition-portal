@@ -2,6 +2,7 @@ package com.ttt.erp.controller;
 
 import com.ttt.erp.model.Award;
 import com.ttt.erp.model.Employee;
+import com.ttt.erp.model.Region;
 import com.ttt.erp.repository.AwardRepository;
 import com.ttt.erp.repository.EmployeeRepository;
 import com.ttt.erp.repository.RegionRepository;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/employees")
@@ -41,6 +43,18 @@ public class EmployeeController {
     public List<Award> getAwards(@PathVariable("id") final Long id) {
         Employee employee = this.employeeRepository.findById(id);
         return this.awardRepository.findByEmployee(employee);
+    }
+
+
+    /**
+     * Get all the region for a particular employee
+     * @param id - the employee.id
+     * @return JSON array of region objects, empty array if none found
+     */
+    @GetMapping("/{id}/regions")
+    public Set<Region> getRegions(@PathVariable("id") final Long id) {
+        Employee employee = this.employeeRepository.findById(id);
+        return this.service.findRegions(employee);
     }
 
 

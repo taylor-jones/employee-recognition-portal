@@ -19,7 +19,6 @@ public class EmployeeRegion {
     @ManyToOne
     @MapsId("employee_id")
     @JoinColumn(name = "employee_id")
-    @JsonIgnore
     private Employee employee;
 
     @ManyToOne

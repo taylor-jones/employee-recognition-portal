@@ -1,13 +1,17 @@
 package com.ttt.erp.service;
 
 import com.ttt.erp.model.Employee;
+import com.ttt.erp.model.EmployeeRegion;
+import com.ttt.erp.model.Region;
 import com.ttt.erp.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class EmployeeService extends LogService {
@@ -57,5 +61,18 @@ public class EmployeeService extends LogService {
             return new ResponseEntity<>("Failed", HttpStatus.BAD_REQUEST);
         }
     }
+
+
+    // get regions
+    public Set<Region> findRegions(Employee employee) {
+        Set<Region> regions = new HashSet<>();
+        Set<EmployeeRegion> employeeRegions = employee.getRegions();
+
+        employeeRegions.forEach(er -> {
+            regions.add(er.getRegion());
+        });
+
+        return regions;
+    };
 
 }
