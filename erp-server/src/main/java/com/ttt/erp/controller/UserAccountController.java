@@ -1,6 +1,8 @@
 package com.ttt.erp.controller;
 
+import com.ttt.erp.model.Award;
 import com.ttt.erp.model.UserAccount;
+import com.ttt.erp.repository.AwardRepository;
 import com.ttt.erp.repository.UserAccountRepository;
 import com.ttt.erp.service.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ public class UserAccountController {
     UserAccountRepository repository;
 
     @Autowired
+    AwardRepository awardRepository;
+
+    @Autowired
     UserAccountService service;
 
 
@@ -25,6 +30,18 @@ public class UserAccountController {
     public UserAccount getUserAccount(@PathVariable("id") final Long id) {
         return repository.findById(id);
     }
+
+    /**
+     * Get all the awards for a particular user account
+     * @param id - the userAccount.id
+     * @return JSON array of award object, empty array if none found
+     */
+    @GetMapping("/{id}/awards")
+    public List<Award> getAwards(@PathVariable("id") final Long id) {
+        UserAccount userAccount = this.repository.findById(id);
+        return this.awardRepository.findByUserAccount(userAccount);
+    }
+
 
     // TODO: get actual userId from cookie
     @PostMapping
