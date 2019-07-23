@@ -1,29 +1,86 @@
 package com.ttt.erp.controller;
 
+import com.ttt.erp.model.Award;
+import com.ttt.erp.model.Employee;
 import com.ttt.erp.model.Region;
 import com.ttt.erp.repository.RegionRepository;
+import com.ttt.erp.service.RegionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/regions")
 public class RegionController {
 
     @Autowired
-    RegionRepository regionRepository;
+    RegionRepository repository;
 
-    @GetMapping("")
-    public List<Region> getAll() {
-        return regionRepository.findAll();
-    }
+    @Autowired
+    RegionService service;
 
     @GetMapping("/{id}")
-    public List<Region> getRegion(@PathVariable("id") final Long id) {
-        return regionRepository.findById(id);
+    public Region getRegion(@PathVariable("id") final Long id) {
+        return repository.findById(id);
+    }
+
+    /**
+     * Get all the employees for a particular region
+     * @param id - the region.id
+     * @return JSON array of employee objects, empty array if none found
+     */
+    @GetMapping("/{id}/employees")
+    public Set<Employee> getEmployees(@PathVariable("id") final Long id) {
+        Region region = this.repository.findById(id);
+        return this.service.findEmployees(region);
+    }
+
+
+    /**
+     * Get all the awards for a particular region
+     * @param id - the region.id
+     * @return JSON array of award objects, empty array if none found
+     */
+    @GetMapping("/{id}/awards")
+    public List<Award> getAwards(@PathVariable("id") final Long id) {
+        Region region = this.repository.findById(id);
+        return this.service.findAwards(region);
+    }
+
+
+
+    // TODO: get actual userId from cookie
+    @PostMapping
+    public Optional<Region> addRegion (
+        @CookieValue(value = "userId", defaultValue = "1") String modifiedById,
+        @RequestBody Region newRegion) {
+        return this.service.createRegion(Long.parseLong(modifiedById), newRegion);
+    }
+
+    // TODO: get actual userId from cookie
+    @PutMapping("/{id}")
+    public Optional<Region> updateRegionById (
+        @CookieValue(value = "userId", defaultValue = "1") String modifiedById,
+        @PathVariable("id") Long regionId,
+        @RequestBody Region modified) {
+        return this.service.updateRegion(Long.parseLong(modifiedById), regionId, modified);
+    }
+
+    // TODO: get actual userId from cookie
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteRegionById (
+        @CookieValue(value = "userId", defaultValue = "1") String modifiedById,
+        @PathVariable("id") Long regionId
+    ) {
+        return this.service.deleteRegion(Long.parseLong(modifiedById), regionId);
+    }
+
+    @GetMapping
+    public List<Region> getAll() {
+        return repository.findAll();
     }
 }

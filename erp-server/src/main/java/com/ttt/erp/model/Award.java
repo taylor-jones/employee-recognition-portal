@@ -1,16 +1,15 @@
 package com.ttt.erp.model;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.Objects;
 
 
 @Entity
 @Table(name = "award")
 public class Award {
+
     // columns
 
     @Id
@@ -18,22 +17,7 @@ public class Award {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "award_type_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private AwardType awardType;
-
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "employee_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private Employee employee;
-
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "user_account_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private UserAccount userAccount;
-
-    @Size(max = 1000)
+    @Size(max = 1000, message = "description may only be up to 1000 characters long.")
     @Column(name = "description")
     private String description;
 
@@ -44,33 +28,60 @@ public class Award {
     private Date awardedTime;
 
 
+    // relationships
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "award_type_id", referencedColumnName = "id", nullable = false)
+    private AwardType awardType;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "employee_id", referencedColumnName = "id", nullable = false)
+    private Employee employee;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_account_id", referencedColumnName = "id", nullable = false)
+    private UserAccount userAccount;
+
+
     // constructors
 
     public Award() {}
 
-    public Award(AwardType awardType, Employee employee, UserAccount userAccount,
-                 String description, Date awardedDate, Date awardedTime) {
-        this.awardType = awardType;
-        this.employee = employee;
-        this.userAccount = userAccount;
-        this.description = description;
-        this.awardedDate = awardedDate;
-        this.awardedTime = awardedTime;
+    public Award(
+      AwardType awardType,
+      Employee employee, 
+      UserAccount userAccount,
+      String description, 
+      Date awardedDate, 
+      Date awardedTime
+    ) {
+      this.awardType = awardType;
+      this.employee = employee;
+      this.userAccount = userAccount;
+      this.description = description;
+      this.awardedDate = awardedDate;
+      this.awardedTime = awardedTime;
     }
 
-    public Award(Long id, AwardType awardType, Employee employee, UserAccount userAccount,
-                 String description, Date awardedDate, Date awardedTime) {
-        this.id = id;
-        this.awardType = awardType;
-        this.employee = employee;
-        this.userAccount = userAccount;
-        this.description = description;
-        this.awardedDate = awardedDate;
-        this.awardedTime = awardedTime;
+    public Award(
+      Long id, 
+      AwardType awardType,
+      Employee employee, 
+      UserAccount userAccount,
+      String description, 
+      Date awardedDate, 
+      Date awardedTime
+    ) {
+      this.id = id;
+      this.awardType = awardType;
+      this.employee = employee;
+      this.userAccount = userAccount;
+      this.description = description;
+      this.awardedDate = awardedDate;
+      this.awardedTime = awardedTime;
     }
 
 
-    // getters
+    // getters and setters
 
     public Long getId() {
         return this.id;
@@ -99,9 +110,7 @@ public class Award {
     public Date getAwardedTime() {
         return this.awardedTime;
     }
-    
 
-    // setters
 
     public void setId(Long id) {
         this.id = id;
@@ -129,5 +138,49 @@ public class Award {
 
     public void setAwardedTime(Date awardedTime) {
         this.awardedTime = awardedTime;
+    }
+
+
+    // equals, hashcode, and toString
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Award award = (Award) o;
+        return id.equals(award.id) &&
+            Objects.equals(description, award.description) &&
+            Objects.equals(awardedDate, award.awardedDate) &&
+            Objects.equals(awardedTime, award.awardedTime) &&
+            awardType.equals(award.awardType) &&
+            employee.equals(award.employee) &&
+            userAccount.equals(award.userAccount);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+            id,
+            description,
+            awardedDate,
+            awardedTime,
+            awardType,
+            employee,
+            userAccount
+        );
+    }
+
+    @Override
+    public String toString() {
+        return "Award{" +
+            "id=" + id +
+            ", description='" + description + '\'' +
+            ", awardedDate=" + awardedDate +
+            ", awardedTime=" + awardedTime +
+            ", awardType=" + awardType +
+            ", employee=" + employee +
+            ", userAccount=" + userAccount +
+            '}';
     }
 }

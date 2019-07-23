@@ -1,18 +1,13 @@
 package com.ttt.erp.controller;
 
+import com.ttt.erp.model.Award;
 import com.ttt.erp.model.AwardType;
+import com.ttt.erp.repository.AwardRepository;
 import com.ttt.erp.repository.AwardTypeRepository;
 import com.ttt.erp.service.AwardTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +18,9 @@ public class AwardTypeController {
 
     @Autowired
     AwardTypeRepository repo;
+
+    @Autowired
+    AwardRepository awardRepository;
 
     @Autowired
     AwardTypeService service;
@@ -36,6 +34,19 @@ public class AwardTypeController {
     public Optional<AwardType> getAwardType(@PathVariable("id") final Long id) {
         return Optional.ofNullable(this.repo.findById(id));
     }
+
+
+    /**
+     * Get all the awards for a particular award type
+     * @param id - the awardType.id
+     * @return JSON array of award object, empty array if none found
+     */
+    @GetMapping("/{id}/awards")
+    public List<Award> getAwards(@PathVariable("id") final Long id) {
+        AwardType awardType = this.repo.findById(id);
+        return this.awardRepository.findByAwardType(awardType);
+    }
+
 
     //TODO: get the userId from cookie instead of path
     @PostMapping("/{userId}")

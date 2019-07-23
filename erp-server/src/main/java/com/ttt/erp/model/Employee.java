@@ -1,12 +1,15 @@
 package com.ttt.erp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name = "employee")
 public class Employee {
@@ -36,15 +39,13 @@ public class Employee {
 
     // relationships
 
-    @ManyToMany(fetch = FetchType.LAZY,
-        cascade = {
-        CascadeType.PERSIST,
-        CascadeType.MERGE
-    })
-    @JoinTable(name = "employee_region",
-        joinColumns = { @JoinColumn(name = "employee_id") },
-        inverseJoinColumns = { @JoinColumn(name = "region_id") })
-    private Set<Region> regions = new HashSet<>();
+    @OneToMany(targetEntity = EmployeeRegion.class, mappedBy = "employee", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<EmployeeRegion> regions = new HashSet<>();
+
+    @OneToMany(targetEntity = Award.class, mappedBy = "employee", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Award> awards = new ArrayList<>();
 
 
     // constructors
@@ -83,6 +84,14 @@ public class Employee {
         return this.lastName;
     }
 
+    public Set<EmployeeRegion> getRegions() {
+        return this.regions;
+    }
+
+    public List<Award> getAwards() {
+        return this.awards;
+    }
+
 
     // setters
 
@@ -100,5 +109,35 @@ public class Employee {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+
+
+    // equals, hashcode, and toString
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Employee employee = (Employee) o;
+        return id.equals(employee.id) &&
+            email.equals(employee.email) &&
+            firstName.equals(employee.firstName) &&
+            lastName.equals(employee.lastName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, email, firstName, lastName);
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+            "id=" + id +
+            ", email='" + email + '\'' +
+            ", firstName='" + firstName + '\'' +
+            ", lastName='" + lastName + '\'' +
+            '}';
     }
 }
