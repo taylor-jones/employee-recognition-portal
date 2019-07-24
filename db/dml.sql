@@ -7,8 +7,8 @@ DELETE FROM log;
 DELETE FROM user_account;
 
 INSERT INTO user_account VALUES
-  (1, 'admin@admin.com', 'admin', 'admin', NULL, true),
-  (2, 'demo@demo.com', 'demo', 'demo', NULL, false);
+  (1, 'admin@admin.com', 'admin', 'admin', NULL, true, true),
+  (2, 'demo@demo.com', 'demo', 'demo', NULL, false, true);
 
 -- https://theoffice.fandom.com/wiki/Dundie
 -- I left out the ones that foul language, just in case...
