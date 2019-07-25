@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-//@RequestMapping("/api/users")
+@RequestMapping("/api/users")
 public class UserAccountController {
 
     private final UserManager userManager;
@@ -19,12 +19,13 @@ public class UserAccountController {
         this.userAccountRepository = userAccountRepository;
     }
 
-    @GetMapping(value = "/api/user")
+    // /me for testing
+    @GetMapping(value = "/me")
     public UserAccount getUser() {
         return this.userManager.get();
     }
 
-    @GetMapping("/api")
+    @GetMapping
     public List<UserAccount> getAll() {
         return userAccountRepository.findAll();
     }

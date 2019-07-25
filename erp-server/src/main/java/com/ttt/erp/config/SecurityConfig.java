@@ -46,10 +46,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
     }
 
+    // TODO: fix bcrypt passwordencoder, currently using passwordencoder1
     @Autowired
     public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication().dataSource(dataSource)
-                .usersByUsernameQuery("select username,password, enabled from users where username=?")
+                .usersByUsernameQuery("select username, password, enabled from user_account where username=?")
                 .authoritiesByUsernameQuery("select username, role from user_roles where username=?")
                 .passwordEncoder(passwordEncoder1());
     }
@@ -68,28 +69,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .headers()
-                .cacheControl().disable()
+                    .cacheControl().disable()
                 .and()
 //            	.cors()
-//            .and()
+//              .and()
                 .authorizeRequests()
                     .antMatchers("/api/admin/**").hasRole("ADMIN")
-                .antMatchers("/api/**").hasRole("USER")
-                .antMatchers("/api/user").authenticated()
+                    .antMatchers("/api/**").hasRole("USER")
+                    .antMatchers("/api/user").authenticated()
                 .and()
                 .formLogin()
-                .loginProcessingUrl("/api/login").permitAll()
-                .usernameParameter("username")
-                .passwordParameter("password")
-                .successHandler(authenticationSuccessHandler)
-                .failureHandler(authenticationFailureHandler)
+                    .loginProcessingUrl("/api/login").permitAll()
+                    .usernameParameter("username")
+                    .passwordParameter("password")
+                    .successHandler(authenticationSuccessHandler)
+                    .failureHandler(authenticationFailureHandler)
                 .and()
                 .exceptionHandling()
-                .authenticationEntryPoint(unauthorizedEntryPoint)
+                    .authenticationEntryPoint(unauthorizedEntryPoint)
                 .and()
                 .logout()
-                .logoutUrl("/api/logout").permitAll()
-//                .logoutSuccessHandler(ajaxLogoutSuccessHandler)
+                    .logoutUrl("/api/logout").permitAll()
+//                .logoutSuccessHandler(LogoutSuccessHandler)
                 .deleteCookies("JSESSIONID")
                 .and()
                 .csrf().disable();

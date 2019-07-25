@@ -50,19 +50,4 @@ export class HomeComponent implements OnInit {
       }
     );
   }
-
-  getAllAwards(): void {
-    this.awards = [];
-    this.employeeService.getAllAwards().subscribe(
-      (awards) => {
-        this.awards = awards;
-      },
-      (error) => {
-        this.errorMessage = 'Failed to load awards';
-      },
-      () => {
-        // If you want to do something
-      }
-    );
-  }
 }

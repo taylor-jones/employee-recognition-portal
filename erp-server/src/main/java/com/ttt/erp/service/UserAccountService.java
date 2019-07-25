@@ -25,12 +25,4 @@ public class UserAccountService {
         return userAccount;
     }
 
-//    @Override
-//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        UserAccount user = this.userAccountRepository.findByUsername(username);
-//        if (user == null) {
-//            throw new UsernameNotFoundException(username);
-//        }
-//        return user;
-//    }
 }
