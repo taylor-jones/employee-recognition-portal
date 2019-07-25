@@ -1,0 +1,16 @@
+<div class="award-container">
+  <form action="">
+    <input [(ngModel)]="awardType" placeholder="Award Type">{{awardType}}
+    <br>
+    <input [(ngModel)]="employee" placeholder="Employee">{{employee}}
+    <br>
+    <input [(ngModel)]="description" placeholder="Description">{{description}}
+    <br>
+    <input [(ngModel)]="awardedDate" placeholder="Awarded Date">{{awardedDate}}
+    <br>
+    <input [(ngModel)]="awardedTime" placeholder="Awarded Time">{{awardedTime}}
+    <br>
+    <button (click)="createAward()" [disabled]="!awardType || !employee">Create Award</button>
+
+  </form>
+</div>
