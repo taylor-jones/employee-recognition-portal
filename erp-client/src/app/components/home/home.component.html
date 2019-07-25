@@ -5,8 +5,6 @@
 <input [(ngModel)]="id" placeholder="Employee ID"/>
 <button (click)="getEmployeeById(id)">Get Employee By Id!</button>
 <br>
-<button (click)="getAllAwards()">Get All Awards!</button>
-<br>
 
 <div *ngFor="let employee of employees">
   <pre>{{employee | json}}</pre>
@@ -14,10 +12,6 @@
 
 <div *ngIf="employee">
   <pre>{{employee | json}}</pre>
-</div>
-
-<div *ngFor="let award of awards">
-  <pre>{{award | json}}</pre>
 </div>
 
 <div *ngIf="errorMessage">

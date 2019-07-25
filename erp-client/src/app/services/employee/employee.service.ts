@@ -19,7 +19,7 @@ export class EmployeeService {
     return this.httpClient.get<Employee[]>(`/api/admin/employees`);
   }
 
-  getAllAwards(): Observable<Employee[]> {
-    return this.httpClient.get<Employee[]>(`/api/awards`);
-  }
+  // getAllAwards(): Observable<Employee[]> {
+  //   return this.httpClient.get<Employee[]>(`/api/awards`);
+  // }
 }

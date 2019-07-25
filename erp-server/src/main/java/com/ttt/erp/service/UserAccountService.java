@@ -34,7 +34,6 @@ public class UserAccountService extends LogService {
         }
     }
 
-
     // update existing user
     public Optional<UserAccount> updateUser(Long userAccountId, Long userId, UserAccount modified) {
         try {
