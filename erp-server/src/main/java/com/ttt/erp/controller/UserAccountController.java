@@ -19,11 +19,14 @@ public class UserAccountController {
         this.userAccountRepository = userAccountRepository;
     }
 
-    // /me for testing
-    @GetMapping(value = "/me")
+    // callback for checking login status
+    @GetMapping(value = "/whoAmI")
     public UserAccount getUser() {
         return this.userManager.get();
     }
+
+    // TODO: potentially this to get users profile?
+//    @GetMapping(value = "/me")
 
     @GetMapping
     public List<UserAccount> getAll() {

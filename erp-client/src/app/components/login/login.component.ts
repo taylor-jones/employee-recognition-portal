@@ -9,8 +9,6 @@ import {Router} from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  login = 'Hi Tucker';
-
   username: string;
   password: string;
   errorMessage: string;
