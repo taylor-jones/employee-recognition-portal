@@ -10,7 +10,7 @@ import {Employee} from '../../models/employee.model';
 export class HomeComponent implements OnInit {
 
   awards: Employee[] = [];
-  employees: Employee[] = [];
+  employees: Employee[] = null;
   employee: Employee;
   errorMessage: string;
   employeeId: number;
@@ -21,7 +21,6 @@ export class HomeComponent implements OnInit {
   }
 
   getAllEmployees(): void {
-    this.employees = [];
     this.employeeService.getAllEmployees().subscribe(
       (employees) => {
         this.employees = employees;

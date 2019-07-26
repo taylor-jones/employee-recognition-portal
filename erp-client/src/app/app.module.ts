@@ -1,7 +1,8 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-
+import {MaterialModule} from './material.module';
 import {AppRoutingModule} from './app-routing.module';
+
 import {AppComponent} from './app.component';
 import {LoginComponent} from './components/login/login.component';
 import {FormsModule} from '@angular/forms';
@@ -9,6 +10,7 @@ import {HomeComponent} from './components/home/home.component';
 import {HttpClientModule} from '@angular/common/http';
 import { CanvasComponent } from './components/canvas/canvas.component';
 import { SelfComponent } from './components/self/self.component';
+import { AdminTableComponent } from './components/admin-table/admin-table.component';
 
 @NgModule({
   declarations: [
@@ -16,13 +18,15 @@ import { SelfComponent } from './components/self/self.component';
     LoginComponent,
     HomeComponent,
     CanvasComponent,
-    SelfComponent
+    SelfComponent,
+    AdminTableComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    MaterialModule
   ],
   providers: [
   ],
