@@ -15,8 +15,14 @@ public class UserAccountService extends LogService {
     @Autowired
     private UserAccountRepository repository;
 
+
+    public UserAccount getUserByUsername(String username) {
+        UserAccount userAccount = new UserAccount();
+        return userAccount;
+    }
+
     // create new user
-    public Optional<UserAccount> createUser (Long userAccountId, UserAccount user) {
+    public Optional<UserAccount> createUser(Long userAccountId, UserAccount user) {
         try {
             UserAccount newUser = repository.save(user);
             logInsert(userAccountId, newUser.getClass().getSimpleName(), newUser.getId());
@@ -27,7 +33,6 @@ public class UserAccountService extends LogService {
             return Optional.empty();
         }
     }
-
 
     // update existing user
     public Optional<UserAccount> updateUser(Long userAccountId, Long userId, UserAccount modified) {

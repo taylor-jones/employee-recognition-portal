@@ -1,20 +1,25 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { Employee } from '../../models/employee.model';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {Employee} from '../../models/employee.model';
 
 @Injectable({
-	providedIn: 'root'
+  providedIn: 'root'
 })
 
 export class EmployeeService {
-	constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) {
+  }
 
-	getEmployeeById(id: number): Observable<Employee> {
-		return this.httpClient.get<Employee>(`/api/employees/${id}`);
-	}
+  getEmployeeById(id: number): Observable<Employee> {
+    return this.httpClient.get<Employee>(`/api/admin/employees/${id}`);
+  }
 
-	getAllEmployees(): Observable<Employee[]> {
-		return this.httpClient.get<Employee[]>(`/api/employees`);
-	}
+  getAllEmployees(): Observable<Employee[]> {
+    return this.httpClient.get<Employee[]>(`/api/admin/employees`);
+  }
+
+  // getAllAwards(): Observable<Employee[]> {
+  //   return this.httpClient.get<Employee[]>(`/api/awards`);
+  // }
 }

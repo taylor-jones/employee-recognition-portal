@@ -9,6 +9,7 @@ import {Employee} from '../../models/employee.model';
 })
 export class HomeComponent implements OnInit {
 
+  awards: Employee[] = [];
   employees: Employee[] = [];
   employee: Employee;
   errorMessage: string;

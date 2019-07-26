@@ -2,6 +2,8 @@ package com.ttt.erp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -12,6 +14,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import java.util.Collection;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
@@ -70,7 +73,6 @@ public class UserAccount {
         this.signature = signature;
         this.isAdmin = isAdmin;
     }
-
 
     // getters
 
@@ -180,3 +182,5 @@ public class UserAccount {
             '}';
     }
 }
+
+
