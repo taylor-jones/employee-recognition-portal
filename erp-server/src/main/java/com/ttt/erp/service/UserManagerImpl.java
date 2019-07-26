@@ -28,4 +28,6 @@ public class UserManagerImpl implements UserManager {
     public UserAccount get() {
         return (UserAccount) this.sessionProvider.get().getAttribute(USER_KEY);
     }
+
+
 }

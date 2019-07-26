@@ -53,6 +53,16 @@ public class UserAccountController {
         return this.service.createUser(Long.parseLong(modifiedById), newUserAccount);
     }
 
+    // callback for checking login status
+    @GetMapping(value = "/whoAmI")
+    public UserAccount getUser() {
+        return this.userManager.get();
+    }
+
+    // TODO: potentially this to get users profile?
+//    @GetMapping(value = "/me")
+
+
     // TODO: get actual userId from cookie
     @PutMapping("/{id}")
     public Optional<UserAccount> updateUserAccountById (

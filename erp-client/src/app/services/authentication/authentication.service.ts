@@ -69,7 +69,7 @@ export class AuthenticationService {
     if (this.user !== null && this.isLoggedIn) {
       return of(this.isLoggedIn);
     }
-    return this.http.get<any>(`/api/user`)
+    return this.http.get<User>(`/api/users/whoAmI`)
       .pipe(
         map(
           user => {
