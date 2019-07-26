@@ -47,6 +47,10 @@ public class UserAccount {
     @Column(name = "is_admin")
     private Boolean isAdmin;
 
+    @NotNull
+    @Column(name = "enabled")
+    private Boolean isEnabled;
+
 
     // relationships
     @OneToMany(targetEntity = Award.class, mappedBy = "userAccount", cascade = CascadeType.ALL)
@@ -94,6 +98,10 @@ public class UserAccount {
         return this.isAdmin;
     }
 
+    public Boolean getIsEnabled() {
+        return this.isEnabled;
+    }
+
     public Set<Award> getAwards() {
         return this.awards;
     }
@@ -125,6 +133,10 @@ public class UserAccount {
         this.isAdmin = isAdmin;
     }
 
+    public void setIsEnabled(Boolean isEnabled) {
+        this.isEnabled = isEnabled;
+    }
+
 
     // equals, hashcode, and toString
 
@@ -138,12 +150,21 @@ public class UserAccount {
             username.equals(that.username) &&
             password.equals(that.password) &&
             Objects.equals(signature, that.signature) &&
-            isAdmin.equals(that.isAdmin);
+            isAdmin.equals(that.isAdmin) &&
+            isEnabled.equals(that.isEnabled);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, email, username, password, signature, isAdmin);
+        return Objects.hash(
+          id, 
+          email, 
+          username, 
+          password, 
+          signature, 
+          isAdmin, 
+          isEnabled
+        );
     }
 
     @Override
@@ -154,7 +175,8 @@ public class UserAccount {
             ", username='" + username + '\'' +
             ", password='" + password + '\'' +
             ", signature='" + signature + '\'' +
-            ", isAdmin=" + isAdmin +
+            ", isAdmin=" + isAdmin + '\'' +
+            ", isEnabled=" + isEnabled +
             '}';
     }
 }

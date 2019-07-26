@@ -15,7 +15,8 @@ CREATE TABLE user_account (
   "username" VARCHAR(255) NULL,
   "password" VARCHAR(255) NULL,
   "signature" VARCHAR(255) NULL,
-  "is_admin" BOOLEAN NULL,
+  "is_admin" BOOLEAN NOT NULL DEFAULT FALSE,
+  "enabled" BOOLEAN NOT NULL DEFAULT TRUE,
   CHECK (is_admin OR "username" IS NOT NULL)
 );
 
