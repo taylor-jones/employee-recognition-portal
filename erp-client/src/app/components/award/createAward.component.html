@@ -1,16 +1,74 @@
-<div class="award-container">
-  <form action="">
-    <input [(ngModel)]="awardType" placeholder="Award Type">{{awardType}}
-    <br>
-    <input [(ngModel)]="employee" placeholder="Employee">{{employee}}
-    <br>
-    <input [(ngModel)]="description" placeholder="Description">{{description}}
-    <br>
-    <input [(ngModel)]="awardedDate" placeholder="Awarded Date">{{awardedDate}}
-    <br>
-    <input [(ngModel)]="awardedTime" placeholder="Awarded Time">{{awardedTime}}
-    <br>
-    <button (click)="createAward()" [disabled]="!awardType || !employee">Create Award</button>
+<mat-card>
+    <mat-card-header>
+      <mat-card-title>Create Award</mat-card-title>
+    </mat-card-header> 
 
-  </form>
-</div>
+    <mat-card-content>
+        <form [formGroup]="createAwardForm" (ngSubmit)="onSubmit()">
+            <mat-form-field>
+                <!-- <input matInput type="text" placeholder="Created By" formControlName="user" [ngClass]="{ 'is-invalid': submitted && f.user.errors }" />
+                <mat-error *ngIf="submitted && f.user.errors" class="invalid-feedback">
+                    <mat-error *ngIf="f.user.errors.required">User is required</mat-error>
+                </mat-error> -->
+                <mat-select placeholder="Created By" formControlName="user" [ngClass]="{ 'is-invalid': submitted && f.user.errors }">
+                  <mat-option *ngFor="let user of users; let i = index" [value]="users[i].id">
+                    {{ users[i].username }}
+                  </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-select placeholder="Award Type" formControlName="awardType" [ngClass]="{ 'is-invalid': submitted && f.awardType.errors }">
+                  <mat-option *ngFor="let awardType of awardTypes; let i = index" [value]="awardTypes[i].id">
+                    {{ awardTypes[i].name }}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="submitted && f.awardType.errors" class="invalid-feedback">
+                    <mat-error *ngIf="f.awardType.errors.required">Award Type is required</mat-error>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-select placeholder="Employee" formControlName="employee" [ngClass]="{ 'is-invalid': submitted && f.employee.errors }">
+                  <mat-option *ngFor="let employee of employees; let i = index" [value]="employees[i].id">
+                    {{ employees[i].firstName + ' ' + employees[i].lastName }}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="submitted && f.employee.errors" class="invalid-feedback">
+                    <mat-error *ngIf="f.employee.errors.required">Employee is required</mat-error>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput type="text" placeholder="Description" formControlName="description">
+                <mat-error *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                    <mat-error *ngIf="f.description.errors.required">Description is required</mat-error>
+                </mat-error>
+            </mat-form-field>
+
+            
+            <div class="form-group">
+              <mat-form-field class="col-half">
+                  <input matInput type="date" placeholder="Awarded Date" formControlName="awardedDate" [ngClass]="{ 'is-invalid': submitted && f.awardedDate.errors }" />
+                  <mat-error *ngIf="submitted && f.awardedDate.errors" class="invalid-feedback">
+                      <mat-error *ngIf="f.awardedDate.errors.required">Awarded Date is required</mat-error>
+                      <mat-error *ngIf="f.awardedDate.errors.awardedDate">Awarded Date must be a valid date</mat-error>
+                  </mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="col-half">
+                  <input matInput type="time" placeholder="Awarded Time" formControlName="awardedTime" [ngClass]="{ 'is-invalid': submitted && f.awardedTime.errors }" />
+                  <mat-error *ngIf="submitted && f.awardedTime.errors" class="invalid-feedback">
+                      <mat-error *ngIf="f.awardedTime.errors.required">Awarded Time is required</mat-error>
+                      <mat-error *ngIf="f.awardedTime.errors.awardedTime">Awarded Date must be a valid time</mat-error>
+                  </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="action-buttons">
+                <button mat-flat-button color="primary" type="submit">Create Award</button>
+                <button mat-flat-button color="accent" type="reset" (click)="onReset()">Cancel</button>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card>
