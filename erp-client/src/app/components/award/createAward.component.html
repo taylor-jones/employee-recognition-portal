@@ -6,11 +6,15 @@
     <mat-card-content>
         <form [formGroup]="createAwardForm" (ngSubmit)="onSubmit()">
             <mat-form-field>
+                <input matInput type="text" placeholder="ID" formControlName="id" [ngClass]="{ 'is-invalid': submitted && f.id.errors }" />
+            </mat-form-field>
+
+            <mat-form-field>
                 <!-- <input matInput type="text" placeholder="Created By" formControlName="user" [ngClass]="{ 'is-invalid': submitted && f.user.errors }" />
                 <mat-error *ngIf="submitted && f.user.errors" class="invalid-feedback">
                     <mat-error *ngIf="f.user.errors.required">User is required</mat-error>
                 </mat-error> -->
-                <mat-select placeholder="Created By" formControlName="user" [ngClass]="{ 'is-invalid': submitted && f.user.errors }">
+                <mat-select (selectionChange)='onUserSelectChange()' placeholder="Created By" formControlName="user" [ngClass]="{ 'is-invalid': submitted && f.user.errors }">
                   <mat-option *ngFor="let user of users; let i = index" [value]="users[i].id">
                     {{ users[i].username }}
                   </mat-option>
@@ -18,7 +22,7 @@
             </mat-form-field>
 
             <mat-form-field>
-                <mat-select placeholder="Award Type" formControlName="awardType" [ngClass]="{ 'is-invalid': submitted && f.awardType.errors }">
+                <mat-select (selectionChange)='onAwardTypeSelectChange()' placeholder="Award Type" formControlName="awardType" [ngClass]="{ 'is-invalid': submitted && f.awardType.errors }">
                   <mat-option *ngFor="let awardType of awardTypes; let i = index" [value]="awardTypes[i].id">
                     {{ awardTypes[i].name }}
                   </mat-option>
@@ -29,7 +33,7 @@
             </mat-form-field>
 
             <mat-form-field>
-                <mat-select placeholder="Employee" formControlName="employee" [ngClass]="{ 'is-invalid': submitted && f.employee.errors }">
+                <mat-select #employeeSelect (selectionChange)='onEmployeeSelectChange(employeeSelect.value)' placeholder="Employee" formControlName="employee" [ngClass]="{ 'is-invalid': submitted && f.employee.errors }">
                   <mat-option *ngFor="let employee of employees; let i = index" [value]="employees[i].id">
                     {{ employees[i].firstName + ' ' + employees[i].lastName }}
                   </mat-option>

@@ -6,8 +6,8 @@ export class Award {
   id: number;
   awardType: AwardType;
   employee: Employee;
-  user: User;
-  description: string;
-  awardedDate: string;
-  awardedTime: string;
+  userAccount: User;
+  description?: string;
+  awardedDate?: string;
+  awardedTime?: string;
 }

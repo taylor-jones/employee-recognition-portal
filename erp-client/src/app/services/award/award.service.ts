@@ -28,11 +28,7 @@ export class AwardService {
    */
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-   
-      // TODO: send the error to remote logging infrastructure
       console.error(error); // log to console instead
-   
-      // TODO: better job of transforming error for user consumption
       this.log(`${operation} failed: ${error.message}`);
    
       // Let the app keep running by returning an empty result.
@@ -40,17 +36,23 @@ export class AwardService {
     };
   }
 
+
 	getAwardById(id: number): Observable<Award> {
 		return this.httpClient.get<Award>(`/api/awards/${id}`);
 	}
 
-	getAllAwards(): Observable<Award[]> {
+  
+  getAllAwards(): Observable<Award[]> {
 		return this.httpClient.get<Award[]>(`/api/awards`);
   }
   
+  
   createAward(award: Award): Observable<Award> {
-    console.log('creating award');
-    return this.httpClient.post<Award>(`/api/awards`, award);
+    console.log(award);
+    return this.httpClient.post<Award>(`/api/awards`, JSON.stringify(award), this.httpOptions).pipe(
+      tap((newAward: Award) => this.log(`added award w/ id=${newAward.id}`)),
+      catchError(this.handleError<Award>('addAward'))
+    );
   }
 
 }

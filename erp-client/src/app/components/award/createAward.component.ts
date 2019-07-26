@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { AwardService } from '../../services/award/award.service';
 import { AwardTypeService } from '../../services/awardType/awardType.service';
 import { EmployeeService } from '../../services/employee/employee.service';
@@ -36,9 +36,10 @@ export class CreateAwardComponent implements OnInit {
 
 	ngOnInit() {
 		this.createAwardForm = this.formBuilder.group({
-			user: [ '', Validators.required ],
-			awardType: [ '', Validators.required ],
-			employee: [ '', Validators.required ],
+      id: new FormControl({ value: null, disabled: true }),
+      user: new FormControl({ value: '', Validators: true }),
+      awardType: new FormControl({ value: '', Validators: true }),
+      employee: new FormControl({ value: '', Validators: true }),
 			description: [ null ],
 			awardedDate: [ null ],
 			awardedTime: [ null ]
@@ -74,31 +75,52 @@ export class CreateAwardComponent implements OnInit {
 			console.log('INVALID!');
 			return;
     }
-    
+
     // load the award type from the award type selection
     this.awardTypeService.getAwardTypeById(this.f.awardType.value)
-    .subscribe(awardType => this.awardType = awardType);
+    .subscribe(awardType => {
+      this.awardType = awardType;
+    });
     
     // load the employee from the employee selection
     this.employeeService.getEmployeeById(this.f.employee.value)
     .subscribe(employee => this.employee = employee);
     
-    // load the user from the current user value
-    this.userService.getUserById(this.f.user.value)
-      .subscribe(user => this.user = user);
-
-    // make the call to create the award
-    this.awardService.createAward({
-      id: null,
+    // build the post body
+    const context = {
+      id: 0,
       awardType: this.awardType,
       employee: this.employee,
-      user: this.user,
-      description: <string>this.f.description.value,
-      awardedDate: <string>this.f.awardedDate.value,
-      awardedTime: <string>this.f.awardedTime.value,
-    });
+      userAccount: this.user,
+      description: this.f.description.value,
+      awardedDate: this.f.awardedDate.value,
+      awardedTime: this.f.awardedTime.value,
+    };
+
+    // make the call to create the award
+    this.awardService.createAward(context).subscribe(
+      response => this.createAwardForm.get('id').setValue(response.id)
+    );
 	}
 
+
+  // update the selected user object when a change is made on the form.
+  onUserSelectChange() {
+    const curr = this.f.user.value;
+    this.user = this.users.filter(obj => obj.id === curr)[0];
+  }
+  
+  // update the selected award type object when a change is made on the form.
+  onAwardTypeSelectChange() {
+    const curr = this.f.awardType.value;
+    this.awardType = this.awardTypes.filter(obj => obj.id === curr)[0];
+  }
+  
+  // update the selected employee object when a change is made on the form.
+  onEmployeeSelectChange() {
+    const curr = this.f.employee.value;
+    this.employee = this.employees.filter(obj => obj.id === curr)[0];
+  }
 
 	onReset() {
 		this.submitted = false;
