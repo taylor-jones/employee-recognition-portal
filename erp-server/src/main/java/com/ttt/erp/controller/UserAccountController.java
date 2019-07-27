@@ -7,6 +7,7 @@ import com.ttt.erp.repository.UserAccountRepository;
 import com.ttt.erp.service.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import com.ttt.erp.service.UserManager;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,6 +26,8 @@ public class UserAccountController {
     @Autowired
     UserAccountService service;
 
+    @Autowired
+    UserManager userManager;
 
     @GetMapping("/{id}")
     public UserAccount getUserAccount(@PathVariable("id") final Long id) {
@@ -42,7 +45,6 @@ public class UserAccountController {
         return this.awardRepository.findByUserAccount(userAccount);
     }
 
-
     // TODO: get actual userId from cookie
     @PostMapping
     public Optional<UserAccount> addUserAccount (
@@ -50,6 +52,16 @@ public class UserAccountController {
         @RequestBody UserAccount newUserAccount) {
         return this.service.createUser(Long.parseLong(modifiedById), newUserAccount);
     }
+
+    // callback for checking login status
+    @GetMapping(value = "/whoAmI")
+    public UserAccount getUser() {
+        return this.userManager.get();
+    }
+
+    // TODO: potentially this to get users profile?
+//    @GetMapping(value = "/me")
+
 
     // TODO: get actual userId from cookie
     @PutMapping("/{id}")
@@ -72,5 +84,10 @@ public class UserAccountController {
     @GetMapping
     public List<UserAccount> getAll() {
         return repository.findAll();
+    }
+
+    @GetMapping("/{username}")
+    public UserAccount getUserAccount(@PathVariable("username") final String username) {
+        return repository.findByUsername(username);
     }
 }

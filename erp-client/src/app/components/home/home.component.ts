@@ -9,10 +9,12 @@ import {Employee} from '../../models/employee.model';
 })
 export class HomeComponent implements OnInit {
 
-  employees: Employee[] = [];
+  awards: Employee[] = [];
+  employees: Employee[] = null;
   employee: Employee;
   errorMessage: string;
   employeeId: number;
+  id: number;
 
   constructor(private employeeService: EmployeeService) { }
 
@@ -20,7 +22,6 @@ export class HomeComponent implements OnInit {
   }
 
   getAllEmployees(): void {
-    this.employees = [];
     this.employeeService.getAllEmployees().subscribe(
       (employees) => {
         this.employees = employees;

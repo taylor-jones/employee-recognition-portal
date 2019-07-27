@@ -1,3 +1,15 @@
-<a href="/#"><img [src]="'assets/Images/prototype-logo.png'"></a>
-<br>
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <img [src]="'assets/Images/prototype-logo.png'" class="login-logo">
+    <span class="menu-spacer"></span>
+    <div>
+      <a mat-button (click)="handleLogout()"> Logout </a>
+
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+
+<!--<img [src]="'assets/Images/prototype-logo.png'" class="login-logo">-->
+<!--<br>-->
 <router-outlet></router-outlet>

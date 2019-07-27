@@ -1,0 +1,36 @@
+#admin-datatable {
+  float: left;
+  margin-left: 5%;
+  margin-right: auto;
+  width: 55%;
+}
+
+#pre-table-header {
+  height: 70px;
+}
+
+h1 {
+  display: inline-block;
+  width: 40%;
+}
+
+.mat-form-field {
+  display: inline-block;
+  width: 60%;
+  margin: auto;
+  text-align: center;
+}
+
+table {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  padding-bottom: 0;
+  border-radius: 5px 5px 5px 5px;
+  box-shadow: 0px 0px 10px gray;
+}
+
+th {
+  height: 50px;
+  font-size: 20px;
+}

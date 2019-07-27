@@ -1,0 +1,28 @@
+//.login-container {
+//  max-width: 400px;
+//
+//}
+
+.login-container {
+  height: 55vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-logo {
+  max-width: 250px;
+  margin: auto;
+}
+
+.username-input {
+  align-self: center;
+}
+
+.password-input {
+  justify-content: center;
+}
+
+.login-button {
+  justify-content: center;
+}
