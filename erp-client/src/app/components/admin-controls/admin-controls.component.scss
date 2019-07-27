@@ -6,7 +6,6 @@
 }
 
 #controls {
-  padding-bottom: 10%;
   border-radius: 5px 5px 5px 5px;
   box-shadow: 0px 0px 10px gray;
   overflow: hidden;
@@ -42,4 +41,27 @@ form {
 #is-admin-check.mat-checkbox {
   margin-left: 10%;
   margin-bottom: 2%;
+}
+
+#common-buttons {
+  margin-top: 5%;
+  border-top: solid 0.5px rgb(160, 160, 160);
+}
+
+.mat-button {
+  width: 50%;
+}
+
+.action-button-left {
+  height: 48px;
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+}
+
+.action-button-right {
+  height: 48px;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
 }

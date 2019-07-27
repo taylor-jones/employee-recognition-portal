@@ -10,10 +10,13 @@ import {
   MatTabsModule
 } from '@angular/material';
 
+import {MatButtonModule} from '@angular/material/button';
+
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   imports: [
+    MatButtonModule,
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
@@ -31,6 +34,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
     MatInputModule,
     MatCheckboxModule,
     MatTabsModule,
+    MatButtonModule,
     NoopAnimationsModule
   ]
 })
