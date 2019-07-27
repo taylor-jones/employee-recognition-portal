@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/api/admin/employees")
+@RequestMapping("/api/employees")
 public class EmployeeController {
 
     @Autowired

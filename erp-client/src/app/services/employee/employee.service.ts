@@ -12,11 +12,11 @@ export class EmployeeService {
   }
 
   getEmployeeById(id: number): Observable<Employee> {
-    return this.httpClient.get<Employee>(`/api/admin/employees/${id}`);
+    return this.httpClient.get<Employee>(`/api/employees/${id}`);
   }
 
   getAllEmployees(): Observable<Employee[]> {
-    return this.httpClient.get<Employee[]>(`/api/admin/employees`);
+    return this.httpClient.get<Employee[]>(`/api/employees`);
   }
 
   // getAllAwards(): Observable<Employee[]> {
