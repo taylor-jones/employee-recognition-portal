@@ -1,21 +1,33 @@
 #admin-datatable {
-  margin: auto;
+  float: left;
+  margin-left: 5%;
+  margin-right: auto;
+  width: 55%;
 }
 
-.mat-paginator {
-  padding-right: 10%;
+#pre-table-header {
+  height: 70px;
+}
+
+h1 {
+  display: inline-block;
+  width: 40%;
 }
 
 .mat-form-field {
-  display: block;
-  width: 50%;
+  display: inline-block;
+  width: 60%;
   margin: auto;
   text-align: center;
 }
 
 table {
-  width: 80%;
-  margin: auto;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  padding-bottom: 0;
+  border-radius: 5px 5px 5px 5px;
+  box-shadow: 0px 0px 10px gray;
 }
 
 th {

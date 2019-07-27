@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, AfterViewInit } from '@angular/core';
 import { CanvasService } from '../../services/canvas/canvas.service';
 
 @Component({
@@ -7,7 +7,7 @@ import { CanvasService } from '../../services/canvas/canvas.service';
   styleUrls: ['./canvas.component.scss'],
   providers: [ CanvasService ]
 })
-export class CanvasComponent implements OnInit {
+export class CanvasComponent implements AfterViewInit {
 
   private canvasHTML;
   private canvasContext;
@@ -19,7 +19,7 @@ export class CanvasComponent implements OnInit {
 
   constructor(private canvasService: CanvasService) { }
 
-  ngOnInit() {
+  ngAfterViewInit() {
     this.initContext();
   }
 
@@ -58,7 +58,7 @@ export class CanvasComponent implements OnInit {
 
   // TR: Still need to test dynamic width and height using parent component to pass input
   clearCanvas(): void {
-    this.canvasContext.clearRect(0, 0, 500, 300);
+    this.canvasContext.clearRect(0, 0, this.width, this.height);
   }
 
   canvasToData() {
@@ -74,14 +74,14 @@ export class CanvasComponent implements OnInit {
     let randCount = Math.floor(Math.random() * 50);
     this.canvasContext.beginPath();
     this.canvasContext.moveTo(
-      Math.floor( Math.random() * 500 ),
-      Math.floor( Math.random() * 300 )
+      Math.floor( Math.random() * this.width ),
+      Math.floor( Math.random() * this.height )
     );
     let i = 0;
     while (i < randCount) {
       this.canvasContext.lineTo(
-        Math.floor( Math.random() * 500 ),
-        Math.floor( Math.random() * 300 )
+        Math.floor( Math.random() * this.width ),
+        Math.floor( Math.random() * this.height )
       );
       i++;
     }

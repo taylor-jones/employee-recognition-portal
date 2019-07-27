@@ -11,6 +11,7 @@ import {HttpClientModule} from '@angular/common/http';
 import { CanvasComponent } from './components/canvas/canvas.component';
 import { SelfComponent } from './components/self/self.component';
 import { AdminTableComponent } from './components/admin-table/admin-table.component';
+import { AdminControlsComponent } from './components/admin-controls/admin-controls.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,9 @@ import { AdminTableComponent } from './components/admin-table/admin-table.compon
     HomeComponent,
     CanvasComponent,
     SelfComponent,
-    AdminTableComponent
+    AdminTableComponent,
+    AdminTableComponent,
+    AdminControlsComponent
   ],
   imports: [
     BrowserModule,

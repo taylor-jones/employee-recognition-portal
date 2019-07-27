@@ -5,7 +5,9 @@ import {
   MatPaginatorModule,
   MatSortModule,
   MatFormFieldModule,
-  MatInputModule
+  MatInputModule,
+  MatCheckboxModule,
+  MatTabsModule
 } from '@angular/material';
 
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -17,6 +19,8 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
     MatSortModule,
     MatFormFieldModule,
     MatInputModule,
+    MatCheckboxModule,
+    MatTabsModule,
     NoopAnimationsModule
   ],
   exports: [
@@ -25,6 +29,8 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
     MatSortModule,
     MatFormFieldModule,
     MatInputModule,
+    MatCheckboxModule,
+    MatTabsModule,
     NoopAnimationsModule
   ]
 })

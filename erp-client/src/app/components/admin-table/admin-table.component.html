@@ -1,7 +1,10 @@
 <div id="admin-datatable" *ngIf="dataSource">
-  <mat-form-field>
-    <input matInput type="text" (keyup)="filter($event.target.value)" placeholder="Type to filter">
-  </mat-form-field>
+  <div id="pre-table-header">
+    <h1 class="mat-h1">Employees</h1>
+    <mat-form-field>
+      <input matInput type="text" (keyup)="filter($event.target.value)" placeholder="Type to filter">
+    </mat-form-field>
+  </div>
 
   <table mat-table [dataSource]="dataSource" matSort>
     <ng-container matColumnDef="id">
@@ -28,5 +31,5 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
   </table>
-  <mat-paginator [length]="length" [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons></mat-paginator>
+  <mat-paginator [length]="length" [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
 </div>
