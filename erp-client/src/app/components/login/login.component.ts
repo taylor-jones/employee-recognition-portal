@@ -17,10 +17,7 @@ export class LoginComponent implements OnInit {
   showSpinner = false;
 
   constructor(private authService: AuthenticationService,
-              private router: Router
-              // private formBuilder: FormBuilder)
-  ){
-  }
+              private router: Router){ }
 
   // constructor(private loginService: LoginService) {}
 

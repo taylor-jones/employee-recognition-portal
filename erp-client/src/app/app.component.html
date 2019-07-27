@@ -1,19 +1,15 @@
-<!--<mat-toolbar color="primary">-->
-<!--  <mat-toolbar-row>-->
-<!--    <h1>SimpleCRM</h1>-->
-<!--    <span class="menu-spacer"></span>-->
-<!--    <div>-->
-<!--      <a mat-button [routerLink]="'/accounts'"> Accounts </a>-->
-<!--      <a mat-button [routerLink]="'/create-account'"> Create Account </a>-->
-<!--      <a mat-button [routerLink]="'/contacts'"> Contacts </a>-->
-<!--      <a mat-button [routerLink]="'/create-contact'"> Create Contact </a>-->
-<!--      <a mat-button [routerLink]="'/activities'"> Activities </a>-->
-<!--      <a mat-button [routerLink]="'/create-activity'"> Create Activity </a>-->
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <img [src]="'assets/Images/prototype-logo.png'" class="login-logo">
+    <span class="menu-spacer"></span>
+    <div>
+      <a mat-button (click)="handleLogout()"> Logout </a>
 
-<!--    </div>-->
-<!--  </mat-toolbar-row>-->
-<!--</mat-toolbar>-->
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>
 
-<img [src]="'assets/Images/prototype-logo.png'" class="login-logo">
-<br>
+
+<!--<img [src]="'assets/Images/prototype-logo.png'" class="login-logo">-->
+<!--<br>-->
 <router-outlet></router-outlet>
