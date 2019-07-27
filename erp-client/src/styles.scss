@@ -19,3 +19,28 @@ $theme: mat-light-theme($primary, $accent);
 body {
   background: #fafafa;
 }
+
+
+
+//
+// snackbar
+//
+
+.mat-simple-snackbar-action {
+  color: #fff;
+}
+
+.snackbar-success {
+  background-color: mat-color($mat-green, 800);
+  color: mat-color($mat-green, 50);
+}
+
+.snackbar-error {
+  background-color: mat-color($mat-red, 800);
+  color: mat-color($mat-red, 50);
+}
+
+.snackbar-warning {
+  background-color: mat-color($mat-orange, 800);
+  color: mat-color($mat-orange, 50);
+}

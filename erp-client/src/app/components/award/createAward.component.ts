@@ -1,9 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MomentDateAdapter, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import * as _moment from 'moment';
+import { 
+  MatSnackBar, 
+  MatSnackBarConfig, 
+  MatSnackBarHorizontalPosition, 
+  MatSnackBarVerticalPosition 
+} from '@angular/material/snack-bar';
 
 import { AwardService } from '../../services/award/award.service';
 import { AwardTypeService } from '../../services/awardType/awardType.service';
@@ -35,6 +40,14 @@ export class CreateAwardComponent implements OnInit {
   awardType: AwardType;
   employee: Employee;
   user: User;
+
+  // snackbarConfig = {
+  //   horizontalPosition: 'center',
+  //   verticalPosition: 'bottom',
+  //   duration: 3000,
+  //   actionButtonLabel: 'Okay',
+  //   extraClasses: null,
+  // }; 
 
 	constructor(
 		private _formBuilder: FormBuilder,
@@ -80,20 +93,41 @@ export class CreateAwardComponent implements OnInit {
   }
   
 
-  createNewAward(context) {    
-    this._awardService.createAward(context).subscribe(
-      response => {
-        console.log(response);
-        this.createAwardForm.get('id').setValue(response.id)
+  showSnackbarSuccess(message) {
+    this._snackBar.open(message, 'Okay', {
+      duration: 3000,
+      panelClass: [ 'snackbar-success' ],
+    });
+  }
+
+  showSnackbarError(message) {
+    this._snackBar.open(message, 'Okay', {
+      duration: 3000,
+      panelClass: [ 'snackbar-error' ],
+    });
+  }
+
+  createNewAward(context) {
+    this._awardService.createAward(context).subscribe(response => {
+      if (response && response.id) {
+        this.createAwardForm.get('id').setValue(response.id);
+        this.showSnackbarSuccess('Success! The award has been created.');
+      } else {
+        this.showSnackbarError('Something has gone wrong. Award creation failed.');
       }
-    );
+    });
   }
 
 
   updateExistingAward(context) {
-    this._awardService.updateAward(context).subscribe(
-      response => this.createAwardForm.get('id').setValue(response.id)
-    );
+    this._awardService.updateAward(context).subscribe(response => {
+      if (response && response.id) {
+        this.createAwardForm.get('id').setValue(response.id);
+        this.showSnackbarSuccess('Success! The award has been updated.');
+      } else {
+        this.showSnackbarError('Something has gone wrong. Award updating failed');
+      }
+    });
   }
 
   
@@ -119,13 +153,13 @@ export class CreateAwardComponent implements OnInit {
       awardedTime: formTime ? moment(formTime, ["h:mm A"]).format('HH:mm') : null,
     };
       
-    console.log(context);
+    // console.log(context);
 
-    // if (this.createAwardForm.get('id').value) {
-    //   this.updateExistingAward(context);
-    // } else {
-    //   this.createNewAward(context);
-    // }
+    if (this.createAwardForm.get('id').value) {
+      this.updateExistingAward(context);
+    } else {
+      this.createNewAward(context);
+    }
 	}
 
 
