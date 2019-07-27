@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { AwardService } from '../../services/award/award.service';
 import { AwardTypeService } from '../../services/awardType/awardType.service';
 import { EmployeeService } from '../../services/employee/employee.service';
@@ -37,9 +38,9 @@ export class CreateAwardComponent implements OnInit {
 	ngOnInit() {
 		this.createAwardForm = this.formBuilder.group({
       id: new FormControl({ value: null, disabled: true }),
-      user: new FormControl({ value: '', Validators: true }),
-      awardType: new FormControl({ value: '', Validators: true }),
-      employee: new FormControl({ value: '', Validators: true }),
+      user: new FormControl(null, { validators: Validators.required }),
+      awardType: new FormControl(null, { validators: Validators.required }),
+      employee: new FormControl(null, { validators: Validators.required }),
 			description: [ null ],
 			awardedDate: [ null ],
 			awardedTime: [ null ]
@@ -68,19 +69,17 @@ export class CreateAwardComponent implements OnInit {
   }
   
 
-
-
   createNewAward(context) {    
-    // make the call to create the award
     this.awardService.createAward(context).subscribe(
-      response => this.createAwardForm.get('id').setValue(response.id)
+      response => {
+        console.log(response);
+        this.createAwardForm.get('id').setValue(response.id)
+      }
     );
   }
 
 
-
   updateExistingAward(context) {
-    // make the call to create the award
     this.awardService.updateAward(context).subscribe(
       response => this.createAwardForm.get('id').setValue(response.id)
     );
@@ -91,10 +90,9 @@ export class CreateAwardComponent implements OnInit {
 		this.submitted = true;
 
 		if (this.createAwardForm.invalid) {
-			console.log('INVALID!');
+			console.log('FORM IS INVALID!');
 			return;
     }
-
 
     // build the post body
     const context = {
@@ -107,14 +105,11 @@ export class CreateAwardComponent implements OnInit {
       awardedTime: this.f.awardedTime.value,
     };
 
-
     if (this.createAwardForm.get('id').value) {
       this.updateExistingAward(context);
     } else {
       this.createNewAward(context);
     }
-
-    // console.log(context);
 	}
 
 
