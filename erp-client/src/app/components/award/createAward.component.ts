@@ -65,7 +65,26 @@ export class CreateAwardComponent implements OnInit {
 	// helper for reference to form fields
 	get f() {
 		return this.createAwardForm.controls;
-	}
+  }
+  
+
+
+
+  createNewAward(context) {    
+    // make the call to create the award
+    this.awardService.createAward(context).subscribe(
+      response => this.createAwardForm.get('id').setValue(response.id)
+    );
+  }
+
+
+
+  updateExistingAward(context) {
+    // make the call to create the award
+    this.awardService.updateAward(context).subscribe(
+      response => this.createAwardForm.get('id').setValue(response.id)
+    );
+  }
 
   
   onSubmit() {
@@ -76,19 +95,10 @@ export class CreateAwardComponent implements OnInit {
 			return;
     }
 
-    // load the award type from the award type selection
-    this.awardTypeService.getAwardTypeById(this.f.awardType.value)
-    .subscribe(awardType => {
-      this.awardType = awardType;
-    });
-    
-    // load the employee from the employee selection
-    this.employeeService.getEmployeeById(this.f.employee.value)
-    .subscribe(employee => this.employee = employee);
-    
+
     // build the post body
     const context = {
-      id: 0,
+      id: this.f.id.value,
       awardType: this.awardType,
       employee: this.employee,
       userAccount: this.user,
@@ -97,10 +107,14 @@ export class CreateAwardComponent implements OnInit {
       awardedTime: this.f.awardedTime.value,
     };
 
-    // make the call to create the award
-    this.awardService.createAward(context).subscribe(
-      response => this.createAwardForm.get('id').setValue(response.id)
-    );
+
+    if (this.createAwardForm.get('id').value) {
+      this.updateExistingAward(context);
+    } else {
+      this.createNewAward(context);
+    }
+
+    // console.log(context);
 	}
 
 

@@ -48,10 +48,16 @@ export class AwardService {
   
   
   createAward(award: Award): Observable<Award> {
-    console.log(award);
     return this.httpClient.post<Award>(`/api/awards`, JSON.stringify(award), this.httpOptions).pipe(
       tap((newAward: Award) => this.log(`added award w/ id=${newAward.id}`)),
       catchError(this.handleError<Award>('addAward'))
+    );
+  }
+
+  updateAward(award: Award): Observable<Award> {
+    return this.httpClient.put<Award>(`/api/awards/${award.id}`, JSON.stringify(award), this.httpOptions).pipe(
+      tap((updatedAward: Award) => this.log(`updated award w/ id=${updatedAward.id}`)),
+      catchError(this.handleError<Award>('updateAward'))
     );
   }
 
