@@ -1,3 +1,6 @@
+@import '~@angular/material/theming';
+@import '../../../styles.scss';
+
 form {
   padding: 1em;
   display: flex;
@@ -31,4 +34,36 @@ mat-form-field {
 
 button {
   margin-right: 15px;
+}
+
+
+
+
+
+::ng-deep .timepicker {
+  .timepicker__header {
+    background-color: mat-color($primary, 400) !important;
+  }
+
+  .clock-face__clock-hand {
+    background-color: mat-color($primary, 400) !important;
+
+    &::after {
+      background-color: mat-color($primary, 400) !important;
+    }
+
+    &::before {
+      border-color: mat-color($primary, 400) !important;
+    }
+  }
+
+  .clock-face__number {
+    > span.active {
+      background-color: mat-color($primary, 400) !important;
+    }
+  }
+
+  button:not(.timepicker-dial__item) {
+    color: mat-color($primary, 400) !important;
+  }
 }
