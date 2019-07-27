@@ -1,5 +1,56 @@
-<input [(ngModel)]="username" placeholder="Username">{{username}}
-<br>
-<input [(ngModel)]="password" placeholder="Password">{{password}}
-<br>
-<button (click)="handleLogin()" [disabled]="!username || !password">Click me!</button>
+<!--<input [(ngModel)]="username" placeholder="Username">{{username}}-->
+<!--<br>-->
+<!--<input [(ngModel)]="password" placeholder="Password">{{password}}-->
+<!--<br>-->
+<!--<button (click)="handleLogin()" [disabled]="!username || !password">Click me!</button>-->
+
+
+
+<!--<div layout-fill layout="column" layout-align="center none">-->
+<!--  <div layout="row" layout-align="center none">-->
+
+<!--    <mat-card class="login-container">-->
+<!--      <mat-form-field class="example-full-width">-->
+<!--        <input matInput placeholder="Favorite food" value="Sushi">-->
+<!--      </mat-form-field>-->
+
+<!--      <mat-form-field class="example-full-width">-->
+<!--        <textarea matInput placeholder="Leave a comment"></textarea>-->
+<!--      </mat-form-field>-->
+<!--    </mat-card>-->
+<!--  </div>-->
+<!--</div>-->
+
+<!-- Classes main-div and example-card are catagorized in .css file -->
+<div class="login-container">
+
+  <mat-card class="login-card">
+    <mat-card-header>
+      <div class="login-box-header">
+        <!-- Src image is temporary hosted in image.ibb-->
+        <img [src]="'assets/Images/prototype-logo.png'" class="login-logo">
+      </div>
+    </mat-card-header>
+    <mat-card-content>
+      <form>
+        <table cellspacing="0">
+          <tr>
+            <td>
+              <mat-form-field class="username-input">
+                <input matInput placeholder="Username" [(ngModel)]="username" name="username" required>
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr>
+            <td><mat-form-field class="password-input">
+              <input matInput placeholder="Password" [(ngModel)]="password"type="password" name="password" required>
+            </mat-form-field></td>
+          </tr></table>
+      </form>
+      <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button (click)="handleLogin()" color="primary" class="login-button">Login</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

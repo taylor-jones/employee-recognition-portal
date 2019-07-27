@@ -11,29 +11,6 @@ import {User} from '../../models/user.model';
 })
 
 export class AuthenticationService {
-  // user: { username: string; password: string } = null;
-  //
-  // constructor(private route: ActivatedRoute,
-  //             private router: Router,
-  //             private httpClient: HttpClient) {
-  // }
-  //
-  // authenticate(u: string, p: string): void {
-  //   const httpOptions = {
-  //     headers: new HttpHeaders({
-  //       'Content-Type': 'application/x-www-form-urlencoded'
-  //     })
-  //   };
-  //
-  //   const data = `username=${encodeURIComponent(u)}&password=${encodeURIComponent(p)}`;
-  //
-  //   this.httpClient.post<Login>(`/api/login`, data, httpOptions).subscribe(res => {
-  //     if (res) {
-  //       console.log(res);
-  //       this.router.navigate(['/']);
-  //     }
-  //   });
-  // }
 
   user: User = null;
   isLoggedIn: boolean;
@@ -42,7 +19,7 @@ export class AuthenticationService {
               private router: Router) {
   }
 
-  authenticate(credentials: Credentials): Observable<void> {
+  authenticate(credentials: Credentials): Observable<User> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -56,6 +33,7 @@ export class AuthenticationService {
         map((user) => {
           this.isLoggedIn = true;
           this.user = user;
+          return user;
         }),
         catchError(error => {
           this.isLoggedIn = false;

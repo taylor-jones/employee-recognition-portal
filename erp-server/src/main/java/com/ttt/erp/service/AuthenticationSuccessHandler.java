@@ -25,9 +25,14 @@ public class AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccess
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         UserAccount userAccount = this.userAccountService.getUserByUsername(authentication.getName());
-        this.userManager.set(userAccount);
-        response.getWriter().write(new ObjectMapper().writeValueAsString(userAccount));
-        response.setStatus(HttpServletResponse.SC_OK);
+
+        if (userAccount != null) {
+            this.userManager.set(userAccount);
+            response.getWriter().write(new ObjectMapper().writeValueAsString(userAccount));
+            response.setStatus(HttpServletResponse.SC_OK);
 //        super.onAuthenticationSuccess(request, response, authentication);
+        } else {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        }
     }
 }
