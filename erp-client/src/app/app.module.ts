@@ -61,7 +61,7 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 	declarations: [
     AdminTableComponent,
     AdminTableComponent,
-    AdminControlsComponent
+    AdminControlsComponent,
 		AppComponent,
     AwardComponent,
     CanvasComponent,
@@ -109,7 +109,7 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 		MatToolbarModule,
 		MatTooltipModule,
     MatPaginatorModule,
-    NgxMaterialTimepickerModule
+    NgxMaterialTimepickerModule,
 		ReactiveFormsModule,
   ],
   exports: [],
