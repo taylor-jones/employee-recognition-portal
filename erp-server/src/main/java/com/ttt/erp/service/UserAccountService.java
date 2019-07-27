@@ -17,8 +17,7 @@ public class UserAccountService extends LogService {
 
 
     public UserAccount getUserByUsername(String username) {
-        UserAccount userAccount = new UserAccount();
-        return userAccount;
+        return this.repository.findByUsername(username);
     }
 
     // create new user

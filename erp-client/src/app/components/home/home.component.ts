@@ -14,6 +14,7 @@ export class HomeComponent implements OnInit {
   employee: Employee;
   errorMessage: string;
   employeeId: number;
+  id: number;
 
   constructor(private employeeService: EmployeeService) { }
 
