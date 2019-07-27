@@ -26,12 +26,24 @@ mat-form-field {
   }
 }
 
-.action-buttons {
-  margin-top: 30px;
+
+button,
+button:hover {
+  transition: background-color 150ms ease;
 }
 
 button {
   margin-right: 15px;
+}
+
+button.neutral {
+  background-color: mat-color($mat-grey, 200);
+  color: mat-color($mat-gray, 600);
+  
+  &:hover {
+    background-color: mat-color($mat-grey, 300);
+    color: mat-color($mat-gray, 700);
+  }
 }
 
 

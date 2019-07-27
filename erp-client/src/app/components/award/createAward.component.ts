@@ -32,22 +32,17 @@ const moment = _moment;
 })
 export class CreateAwardComponent implements OnInit {
 	createAwardForm: FormGroup;
-	submitted = false;
+  submitted = false;
+  
+  // used to populate html select elements
 	awardTypes = [];
 	employees = [];
   users = [];
   
+  // objects to use for HTTP requests involving relational data
   awardType: AwardType;
   employee: Employee;
   user: User;
-
-  // snackbarConfig = {
-  //   horizontalPosition: 'center',
-  //   verticalPosition: 'bottom',
-  //   duration: 3000,
-  //   actionButtonLabel: 'Okay',
-  //   extraClasses: null,
-  // }; 
 
 	constructor(
 		private _formBuilder: FormBuilder,
@@ -87,26 +82,42 @@ export class CreateAwardComponent implements OnInit {
 	}
 
 
-	// helper for reference to form fields
+	/**
+   * helper for reference to form fields
+   */
 	get f() {
 		return this.createAwardForm.controls;
   }
   
 
-  showSnackbarSuccess(message) {
-    this._snackBar.open(message, 'Okay', {
+  /**
+   * Shows a snackbar with a success message
+   * @param {string} message - the message to display on the smackbar
+   */
+  showSnackbarSuccess(message, action = 'Okay') {
+    this._snackBar.open(message, action, {
       duration: 3000,
       panelClass: [ 'snackbar-success' ],
     });
   }
 
-  showSnackbarError(message) {
-    this._snackBar.open(message, 'Okay', {
+
+  /**
+   * Shows a snackbar with an error message
+   * @param {string} message - the message to display on the smackbar
+   */
+  showSnackbarError(message, action = 'Okay') {
+    this._snackBar.open(message, action, {
       duration: 3000,
       panelClass: [ 'snackbar-error' ],
     });
   }
 
+
+  /**
+   * Triggers an HTTP request to create a new award record.
+   * @param {object} context - the body of the HTTP request (the award data)
+   */
   createNewAward(context) {
     this._awardService.createAward(context).subscribe(response => {
       if (response && response.id) {
@@ -119,6 +130,10 @@ export class CreateAwardComponent implements OnInit {
   }
 
 
+  /**
+   * Triggers an HTTP request to update an existing award record.
+   * @param {object} context - the body of the HTTP request (the award data)
+   */
   updateExistingAward(context) {
     this._awardService.updateAward(context).subscribe(response => {
       if (response && response.id) {
@@ -131,14 +146,19 @@ export class CreateAwardComponent implements OnInit {
   }
 
   
+  /**
+   * Form submission event handler.
+   * Triggered when the "Create Award" button is pressed.
+   */
   onSubmit() {
 		this.submitted = true;
 
+    // if the form isn't valid, stop processing
 		if (this.createAwardForm.invalid) {
-			console.log('FORM IS INVALID!');
 			return;
     }
 
+    // grad the current award date & time values
     const formDate = this.f.awardedDate.value;
     const formTime = this.f.awardedTime.value;
     
@@ -155,6 +175,8 @@ export class CreateAwardComponent implements OnInit {
       
     // console.log(context);
 
+    // if the award record doesn't yet have an id, then it's a new award.
+    // otherwise, it's an existing award.
     if (this.createAwardForm.get('id').value) {
       this.updateExistingAward(context);
     } else {
@@ -163,28 +185,37 @@ export class CreateAwardComponent implements OnInit {
 	}
 
 
-  onAwardTimeChange() {
-    console.log('award time change')
-  }
-
-  // update the selected user object when a change is made on the form.
+  /**
+   * Updates the class-level selected user object whenever 
+   * a change is made on the input form.
+   */
   onUserSelectChange() {
     const curr = this.f.user.value;
     this.user = this.users.filter(obj => obj.id === curr)[0];
   }
   
-  // update the selected award type object when a change is made on the form.
+  /**
+   * Updates the class-level selected award type object whenever 
+   * a change is made on the input form.
+   */
   onAwardTypeSelectChange() {
     const curr = this.f.awardType.value;
     this.awardType = this.awardTypes.filter(obj => obj.id === curr)[0];
   }
   
-  // update the selected employee object when a change is made on the form.
+  /**
+   * Updates the class-level selected employee object whenever 
+   * a change is made on the input form.
+   */
   onEmployeeSelectChange() {
     const curr = this.f.employee.value;
     this.employee = this.employees.filter(obj => obj.id === curr)[0];
   }
 
+  /**
+   * Event handler for when the user cancels award creation.
+   * Clears the form.
+   */
 	onReset() {
 		this.submitted = false;
 		this.createAwardForm.reset();

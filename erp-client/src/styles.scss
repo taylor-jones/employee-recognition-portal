@@ -18,8 +18,30 @@ $theme: mat-light-theme($primary, $accent);
 
 body {
   background: #fafafa;
+  margin: 0;
+  padding: 0;
 }
 
+
+//
+// container
+//
+
+.container {
+  width: 80%;
+  max-width: 1200px;
+  margin: 60px auto;
+}
+
+
+//
+// toolbar
+//
+
+mat-toolbar.mat-toolbar {
+  background-color: mat-color($primary, 500);
+  color: #fff;
+}
 
 
 //
