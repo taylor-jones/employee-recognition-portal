@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
       if (user.isAdmin) {
         this.router.navigate(['/']);
       } else {
-        this.router.navigate(['/canvas']);
+        this.router.navigate(['/createAward']);
       }
         this.showSpinner = false;
       },
