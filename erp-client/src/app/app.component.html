@@ -1,15 +1,21 @@
-<mat-toolbar color="primary">
+<mat-toolbar color="primary" class="nav-menu">
   <mat-toolbar-row>
-    <img [src]="'assets/Images/prototype-logo.svg'" class="login-logo">
-    <span class="menu-spacer"></span>
-    <div>
-      <a mat-button (click)="handleLogout()"> Logout </a>
-
+    <div class="menu-logo">
+      <a href="/">
+        <img [src]="'assets/Images/prototype-logo.svg'" class="logo">
+      </a>
     </div>
+    <!-- <span class="menu-spacer"></span> -->
+
+    <ul class="menu-links">
+      <li><a mat-button href="/awards">Awards</a></li>
+      <li><a mat-button href="/canvas">Canvas</a></li>
+      <li><a mat-button href="/createAward">Create Award</a></li>
+      <li><a mat-button href="/">Employees</a></li>
+      <li><a mat-button (click)="handleLogout()">Logout</a></li>
+    </ul>
   </mat-toolbar-row>
 </mat-toolbar>
 
 
-<!--<img [src]="'assets/Images/prototype-logo.png'" class="login-logo">-->
-<!--<br>-->
 <router-outlet></router-outlet>
