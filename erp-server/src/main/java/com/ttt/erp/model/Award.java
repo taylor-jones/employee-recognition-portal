@@ -2,6 +2,7 @@ package com.ttt.erp.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.Objects;
 
@@ -25,7 +26,7 @@ public class Award {
     private Date awardedDate;
 
     @Column(name = "awarded_time")
-    private Date awardedTime;
+    private LocalTime awardedTime;
 
 
     // relationships
@@ -51,8 +52,8 @@ public class Award {
       Employee employee, 
       UserAccount userAccount,
       String description, 
-      Date awardedDate, 
-      Date awardedTime
+      Date awardedDate,
+      LocalTime awardedTime
     ) {
       this.awardType = awardType;
       this.employee = employee;
@@ -68,8 +69,8 @@ public class Award {
       Employee employee, 
       UserAccount userAccount,
       String description, 
-      Date awardedDate, 
-      Date awardedTime
+      Date awardedDate,
+      LocalTime awardedTime
     ) {
       this.id = id;
       this.awardType = awardType;
@@ -107,7 +108,7 @@ public class Award {
         return this.awardedDate;
     }
 
-    public Date getAwardedTime() {
+    public LocalTime getAwardedTime() {
         return this.awardedTime;
     }
 
@@ -136,7 +137,7 @@ public class Award {
         this.awardedDate = awardedDate;
     }
 
-    public void setAwardedTime(Date awardedTime) {
+    public void setAwardedTime(LocalTime awardedTime) {
         this.awardedTime = awardedTime;
     }
 

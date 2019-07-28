@@ -1,0 +1,83 @@
+<mat-toolbar>Create Award</mat-toolbar>
+
+<div class="container">
+  <mat-card>
+    <mat-card-header>
+      <!-- <mat-card-title></mat-card-title> -->
+      <mat-card-subtitle>
+        <p>Use the form below to create a new award for one of the Employees.</p>
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <form [formGroup]="createAwardForm" (ngSubmit)="onSubmit()">
+      <mat-card-content>
+        <mat-form-field>
+          <input matInput placeholder="ID" formControlName="id" [ngClass]="{ 'is-invalid': submitted && f.id.errors }" />
+        </mat-form-field>
+
+        <mat-form-field>
+          <!-- <input matInput type="text" placeholder="Created By" formControlName="user" [ngClass]="{ 'is-invalid': submitted && f.user.errors }" />
+                      <mat-error *ngIf="submitted && f.user.errors" class="invalid-feedback">
+                          <mat-error *ngIf="f.user.errors.required">User is required</mat-error>
+                      </mat-error> -->
+          <mat-select (selectionChange)='onUserSelectChange()' placeholder="Created By" formControlName="user" [ngClass]="{ 'is-invalid': submitted && f.user.errors }">
+            <mat-option *ngFor="let user of users; let i = index" [value]="users[i].id">
+              {{ users[i].username }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-select (selectionChange)='onAwardTypeSelectChange()' placeholder="Award Type" formControlName="awardType" [ngClass]="{ 'is-invalid': submitted && f.awardType.errors }">
+            <mat-option *ngFor="let awardType of awardTypes; let i = index" [value]="awardTypes[i].id">
+              {{ awardTypes[i].name }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="submitted && f.awardType.errors" class="invalid-feedback">
+            <mat-error *ngIf="f.awardType.errors.required">Award Type is required</mat-error>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-select #employeeSelect (selectionChange)='onEmployeeSelectChange(employeeSelect.value)' placeholder="Employee" formControlName="employee" [ngClass]="{ 'is-invalid': submitted && f.employee.errors }">
+            <mat-option *ngFor="let employee of employees; let i = index" [value]="employees[i].id">
+              {{ employees[i].firstName + ' ' + employees[i].lastName }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="submitted && f.employee.errors" class="invalid-feedback">
+            <mat-error *ngIf="f.employee.errors.required">Employee is required</mat-error>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput placeholder="Description" formControlName="description">
+        </mat-form-field>
+
+
+        <div class="form-group">
+          <mat-form-field class="col-half">
+            <input matInput [matDatepicker]="datepicker" placeholder="Awarded Date" formControlName="awardedDate" [ngClass]="{ 'is-invalid': f.awardedDate.errors }" />
+            <mat-error *ngIf="f.awardedDate.errors" class="invalid-feedback">
+              <mat-error *ngIf="f.awardedDate.errors">Awarded Date must be a valid date</mat-error>
+            </mat-error>
+            <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+            <mat-datepicker #datepicker></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field class="col-half">
+            <input matInput [ngxTimepicker]="timepicker" placeholder="Awarded Time" formControlName="awardedTime" [ngClass]="{ 'is-invalid': f.awardedTime.errors }" [format]="12" readonly />
+            <ngx-material-timepicker #timepicker [ngxMaterialTimepickerTheme]="timepickerTheme"></ngx-material-timepicker>
+            <mat-error *ngIf="f.awardedTime.errors" class="invalid-feedback">
+              <mat-error *ngIf="f.awardedTime.errors">Awarded Time must be a valid time</mat-error>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-flat-button color="primary" type="submit">Create Award</button>
+        <button mat-flat-button class="neutral" type="reset" (click)="onReset()">Cancel</button>
+      </mat-card-actions>
+    </form>
+  </mat-card>
+</div>

@@ -2,5 +2,8 @@ export class User {
   id: number;
   email: string;
   username: string;
-  isAdmin: string;
+  password: string;
+  signature: string;
+  isAdmin: boolean;
+  isEnabled: boolean;
 }
