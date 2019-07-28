@@ -36,7 +36,6 @@ export class HomeComponent implements OnInit {
   }
 
   getEmployeeById(id: number): void {
-    this.employees = [];
     this.employee = null;
     this.employeeService.getEmployeeById(id).subscribe(
       (employee) => {

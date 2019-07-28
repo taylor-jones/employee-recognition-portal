@@ -1,13 +1,5 @@
 <p>ERP Logged in Page</p>
 <br>
-<button (click)="getAllEmployees()">Get All Employees!</button>
-<br>
-<input [(ngModel)]="id" placeholder="Employee ID"/>
-<button (click)="getEmployeeById(id)">Get Employee By Id!</button>
-<br>
-
-<admin-controls></admin-controls>
-<admin-table></admin-table>
 
 <div *ngIf="employee">
   <pre>{{employee | json}}</pre>

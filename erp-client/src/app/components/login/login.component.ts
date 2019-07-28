@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
     this.authService.authenticate({username: this.username, password: this.password}).subscribe((user) => {
         // should add a way to redirect admin to dashboard and user to home page
       if (this.cookieService.get('admin') == 'true') {
-        this.router.navigate(['/']);
+        this.router.navigate(['/admin']);
       } else {
         this.router.navigate(['/createAward']);
       }

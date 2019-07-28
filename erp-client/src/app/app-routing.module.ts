@@ -6,6 +6,7 @@ import { CanvasComponent } from './components/canvas/canvas.component';
 import { AwardComponent } from './components/award/award.component';
 import { CreateAwardComponent } from './components/award/createAward.component';
 import { AuthGuardService } from './services/auth-guard/auth-guard.service';
+import {AdminHomeComponent} from './components/admin/admin-home/admin-home.component';
 import { SelfComponent } from './components/self/self.component';
 
 const routes: Routes = [
@@ -15,6 +16,7 @@ const routes: Routes = [
 	{ path: 'createAward', component: CreateAwardComponent, canActivate: [AuthGuardService] },
   { path: 'login', component: LoginComponent },
   { path: 'me', component: SelfComponent, canActivate: [AuthGuardService] },
+  { path: 'admin', component: AdminHomeComponent, canActivate: [AuthGuardService] },
   { path: '**', redirectTo: 'login' },
 ];
 

@@ -1,0 +1,59 @@
+<div id="controls-wrapper">
+  <h1 class="mat-h1">User Controls</h1>
+  <div id="controls">
+
+    <mat-tab-group mat-align-tabs="center">
+
+      <mat-tab label="New">
+        <form>
+          <mat-checkbox class="admin-check" value="_newAdminCheck" (click)="adminToggle(_newAdminCheck, true)">Admin user</mat-checkbox>
+          <mat-form-field>
+            <input matInput placeholder="Username" value="" required>
+          </mat-form-field>
+          <mat-form-field required>
+            <input matInput placeholder="Password" value="" required>
+          </mat-form-field>
+          <mat-form-field required>
+            <input matInput placeholder="Email" value="" required>
+          </mat-form-field>
+        </form>
+        <erp-canvas [width]="300" [height]="150"></erp-canvas>
+        <div class="common-buttons">
+          <button mat-button color="primary" class="action-button-left">Submit</button>
+          <button mat-button color="accent" class="action-button-right">Clear</button>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Existing">
+        <form>
+          <mat-form-field>
+            <mat-label>User</mat-label>
+            <mat-select (selectionChange)="onSelect($event.value)" required>
+              <mat-option> - </mat-option>
+              <mat-option *ngFor="let user of _users" [value]="user.id" >{{user.username}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div *ngIf="_selectedUser">
+            <mat-checkbox class="admin-check" value="_existingAdminCheck" (click)="adminToggle(_existingAdminCheck)">Admin user</mat-checkbox>
+            <mat-form-field>
+              <input matInput placeholder="{{_selectedUser.username}}" value="">
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput placeholder="{{_selectedUser.password}}" value="">
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput placeholder="{{_selectedUser.email}}" value="">
+            </mat-form-field>
+            <div class="common-buttons">
+              <button mat-button color="primary" class="action-button-left">Save</button>
+              <button mat-button color="accent" class="action-button-right">Delete</button>
+            </div>
+          </div>
+        </form>
+
+      </mat-tab>
+
+    </mat-tab-group>
+
+  </div>
+</div>
