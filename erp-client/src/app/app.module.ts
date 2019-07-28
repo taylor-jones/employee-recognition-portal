@@ -43,7 +43,7 @@ import { SelfComponent } from './components/self/self.component';
 		HttpClientModule,
     MaterialModule,
     ReactiveFormsModule,
-    NoopAnimationsModule
+    // NoopAnimationsModule <--- causes animations to not work if imported
   ],
   exports: [],
 	providers: [],
