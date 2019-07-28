@@ -13,14 +13,16 @@ export class CanvasComponent implements AfterViewInit {
   private canvasContext;
   private mouseIsDown: boolean = false;
   unlocked: boolean = true;
+  mySignature: string = null;
   
-  @Input() width: number;
-  @Input() height: number;
+  @Input() width: number = 500;
+  @Input() height: number = 250;
 
   constructor(private canvasService: CanvasService) { }
 
   ngAfterViewInit() {
     this.initContext();
+    this.getMySignature();
   }
 
   private initContext(): void {
@@ -86,6 +88,13 @@ export class CanvasComponent implements AfterViewInit {
       i++;
     }
     this.canvasContext.stroke();
+  }
+
+  getMySignature() {
+    this.canvasService.getSignature().subscribe(
+      (base64) => {this.mySignature = base64},
+      (error) => {console.error(error)}
+    )
   }
 
 }

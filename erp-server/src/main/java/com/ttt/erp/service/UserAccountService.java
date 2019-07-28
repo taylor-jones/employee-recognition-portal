@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.Optional;
 
 @Service
@@ -18,6 +19,15 @@ public class UserAccountService extends LogService {
 
     public UserAccount getUserByUsername(String username) {
         return this.repository.findByUsername(username);
+    }
+
+    // get the user id from a principal
+    public UserAccount userFromPrincipal(Principal principal) {
+        return this.repository.findByUsername(principal.getName());
+    }
+
+    public String signatureFileNameByUsername(String username) {
+        return this.repository.findByUsername(username).getSignature();
     }
 
     // create new user

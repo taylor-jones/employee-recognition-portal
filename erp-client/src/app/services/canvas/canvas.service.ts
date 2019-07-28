@@ -4,16 +4,19 @@ import { Observable } from 'rxjs';
 
 export class CanvasService {
 
-  private headers: HttpHeaders = null;
-  private endpointBase: string = null;
+  private jsonHeaders: HttpHeaders = null;
+  private textHeaders: HttpHeaders = null;
 
   constructor(private httpClient: HttpClient) { 
-    this.endpointBase = '/testing'; 
-    this.headers = new HttpHeaders({'Content-Type': 'application/json'});
+    this.jsonHeaders = new HttpHeaders({'Content-Type': 'application/json'});
   }
 
   addSignature(imgBase64: string): Observable<string> {
-    return this.httpClient.post<string>('/api/signatures', {"signature": imgBase64}, {headers: this.headers});
+    return this.httpClient.post<string>('/api/signatures', {"signature": imgBase64}, {headers: this.jsonHeaders});
+  }
+
+  getSignature(): Observable<string> {
+    return this.httpClient.get('/api/signatures', {responseType: 'text'});
   }
 
 }
