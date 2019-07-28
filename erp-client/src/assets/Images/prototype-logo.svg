@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="128" height="64" viewBox="0 0 128 64">
+  <defs>
+    <path id="prototype-logo-a" d="M58,24 L57.5785191,25.9060585 L51.9397884,25.9060585 L48.8071603,40 L46.5061025,40 L49.6387307,25.9060585 L44,25.9060585 L44.4214809,24 L58,24 Z M72,24 L71.5785191,25.9060585 L65.9397884,25.9060585 L62.8071603,40 L60.5061025,40 L63.6387307,25.9060585 L58,25.9060585 L58.4214809,24 L72,24 Z M85,24 L84.5785191,25.9060585 L78.9397884,25.9060585 L75.8071603,40 L73.5061025,40 L76.6387307,25.9060585 L71,25.9060585 L71.4214809,24 L85,24 Z"/>
+  </defs>
+  <g fill="none" fill-rule="evenodd">
+    <polygon stroke="#E692F7" stroke-width="4" points="9 21 119 21 107.068 32.103 119 44 9 44 20.994 32.103"/>
+    <circle cx="64" cy="32" r="29" fill="#A8C6FA"/>
+    <g fill="#FFF" fill-rule="nonzero">
+      <use xlink:href="#prototype-logo-a"/>
+      <use stroke="#FFF" xlink:href="#prototype-logo-a"/>
+    </g>
+  </g>
+</svg>
