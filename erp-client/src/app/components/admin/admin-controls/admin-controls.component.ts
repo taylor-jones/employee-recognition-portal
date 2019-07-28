@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserAccountService } from 'src/app/services/user-account/user-account.service';
 import { User } from 'src/app/models/user.model';
-import { FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'admin-controls',
@@ -14,10 +14,18 @@ export class AdminControlsComponent implements OnInit {
   private _selectedUser: User;
   private _newAdminCheck: boolean = false;
   private _existingAdminCheck: boolean = false;
+  newUserForm: FormGroup;
+  private _formBuilder: FormBuilder;
 
   constructor(private userAccountService: UserAccountService) { }
 
   ngOnInit() {
+    this.newUserForm = new FormGroup({
+      userName: new FormControl(null),
+      password: new FormControl(null),
+      email: new FormControl(null),
+      isAdmin: new FormControl(null)
+    });
     this.getAllUsers();
   }
 
@@ -32,7 +40,10 @@ export class AdminControlsComponent implements OnInit {
     } else {
       this._existingAdminCheck = !current;
     }
-    
+  }
+
+  onSubmit() {
+    console.warn(this.newUserForm.value);
   }
 
   getAllUsers(): void {
@@ -45,8 +56,5 @@ export class AdminControlsComponent implements OnInit {
       }
     );
   }
-
-
-
 
 }

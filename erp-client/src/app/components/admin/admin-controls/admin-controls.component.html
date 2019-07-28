@@ -5,23 +5,28 @@
     <mat-tab-group mat-align-tabs="center">
 
       <mat-tab label="New">
-        <form>
-          <mat-checkbox class="admin-check" value="_newAdminCheck" (click)="adminToggle(_newAdminCheck, true)">Admin user</mat-checkbox>
+        <form [formGroup]="newUserForm" (ngSubmit)="onSubmit()">
+          <mat-checkbox 
+            class="admin-check" 
+            value="_newAdminCheck" 
+            (click)="adminToggle(_newAdminCheck, true)"
+            formControlName="isAdmin"
+          >Admin user</mat-checkbox>
           <mat-form-field>
-            <input matInput placeholder="Username" value="" required>
+            <input matInput placeholder="Username" value="" formControlName="userName" required>
           </mat-form-field>
           <mat-form-field required>
-            <input matInput placeholder="Password" value="" required>
+            <input matInput placeholder="Password" value="" formControlName="password" required>
           </mat-form-field>
           <mat-form-field required>
-            <input matInput placeholder="Email" value="" required>
+            <input matInput placeholder="Email" value="" formControlName="email" required>
           </mat-form-field>
+          <erp-canvas [width]="300" [height]="150"></erp-canvas>
+          <div class="common-buttons">
+            <button mat-button color="primary" class="action-button-left" type="submit">Submit</button>
+            <button mat-button color="accent" class="action-button-right" type="reset">Clear</button>
+          </div>
         </form>
-        <erp-canvas [width]="300" [height]="150"></erp-canvas>
-        <div class="common-buttons">
-          <button mat-button color="primary" class="action-button-left">Submit</button>
-          <button mat-button color="accent" class="action-button-right">Clear</button>
-        </div>
       </mat-tab>
 
       <mat-tab label="Existing">
@@ -36,17 +41,17 @@
           <div *ngIf="_selectedUser">
             <mat-checkbox class="admin-check" value="_existingAdminCheck" (click)="adminToggle(_existingAdminCheck)">Admin user</mat-checkbox>
             <mat-form-field>
-              <input matInput placeholder="{{_selectedUser.username}}" value="">
+              <input matInput placeholder="Username" value="{{_selectedUser.username}}">
             </mat-form-field>
             <mat-form-field>
-              <input matInput placeholder="{{_selectedUser.password}}" value="">
+              <input matInput placeholder="Password" value="{{_selectedUser.password}}">
             </mat-form-field>
             <mat-form-field>
-              <input matInput placeholder="{{_selectedUser.email}}" value="">
+              <input matInput placeholder="Email" value="{{_selectedUser.email}}">
             </mat-form-field>
             <div class="common-buttons">
-              <button mat-button color="primary" class="action-button-left">Save</button>
-              <button mat-button color="accent" class="action-button-right">Delete</button>
+              <button mat-button color="primary" class="action-button-left" type="submit">Save</button>
+              <button mat-button color="accent" class="action-button-right" type="reset">Delete</button>
             </div>
           </div>
         </form>
