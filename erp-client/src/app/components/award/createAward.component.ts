@@ -1,14 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { MomentDateAdapter, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatSnackBar} from '@angular/material/snack-bar';
 import * as _moment from 'moment';
-import { 
-  MatSnackBar, 
-  MatSnackBarConfig, 
-  MatSnackBarHorizontalPosition, 
-  MatSnackBarVerticalPosition 
-} from '@angular/material/snack-bar';
 
 import { AwardService } from '../../services/award/award.service';
 import { AwardTypeService } from '../../services/awardType/awardType.service';
