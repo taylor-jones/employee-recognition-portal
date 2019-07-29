@@ -63,9 +63,14 @@ export class CanvasComponent implements AfterViewInit {
     this.canvasContext.clearRect(0, 0, this.width, this.height);
   }
 
+  // TR: Helpful if wrapped by a parent. Can return the data to the parent so the parent
+  // can send in its own request.
+  getCanvasData() {
+    return this.canvasHTML.toDataURL().toString();
+  }
+
   canvasToData() {
-    console.log(this.canvasHTML.toDataURL());
-    this.canvasService.addSignature(this.canvasHTML.toDataURL().toString()).subscribe(
+    this.canvasService.addSignature(this.getCanvasData()).subscribe(
       (ok) => {console.log(ok)},
       (error) => {console.log(error)}
     );

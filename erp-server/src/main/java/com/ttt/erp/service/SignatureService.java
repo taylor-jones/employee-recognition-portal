@@ -66,19 +66,20 @@ public class SignatureService {
     return Optional.ofNullable(this.userService.signatureFileNameByUsername(username));
   }
 
-  public ResponseEntity<String> newSignature(Map<String, String> body) {
-    String rawData = body.get("signature");
-    byte[] bytes = base64ToBytes(dataFromBase64(rawData));
+  public String newSignatureForUser(String body, UserAccount user) {
+    byte[] bytes = base64ToBytes(dataFromBase64(body));
     try {
         createSignatureDirIfNotExists();
+        String fName = UUID.randomUUID() + "." + imgTypeFromBase64(body);
         FileUtils.writeByteArrayToFile (
-          new File(directoryName + "/" + UUID.randomUUID() + "." + imgTypeFromBase64(rawData)),
+          new File(directoryName + "/" + fName),
           bytes
         );
-        return new ResponseEntity<String> ("Success", HttpStatus.OK);                     // send short success message on success
+        user.setSignature(fName);
+        return fName;
     } catch (Exception e) {
         // send stack trace on fail: should be rethought a bit for security
-        return new ResponseEntity<String> (e.getStackTrace().toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return e.getStackTrace().toString();
     }
   }
 

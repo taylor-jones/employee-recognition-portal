@@ -10,7 +10,9 @@ import org.springframework.http.ResponseEntity;
 import com.ttt.erp.service.UserManager;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -45,12 +47,11 @@ public class UserAccountController {
         return this.awardRepository.findByUserAccount(userAccount);
     }
 
-    // TODO: get actual userId from cookie
     @PostMapping
-    public Optional<UserAccount> addUserAccount (
-        @CookieValue(value = "userId", defaultValue = "1") String modifiedById,
-        @RequestBody UserAccount newUserAccount) {
-        return this.service.createUser(Long.parseLong(modifiedById), newUserAccount);
+    public Optional<UserAccount> addUserAccount (@RequestBody UserAccount newUserAccount, Principal principal) {
+        UserAccount actingUser = this.repository.findByUsername(principal.getName());
+        return this.service.createUser(actingUser.getId(), newUserAccount);
+        //return Optional.empty();
     }
 
     // callback for checking login status

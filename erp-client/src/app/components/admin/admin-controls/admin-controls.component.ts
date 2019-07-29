@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { UserAccountService } from 'src/app/services/user-account/user-account.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { UserService } from 'src/app/services/user/user.service';
 import { User } from 'src/app/models/user.model';
+import { CanvasComponent } from 'src/app/components/canvas/canvas.component';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 
 @Component({
@@ -17,20 +18,30 @@ export class AdminControlsComponent implements OnInit {
   newUserForm: FormGroup;
   private _formBuilder: FormBuilder;
 
-  constructor(private userAccountService: UserAccountService) { }
+  // Gain access the child canvas component values and functions
+  @ViewChild(CanvasComponent, {static: false}) canvasChild: CanvasComponent;
+
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
     this.newUserForm = new FormGroup({
-      userName: new FormControl(null),
+      username: new FormControl(null),
       password: new FormControl(null),
       email: new FormControl(null),
-      isAdmin: new FormControl(null)
+      isAdmin: new FormControl(false)
     });
     this.getAllUsers();
   }
 
   onSelect(value) {
     this._selectedUser = this._users.filter( u => u.id === value)[0];
+  }
+
+  resetForm() {
+    this.newUserForm.reset();
+    Object.keys(this.newUserForm.controls).forEach(key => {
+      this.newUserForm.get(key).setErrors(null) ;
+    });
   }
 
   // Handles both checkbox toggles
@@ -43,11 +54,19 @@ export class AdminControlsComponent implements OnInit {
   }
 
   onSubmit() {
-    console.warn(this.newUserForm.value);
+    this.newUserForm.value.isEnabled = true;
+    this.newUserForm.value.signature = this.canvasChild.getCanvasData();
+    this.userService.addUser(this.newUserForm.value).subscribe(
+      (ok) => {
+        this.getAllUsers();
+        this.resetForm();
+      },
+      (error) => {console.log(error)}
+    );
   }
 
   getAllUsers(): void {
-    this.userAccountService.getAllUsers().subscribe (
+    this.userService.getAllUsers().subscribe (
       (users) => {
         this._users = users;
       },

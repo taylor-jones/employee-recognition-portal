@@ -11,6 +11,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -65,6 +66,7 @@ public class UserAccount {
     // constructors
 
     public UserAccount() {}
+    
     public UserAccount(Long id, String email, String username, String password, String signature, Boolean isAdmin) {
         this.id = id;
         this.email = email;
@@ -74,6 +76,12 @@ public class UserAccount {
         this.isAdmin = isAdmin;
     }
 
+    public UserAccount(String email, String username, String password, Boolean isAdmin) {
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.isAdmin = isAdmin;
+    }
     // getters
 
     public Long getId() {

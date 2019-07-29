@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -15,6 +16,9 @@ public class UserAccountService extends LogService {
 
     @Autowired
     private UserAccountRepository repository;
+
+    @Autowired
+    private SignatureService signatureService;
 
 
     public UserAccount getUserByUsername(String username) {
@@ -30,9 +34,15 @@ public class UserAccountService extends LogService {
         return this.repository.findByUsername(username).getSignature();
     }
 
-    // create new user
+    /* Create a new user. If non-admin, should have signature data. Store the signature
+    * data separately so that it doesn't get
+    *
+    */
     public Optional<UserAccount> createUser(Long userAccountId, UserAccount user) {
         try {
+            if (! user.getIsAdmin()) {
+                user.setSignature(this.signatureService.newSignatureForUser(user.getSignature(), user));
+            }
             UserAccount newUser = repository.save(user);
             logInsert(userAccountId, newUser.getClass().getSimpleName(), newUser.getId());
             return Optional.ofNullable(newUser);
