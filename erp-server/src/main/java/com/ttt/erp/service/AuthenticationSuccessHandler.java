@@ -7,6 +7,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -16,6 +17,7 @@ public class AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccess
 
     private final UserManager userManager;
     private final UserAccountService userAccountService;
+    private String globalCookieAccess = "/";
 
     public AuthenticationSuccessHandler(UserManager userManager, UserAccountService userAccountService) {
         this.userManager = userManager;
@@ -25,12 +27,15 @@ public class AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccess
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         UserAccount userAccount = this.userAccountService.getUserByUsername(authentication.getName());
-
         if (userAccount != null) {
             this.userManager.set(userAccount);
-            response.getWriter().write(new ObjectMapper().writeValueAsString(userAccount));
+            Cookie userCookie = new Cookie("user", userAccount.getUsername().toString());
+            Cookie roleCookie = new Cookie("admin", userAccount.getIsAdmin().toString());
+            userCookie.setPath(globalCookieAccess);
+            roleCookie.setPath(globalCookieAccess);
+            response.addCookie(userCookie);
+            response.addCookie(roleCookie);
             response.setStatus(HttpServletResponse.SC_OK);
-//        super.onAuthenticationSuccess(request, response, authentication);
         } else {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }

@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AuthenticationService} from '../../services/authentication/authentication.service';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'erp-login',
@@ -17,7 +18,8 @@ export class LoginComponent implements OnInit {
   showSpinner = false;
 
   constructor(private authService: AuthenticationService,
-              private router: Router){ }
+              private router: Router,
+              private cookieService: CookieService){ }
 
   // constructor(private loginService: LoginService) {}
 
@@ -32,7 +34,7 @@ export class LoginComponent implements OnInit {
     this.showSpinner = true;
     this.authService.authenticate({username: this.username, password: this.password}).subscribe((user) => {
         // should add a way to redirect admin to dashboard and user to home page
-      if (user.isAdmin) {
+      if (this.cookieService.get('admin') == 'true') {
         this.router.navigate(['/']);
       } else {
         this.router.navigate(['/createAward']);
