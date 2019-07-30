@@ -55,8 +55,7 @@ public class UserAccountController {
 
     // callback for checking login status
     @GetMapping(value = "/whoAmI")
-    public UserAccount getUser(@CookieValue("user") String user) {
-        System.out.println(this.repository.findByUsername(user).toString());
+    public UserAccount getUser() {
         return this.userManager.get();
     }
 
