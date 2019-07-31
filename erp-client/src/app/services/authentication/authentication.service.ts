@@ -5,6 +5,7 @@ import {Credentials} from '../../models/credentials.model';
 import {Observable, of, throwError} from 'rxjs';
 import {catchError, map, retry} from 'rxjs/operators';
 import {User} from '../../models/user.model';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,8 @@ export class AuthenticationService {
   isLoggedIn: boolean;
 
   constructor(private http: HttpClient,
-              private router: Router) {
+              private router: Router,
+              private cookieService: CookieService) {
   }
 
   authenticate(credentials: Credentials): Observable<User> {
@@ -43,25 +45,8 @@ export class AuthenticationService {
       );
   }
 
-  isAuthenticated(): Observable<boolean> {
-    if (this.user !== null && this.isLoggedIn) {
-      return of(this.isLoggedIn);
-    }
-    return this.http.get<User>(`/api/users/whoAmI`)
-      .pipe(
-        map(
-          user => {
-            this.isLoggedIn = true;
-            this.user = user;
-            return this.isLoggedIn;
-          }
-        ),
-        catchError(error => {
-          this.isLoggedIn = false;
-          this.user = null;
-          return of(this.isLoggedIn);
-        })
-      );
+  isAuthenticated(): boolean {
+    return this.cookieService.check('user');
   }
 
   logout(): void {
@@ -73,6 +58,7 @@ export class AuthenticationService {
         success => {
           this.isLoggedIn = false;
           this.user = null;
+          this.cookieService.deleteAll();
           this.router.navigate([ 'login' ]);
         },
         error => {

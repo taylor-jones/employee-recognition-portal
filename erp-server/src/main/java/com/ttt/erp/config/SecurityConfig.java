@@ -92,7 +92,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                     .logoutUrl("/api/logout").permitAll()
 //                .logoutSuccessHandler(LogoutSuccessHandler)
-                .deleteCookies("JSESSIONID")
+                .deleteCookies("JSESSIONID", "user", "admin")
                 .and()
                 .csrf().disable();
     }

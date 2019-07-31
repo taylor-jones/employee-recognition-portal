@@ -10,6 +10,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { MaterialModule } from './material.module';
+import { CookieService } from 'ngx-cookie-service';
 
 // Page Components
 import { AdminControlsComponent } from './components/admin-controls/admin-controls.component';
@@ -46,7 +47,7 @@ import { SelfComponent } from './components/self/self.component';
     // NoopAnimationsModule <--- causes animations to not work if imported
   ],
   exports: [],
-	providers: [],
+	providers: [CookieService],
 	bootstrap: [ AppComponent ]
 })
 export class AppModule {}
