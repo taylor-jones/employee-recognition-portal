@@ -1,4 +1,4 @@
-<div id="award-datatable" *ngIf="dataSource">
+<div id="award-datatable">
   <div id="pre-table-header">
     <h1 class="mat-h1">My Awards</h1>
     <mat-form-field>
@@ -7,19 +7,20 @@
   </div>
 
   <mat-table [dataSource]="dataSource" matSort>
+    >
     <ng-container matColumnDef="id">
-      <mat-header-cell *matHeaderCellDef mat-sort-header class="row-id">Id</mat-header-cell>
-      <mat-cell *matCellDef="let award" class="row-id"> {{ award.id }} </mat-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header class="col-slim">Id</mat-header-cell>
+      <mat-cell *matCellDef="let award" class="col-slim"> {{ award.id }} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="awardType">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Award Type</mat-header-cell>
-      <mat-cell *matCellDef="let award"> {{ award.awardType.name }} </mat-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header class="col-wide">Award Type</mat-header-cell>
+      <mat-cell *matCellDef="let award" class="col-wide"> {{ award.awardType.name }} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="employee">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Employee</mat-header-cell>
-      <mat-cell *matCellDef="let award"> {{ award.employee.firstName + ' ' + award.employee.lastName }} </mat-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header class="col-wide">Employee</mat-header-cell>
+      <mat-cell *matCellDef="let award" class="col-wide"> {{ award.employee.firstName + ' ' + award.employee.lastName }} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="awardedDate">
@@ -33,18 +34,18 @@
     </ng-container>
 
     <ng-container matColumnDef="edit">
-      <mat-header-cell *matHeaderCellDef>Edit</mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        <button mat-icon-button color="accent">
+      <mat-header-cell *matHeaderCellDef class="col-slim ml">Edit</mat-header-cell>
+      <mat-cell *matCellDef="let award" class="col-slim ml">
+        <button mat-icon-button color="accent" (click)="handleEdit(award.id)">
           <mat-icon class="mat-18">edit</mat-icon>
         </button>
       </mat-cell>
     </ng-container>
    
     <ng-container matColumnDef="delete">
-      <mat-header-cell *matHeaderCellDef>Delete</mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        <button mat-icon-button color="warn">
+      <mat-header-cell *matHeaderCellDef class="col-slim">Delete</mat-header-cell>
+      <mat-cell *matCellDef="let award" class="col-slim">
+        <button mat-icon-button color="accent" (click)="handleDelete(award.id)">
           <mat-icon class="mat-18">delete</mat-icon>
         </button>
       </mat-cell>
