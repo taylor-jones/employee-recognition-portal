@@ -1,13 +1,8 @@
-<mat-toolbar>Create Award</mat-toolbar>
 
 <div class="container">
-  <mat-card>
-    <mat-card-header>
-      <!-- <mat-card-title></mat-card-title> -->
-      <mat-card-subtitle>
-        <p>Use the form below to create a new award for one of the Employees.</p>
-      </mat-card-subtitle>
-    </mat-card-header>
+
+  <h1 class="mat-h1">New Award</h1>
+  <p class="mat-subheading-1">Use the form below to create a new award for one of the Employees.</p>
 
     <form [formGroup]="createAwardForm" (ngSubmit)="onSubmit()">
       <mat-card-content>
@@ -79,5 +74,5 @@
         <button mat-flat-button class="neutral" type="reset" (click)="onReset()">Cancel</button>
       </mat-card-actions>
     </form>
-  </mat-card>
+  <!-- </mat-card> -->
 </div>

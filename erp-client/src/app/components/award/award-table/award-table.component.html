@@ -1,0 +1,58 @@
+<div id="award-datatable" *ngIf="dataSource">
+  <div id="pre-table-header">
+    <h1 class="mat-h1">My Awards</h1>
+    <mat-form-field>
+      <input matInput type="text" (keyup)="filter($event.target.value)" placeholder="Type to filter">
+    </mat-form-field>
+  </div>
+
+  <mat-table [dataSource]="dataSource" matSort>
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef mat-sort-header class="row-id">Id</mat-header-cell>
+      <mat-cell *matCellDef="let award" class="row-id"> {{ award.id }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="awardType">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Award Type</mat-header-cell>
+      <mat-cell *matCellDef="let award"> {{ award.awardType.name }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="employee">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Employee</mat-header-cell>
+      <mat-cell *matCellDef="let award"> {{ award.employee.firstName + ' ' + award.employee.lastName }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="awardedDate">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Awarded Date</mat-header-cell>
+      <mat-cell *matCellDef="let award"> {{ award.awardedDate | date:'shortDate' }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="awardedTime">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Awarded Time</mat-header-cell>
+      <mat-cell *matCellDef="let award"> {{ award.awardedTime | time }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="edit">
+      <mat-header-cell *matHeaderCellDef>Edit</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <button mat-icon-button color="accent">
+          <mat-icon class="mat-18">edit</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+   
+    <ng-container matColumnDef="delete">
+      <mat-header-cell *matHeaderCellDef>Delete</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <button mat-icon-button color="warn">
+          <mat-icon class="mat-18">delete</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+  </mat-table>
+  <mat-paginator [length]="length" [pageSizeOptions]="[10, 25, 100]" showFirstLastButtons></mat-paginator>
+</div>

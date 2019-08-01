@@ -1,20 +1,6 @@
+<mat-toolbar>Awards</mat-toolbar>
+
 <div class="container">
-  <button (click)="getAllAwards()">Get All Awards!</button>
-  <br>
-  <input [(ngModel)]="id" placeholder="Award ID" />
-  <button (click)="getAwardById(id)">Get Award By Id!</button>
-  <br>
-
-
-  <div *ngFor="let award of awards">
-    <pre>{{award | json}}</pre>
-  </div>
-
-  <div *ngIf="award">
-    <pre>{{award | json}}</pre>
-  </div>
-
-  <div *ngIf="errorMessage">
-    <pre>{{errorMessage}}</pre>
-  </div>
+  <award-form></award-form>
+  <award-table></award-table>
 </div>

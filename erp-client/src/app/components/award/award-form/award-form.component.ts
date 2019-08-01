@@ -1,32 +1,31 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
-import { trigger, state, style, animate, transition } from '@angular/animations';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { MomentDateAdapter, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatSnackBar} from '@angular/material/snack-bar';
 import * as _moment from 'moment';
 
-import { AwardService } from '../../services/award/award.service';
-import { AwardTypeService } from '../../services/awardType/awardType.service';
-import { EmployeeService } from '../../services/employee/employee.service';
-import { UserService } from '../../services/user/user.service';
-import { User } from '../../models/user.model';
-import { AwardType } from '../../models/awardType.model';
-import { Employee } from '../../models/employee.model';
-import { ValidateDate } from '../../validators/date.validator';
-import { ValidateTime } from '../../validators/time.validator';
+import { AwardService } from '../../../services/award/award.service';
+import { AwardTypeService } from '../../../services/awardType/awardType.service';
+import { EmployeeService } from '../../../services/employee/employee.service';
+import { UserService } from '../../../services/user/user.service';
+import { User } from '../../../models/user.model';
+import { AwardType } from '../../../models/awardType.model';
+import { Employee } from '../../../models/employee.model';
+import { ValidateDate } from '../../../validators/date.validator';
+import { ValidateTime } from '../../../validators/time.validator';
 
 const moment = _moment;
 @Component({
-	selector: 'erp-create-award',
-	templateUrl: './createAward.component.html',
-  styleUrls: [ './createAward.component.scss' ],
+	selector: 'award-form',
+	templateUrl: './award-form.component.html',
+  styleUrls: [ './award-form.component.scss' ],
   providers: [
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
     { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
   ],
 })
-export class CreateAwardComponent implements OnInit {
+export class AwardFormComponent implements OnInit {
 	createAwardForm: FormGroup;
   submitted = false;
   
