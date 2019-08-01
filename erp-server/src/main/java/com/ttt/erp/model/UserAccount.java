@@ -2,6 +2,8 @@ package com.ttt.erp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import org.springframework.lang.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -44,7 +46,7 @@ public class UserAccount {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "signature")
+    @Column(name = "signature", nullable = true)
     private String signature;
 
     @NotNull
@@ -135,7 +137,7 @@ public class UserAccount {
         this.password = password;
     }
 
-    public void setSignature(String signature) {
+    public void setSignature(@Nullable String signature) {
         this.signature = signature;
     }
 

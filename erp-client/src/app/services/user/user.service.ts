@@ -27,4 +27,8 @@ export class UserService {
 	addUser(user: User): Observable<string> {
 		return this.httpClient.post<string>(`${this.baseEndpoint}`, user, {headers: this.jsonHeaders});
 	}
+
+	deleteUser(user: User): Observable<string> {
+		return this.httpClient.delete<string>(`${this.baseEndpoint}/${user.id}`, {headers: this.jsonHeaders});
+	}
 }

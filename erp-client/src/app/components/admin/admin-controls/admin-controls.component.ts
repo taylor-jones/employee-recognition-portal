@@ -16,6 +16,7 @@ export class AdminControlsComponent implements OnInit {
   private _newAdminCheck: boolean = false;
   private _existingAdminCheck: boolean = false;
   newUserForm: FormGroup;
+  existingUserForm: FormGroup;
   private _formBuilder: FormBuilder;
 
   // Gain access the child canvas component values and functions
@@ -24,24 +25,30 @@ export class AdminControlsComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   ngOnInit() {
-    this.newUserForm = new FormGroup({
+    this.initUserForm();
+    this.initExistingUserForm();
+    this.getAllUsers();
+  }
+
+  initUserFormGroup() {
+    return new FormGroup({
       username: new FormControl(null),
       password: new FormControl(null),
       email: new FormControl(null),
       isAdmin: new FormControl(false)
     });
-    this.getAllUsers();
+  }
+
+  initUserForm(): void {
+    this.newUserForm = this.initUserFormGroup();
+  }
+
+  initExistingUserForm(): void {
+    this.existingUserForm = this.initUserFormGroup();
   }
 
   onSelect(value) {
     this._selectedUser = this._users.filter( u => u.id === value)[0];
-  }
-
-  resetForm() {
-    this.newUserForm.reset();
-    Object.keys(this.newUserForm.controls).forEach(key => {
-      this.newUserForm.get(key).setErrors(null) ;
-    });
   }
 
   // Handles both checkbox toggles
@@ -51,18 +58,6 @@ export class AdminControlsComponent implements OnInit {
     } else {
       this._existingAdminCheck = !current;
     }
-  }
-
-  onSubmit() {
-    this.newUserForm.value.isEnabled = true;
-    this.newUserForm.value.signature = this.canvasChild.getCanvasData();
-    this.userService.addUser(this.newUserForm.value).subscribe(
-      (ok) => {
-        this.getAllUsers();
-        this.resetForm();
-      },
-      (error) => {console.log(error)}
-    );
   }
 
   getAllUsers(): void {
@@ -75,5 +70,38 @@ export class AdminControlsComponent implements OnInit {
       }
     );
   }
+
+  resetForm(form: FormGroup) {
+    form.reset();
+    Object.keys(form.controls).forEach(key => {
+      form.get(key).setErrors(null);
+    });
+  }
+
+  refresh(form: FormGroup) {
+    this.getAllUsers();
+    this.resetForm(form);
+  }
+
+  submitNewUser() {
+    this.newUserForm.value.isEnabled = true;
+    this.newUserForm.value.signature = this.canvasChild.getCanvasData();
+    this.userService.addUser(this.newUserForm.value).subscribe(
+      (ok) => { this.refresh(this.newUserForm) },
+      (error) => { console.log(error) }     // do something more useful with this
+    );
+  }
+
+  deleteSelectedUser() {
+    this.userService.deleteUser(this._selectedUser).subscribe (
+      (ok) => { 
+        this.refresh(this.existingUserForm);
+        this._selectedUser = null;
+      },
+      (error) => { console.log(error) }     // do something more useful with this
+    )
+  }
+
+
 
 }

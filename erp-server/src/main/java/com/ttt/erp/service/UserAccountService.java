@@ -42,6 +42,8 @@ public class UserAccountService extends LogService {
         try {
             if (! user.getIsAdmin()) {
                 user.setSignature(this.signatureService.newSignatureForUser(user.getSignature(), user));
+            } else {
+                user.setSignature(null);
             }
             UserAccount newUser = repository.save(user);
             logInsert(userAccountId, newUser.getClass().getSimpleName(), newUser.getId());
@@ -69,16 +71,16 @@ public class UserAccountService extends LogService {
 
 
     // delete user
-    public ResponseEntity<String> deleteUser(Long userAccountId, Long userId) {
+    public Optional<UserAccount> deleteUser(Long userAccountId, Long userId) {
         try {
             UserAccount toDelete = this.repository.findById(userId);
             logDelete(userAccountId, toDelete.getClass().getSimpleName(), userId);
             this.repository.delete(toDelete);
-            return new ResponseEntity<>("Success", HttpStatus.OK);
+            return Optional.ofNullable(toDelete);
         } catch (Exception e) {
             System.err.println("Error on UserAccount update");
             e.printStackTrace();
-            return new ResponseEntity<>("Failed", HttpStatus.BAD_REQUEST);
+            return Optional.empty();
         }
     }
 }
