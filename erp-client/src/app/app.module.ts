@@ -13,8 +13,9 @@ import { MaterialModule } from './material.module';
 import { CookieService } from 'ngx-cookie-service';
 
 // Page Components
-import { AdminControlsComponent } from './components/admin-controls/admin-controls.component';
-import { AdminTableComponent } from './components/admin-table/admin-table.component';
+import { AdminControlsComponent } from './components/admin/admin-controls/admin-controls.component';
+import { AdminHomeComponent } from './components/admin/admin-home/admin-home.component';
+import { AdminTableComponent } from './components/admin/admin-table/admin-table.component';
 import { AwardComponent } from './components/award/award.component';
 import { CanvasComponent } from './components/canvas/canvas.component';
 import { CreateAwardComponent } from './components/award/createAward.component';
@@ -25,7 +26,7 @@ import { SelfComponent } from './components/self/self.component';
 
 @NgModule({
 	declarations: [
-    AdminTableComponent,
+    AdminHomeComponent,
     AdminTableComponent,
     AdminControlsComponent,
 		AppComponent,

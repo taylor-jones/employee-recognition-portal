@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
-import {EmployeeService} from '../../services/employee/employee.service';
+import {EmployeeService} from 'src/app/services/employee/employee.service';
 
 @Component({
   selector: 'admin-table',

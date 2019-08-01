@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../../models/user.model';
 
@@ -8,13 +8,23 @@ import { User } from '../../models/user.model';
 })
 
 export class UserService {
-	constructor(private httpClient: HttpClient) {}
+
+	private baseEndpoint = `/api/users`;
+	private jsonHeaders: HttpHeaders = null;
+
+	constructor(private httpClient: HttpClient) {
+		this.jsonHeaders = new HttpHeaders({'Content-Type': 'application/json'});
+	}
 
 	getUserById(id: number): Observable<User> {
-		return this.httpClient.get<User>(`/api/users/${id}`);
+		return this.httpClient.get<User>(`${this.baseEndpoint}/${id}`);
 	}
 
 	getAllUsers(): Observable<User[]> {
-		return this.httpClient.get<User[]>(`/api/users`);
+		return this.httpClient.get<User[]>(`${this.baseEndpoint}`);
+	}
+
+	addUser(user: User): Observable<string> {
+		return this.httpClient.post<string>(`${this.baseEndpoint}`, user, {headers: this.jsonHeaders});
 	}
 }
