@@ -1,7 +1,6 @@
 @import '../../../../styles.scss';
 
 form {
-  padding: 1em;
   display: flex;
   flex-direction: column;
 }
@@ -15,13 +14,14 @@ form {
   }
 }
 
-mat-card.mat-card {
-  max-width: 800px;
-  margin: 0 auto;
-}
 
 mat-form-field.mat-form-field {
   width: 100%;
+}
+
+
+.form-actions {
+  margin-top: 30px;
 }
 
 

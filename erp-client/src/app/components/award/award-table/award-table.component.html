@@ -1,13 +1,13 @@
 <div id="award-datatable">
   <div id="pre-table-header">
     <h1 class="mat-h1">My Awards</h1>
+    <p class="mat-subheading-1">View, edit, or delete awards that you've created.</p>
     <mat-form-field>
       <input matInput type="text" (keyup)="filter($event.target.value)" placeholder="Type to filter">
     </mat-form-field>
   </div>
 
   <mat-table [dataSource]="dataSource" matSort>
-    >
     <ng-container matColumnDef="id">
       <mat-header-cell *matHeaderCellDef mat-sort-header class="col-slim">Id</mat-header-cell>
       <mat-cell *matCellDef="let award" class="col-slim"> {{ award.id }} </mat-cell>
@@ -53,7 +53,7 @@
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-
   </mat-table>
+
   <mat-paginator [length]="length" [pageSizeOptions]="[10, 25, 100]" showFirstLastButtons></mat-paginator>
 </div>

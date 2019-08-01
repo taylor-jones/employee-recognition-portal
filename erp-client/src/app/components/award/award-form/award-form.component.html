@@ -1,11 +1,10 @@
 
-<div class="container">
+<div>
 
   <h1 class="mat-h1">New Award</h1>
   <p class="mat-subheading-1">Use the form below to create a new award for one of the Employees.</p>
 
     <form [formGroup]="createAwardForm" (ngSubmit)="onSubmit()">
-      <mat-card-content>
         <mat-form-field>
           <input matInput placeholder="ID" formControlName="id" [ngClass]="{ 'is-invalid': submitted && f.id.errors }" />
         </mat-form-field>
@@ -67,12 +66,11 @@
             </mat-error>
           </mat-form-field>
         </div>
-      </mat-card-content>
 
-      <mat-card-actions>
+      <div class="form-actions">
         <button mat-flat-button color="primary" type="submit">Create Award</button>
         <button mat-flat-button class="neutral" type="reset" (click)="onReset()">Cancel</button>
-      </mat-card-actions>
+      </div>
     </form>
   <!-- </mat-card> -->
 </div>

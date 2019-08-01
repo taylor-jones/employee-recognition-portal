@@ -1,6 +1,17 @@
 <mat-toolbar>Awards</mat-toolbar>
 
 <div class="container">
-  <award-form></award-form>
-  <award-table></award-table>
+  <mat-tab-group>
+    <mat-tab label="New Award">
+      <div class="tab-wrapper">
+        <award-form></award-form>
+      </div>
+    </mat-tab>
+    <mat-tab label="Review Awards">
+      <div class="tab-wrapper">
+        <award-table></award-table>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+
 </div>
