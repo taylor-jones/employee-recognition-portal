@@ -22,7 +22,6 @@ export class CanvasComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.initContext();
-    this.getMySignature();
   }
 
   private initContext(): void {
