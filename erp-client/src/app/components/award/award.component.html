@@ -1,15 +1,150 @@
 <mat-toolbar>Awards</mat-toolbar>
 
 <div class="container">
-  <mat-tab-group>
-    <mat-tab label="New Award">
+  <mat-tab-group [(selectedIndex)]="selectedTab" (selectedTabChange)="handleTabChange($event)">
+
+    <mat-tab label="{{ formContext.titleText }}">
       <div class="tab-wrapper">
-        <award-form></award-form>
+        <div>
+          <h1 class="mat-h1">{{ formContext.titleText }}</h1>
+          <p class="mat-subheading-1">{{ formContext.subtitleText }}</p>
+
+          <form [formGroup]="createAwardForm" (ngSubmit)="onSubmit()">
+            <mat-form-field>
+              <input matInput placeholder="ID" formControlName="id" [ngClass]="{ 'is-invalid': submitted && f.id.errors }" />
+            </mat-form-field>
+
+            <mat-form-field>
+              <!-- <input matInput type="text" placeholder="Created By" formControlName="user" [ngClass]="{ 'is-invalid': submitted && f.user.errors }" />
+              <mat-error *ngIf="submitted && f.user.errors" class="invalid-feedback">
+                  <mat-error *ngIf="f.user.errors.required">User is required</mat-error>
+              </mat-error> -->
+              <mat-select (selectionChange)='onUserSelectChange()' placeholder="Created By" formControlName="user" [ngClass]="{ 'is-invalid': submitted && f.user.errors }">
+                <mat-option *ngFor="let user of users; let i = index" [value]="users[i].id">
+                  {{ users[i].username }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-select (selectionChange)='onAwardTypeSelectChange()' placeholder="Award Type" formControlName="awardType" [ngClass]="{ 'is-invalid': submitted && f.awardType.errors }">
+                <mat-option *ngFor="let awardType of awardTypes; let i = index" [value]="awardTypes[i].id">
+                  {{ awardTypes[i].name }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="submitted && f.awardType.errors" class="invalid-feedback">
+                <mat-error *ngIf="f.awardType.errors.required">Award Type is required</mat-error>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-select #employeeSelect (selectionChange)='onEmployeeSelectChange(employeeSelect.value)' placeholder="Employee" formControlName="employee" [ngClass]="{ 'is-invalid': submitted && f.employee.errors }">
+                <mat-option *ngFor="let employee of employees; let i = index" [value]="employees[i].id">
+                  {{ employees[i].firstName + ' ' + employees[i].lastName }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="submitted && f.employee.errors" class="invalid-feedback">
+                <mat-error *ngIf="f.employee.errors.required">Employee is required</mat-error>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+              <input matInput placeholder="Description" formControlName="description">
+            </mat-form-field>
+
+
+            <div class="form-group">
+              <mat-form-field class="col-half">
+                <input matInput [matDatepicker]="datepicker" placeholder="Awarded Date" formControlName="awardedDate" [ngClass]="{ 'is-invalid': f.awardedDate.errors }" />
+                <mat-error *ngIf="f.awardedDate.errors" class="invalid-feedback">
+                  <mat-error *ngIf="f.awardedDate.errors">Awarded Date must be a valid date</mat-error>
+                </mat-error>
+                <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+                <mat-datepicker #datepicker></mat-datepicker>
+              </mat-form-field>
+
+              <mat-form-field class="col-half">
+                <input matInput [ngxTimepicker]="timepicker" placeholder="Awarded Time" formControlName="awardedTime" [ngClass]="{ 'is-invalid': f.awardedTime.errors }" [format]="12" readonly />
+                <ngx-material-timepicker #timepicker [ngxMaterialTimepickerTheme]="timepickerTheme"></ngx-material-timepicker>
+                <mat-error *ngIf="f.awardedTime.errors" class="invalid-feedback">
+                  <mat-error *ngIf="f.awardedTime.errors">Awarded Time must be a valid time</mat-error>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="form-actions">
+              <button mat-flat-button color="primary" type="submit">{{ formContext.submitButtonText }}</button>
+              <button mat-flat-button class="neutral" type="reset" (click)="onReset()">Cancel</button>
+            </div>
+          </form>
+        </div>
       </div>
     </mat-tab>
+
+
     <mat-tab label="Review Awards">
       <div class="tab-wrapper">
-        <award-table></award-table>
+
+        <div id="award-datatable">
+          <div id="pre-table-header">
+            <h1 class="mat-h1">My Awards</h1>
+            <p class="mat-subheading-1">View, edit, or delete awards that you've created.</p>
+            <mat-form-field>
+              <input matInput type="text" (keyup)="filter($event.target.value)" placeholder="Type to filter">
+            </mat-form-field>
+          </div>
+
+          <mat-table [dataSource]="dataSource" matSort>
+            <ng-container matColumnDef="id">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
+              <mat-cell *matCellDef="let award"> {{ award.id }} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="awardType">
+              <mat-header-cell *matHeaderCellDef mat-sort-header class="col-wide">Award Type</mat-header-cell>
+              <mat-cell *matCellDef="let award" class="col-wide"> {{ award.awardType.name }} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="employee">
+              <mat-header-cell *matHeaderCellDef mat-sort-header class="col-wide">Employee</mat-header-cell>
+              <mat-cell *matCellDef="let award" class="col-wide"> {{ award.employee.firstName + ' ' + award.employee.lastName }} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="awardedDate">
+              <mat-header-cell *matHeaderCellDef mat-sort-header class="sm-hidden">Awarded Date</mat-header-cell>
+              <mat-cell *matCellDef="let award" class="sm-hidden"> {{ award.awardedDate | date:'shortDate' }} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="awardedTime">
+              <mat-header-cell *matHeaderCellDef mat-sort-header class="sm-hidden">Awarded Time</mat-header-cell>
+              <mat-cell *matCellDef="let award" class="sm-hidden"> {{ award.awardedTime | time }} </mat-cell>
+            </ng-container>
+            
+            <ng-container matColumnDef="edit">
+              <mat-header-cell *matHeaderCellDef class="col-action">Edit</mat-header-cell>
+              <mat-cell *matCellDef="let award" class="col-action">
+                <button mat-icon-button color="accent" (click)="awardListEdit(award.id)">
+                  <mat-icon class="mat-18">edit</mat-icon>
+                </button>
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="delete">
+              <mat-header-cell *matHeaderCellDef class="col-action">Delete</mat-header-cell>
+              <mat-cell *matCellDef="let award" class="col-action">
+                <button mat-icon-button color="accent" (click)="awardListDelete(award.id)">
+                  <mat-icon class="mat-18">delete</mat-icon>
+                </button>
+              </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          </mat-table>
+
+          <mat-paginator [length]="length" [pageSizeOptions]="[10, 25, 100]" showFirstLastButtons></mat-paginator>
+        </div>
+
       </div>
     </mat-tab>
   </mat-tab-group>

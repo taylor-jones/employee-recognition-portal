@@ -17,9 +17,11 @@ export class LoginComponent implements OnInit {
   errorMessage: string;
   showSpinner = false;
 
-  constructor(private authService: AuthenticationService,
-              private router: Router,
-              private cookieService: CookieService){ }
+  constructor(
+    private authService: AuthenticationService,
+    private router: Router,
+    private cookieService: CookieService
+  ) {}
 
   // constructor(private loginService: LoginService) {}
 
@@ -37,7 +39,7 @@ export class LoginComponent implements OnInit {
       if (this.cookieService.get('admin') == 'true') {
         this.router.navigate(['/admin']);
       } else {
-        this.router.navigate(['/createAward']);
+        this.router.navigate(['/awards']);
       }
         this.showSpinner = false;
       },

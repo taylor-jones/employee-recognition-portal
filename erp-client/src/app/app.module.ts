@@ -17,16 +17,14 @@ import { AdminControlsComponent } from './components/admin/admin-controls/admin-
 import { AdminHomeComponent } from './components/admin/admin-home/admin-home.component';
 import { AdminTableComponent } from './components/admin/admin-table/admin-table.component';
 import { AwardComponent } from './components/award/award.component';
-import { AwardFormComponent } from './components/award/award-form/award-form.component';
-import { AwardTableComponent } from './components/award/award-table/award-table.component';
 import { CanvasComponent } from './components/canvas/canvas.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { SelfComponent } from './components/self/self.component';
 
-
 // Pipes
 import { ConvertTimePipe } from './pipes/convert-time.pipe';
+
 
 @NgModule({
 	declarations: [
@@ -35,8 +33,6 @@ import { ConvertTimePipe } from './pipes/convert-time.pipe';
     AdminControlsComponent,
 		AppComponent,
     AwardComponent,
-		AwardFormComponent,
-    AwardTableComponent,
     CanvasComponent,
     HomeComponent,
 		LoginComponent,
@@ -54,7 +50,7 @@ import { ConvertTimePipe } from './pipes/convert-time.pipe';
     // NoopAnimationsModule <--- causes animations to not work if imported
   ],
   exports: [],
-	providers: [CookieService],
+	providers: [ CookieService ],
 	bootstrap: [ AppComponent ]
 })
 export class AppModule {}

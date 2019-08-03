@@ -61,6 +61,13 @@ export class AwardService {
     );
   }
 
+  deleteAward(award: Award): Observable<any> {
+    return this.httpClient.delete<Award>(`/api/awards/${award.id}`).pipe(
+      tap((deleteAward: Award) => this.log(`deleted award w/ id=${deleteAward.id}`)),
+      catchError(this.handleError<Award>('deleteAward'))
+    );
+  }
+
 }
 
 
