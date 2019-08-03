@@ -17,46 +17,49 @@
 form {
   display: flex;
   flex-direction: column;
-}
 
-.form-group {
-  display: flex;
-  justify-content: space-between;
+  .form-group {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  button,
+  button:hover {
+    transition: background-color 150ms ease;
+  }
+  
+  
+  button {
+    margin-right: 15px;
+  }
+  
+  
+  button.neutral {
+    background-color: mat-color($mat-grey, 200);
+    color: mat-color($mat-gray, 600);
+    
+    &:hover {
+      background-color: mat-color($mat-grey, 300);
+      color: mat-color($mat-gray, 700);
+    }
+  }
 
-  .col-half {
+
+  mat-form-field.mat-form-field {
+    width: 100%;
+  }
+  
+  mat-form-field.col-half {
     width: 45%;
   }
-}
-
-
-mat-form-field.mat-form-field {
-  width: 100%;
-}
-
-
-.form-actions {
-  margin-top: 30px;
-}
-
-
-button,
-button:hover {
-  transition: background-color 150ms ease;
-}
-
-button {
-  margin-right: 15px;
-}
-
-button.neutral {
-  background-color: mat-color($mat-grey, 200);
-  color: mat-color($mat-gray, 600);
   
-  &:hover {
-    background-color: mat-color($mat-grey, 300);
-    color: mat-color($mat-gray, 700);
+  .form-actions {
+    margin-top: 30px;
   }
 }
+
+
+
 
 
 
@@ -98,6 +101,10 @@ button.neutral {
 // award table
 // 
 
+mat-table.mat-table {
+  margin-bottom: 16px;
+}
+
 mat-header-cell:first-of-type,
 mat-cell:first-of-type {
   padding-left: 12px;
@@ -106,41 +113,15 @@ mat-cell:first-of-type {
 
 mat-header-cell:last-of-type,
 mat-cell:last-of-type {
-  padding-right: 12px;
+  padding-right: 0px;
 }
 
 .col-action {
   max-width: 60px;
-  margin-left: 18px;
-  margin-right: -18px;
 }
 
 .col-wide {
   width: 20vw;
   min-width: 96px;
   max-width: 264px;
-}
-
-.col-2 {
-  flex: 2;
-}
-
-.col-3 {
-  flex: 3;
-}
-
-.col-4 {
-  flex: 4;
-}
-
-.ml {
-  margin-left: 12px;
-}
-
-
-
-.sm-hidden {
-  @media screen and (max-width: 960px) {
-    display: none;
-  }
 }

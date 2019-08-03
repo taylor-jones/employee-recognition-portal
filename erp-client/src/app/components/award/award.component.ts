@@ -8,7 +8,6 @@ import { SnackbarService } from 'src/app/services/snackbar/snackbar.service';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { MomentDateAdapter, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-// import { MatSnackBar} from '@angular/material/snack-bar';
 import * as _moment from 'moment';
 
 import { AwardTypeService } from 'src/app/services/awardType/awardType.service';
@@ -70,7 +69,6 @@ export class AwardComponent implements OnInit {
   // award table
   // 
 	awards: any = null;
-	errorMessage: string;
 	displayedColumns: string[] = [
     'id',
     'awardType',
@@ -164,7 +162,7 @@ export class AwardComponent implements OnInit {
       this.dataSource.sort = this.sort;
 
     }, error => {
-      this.errorMessage = 'Failed to load awards';
+      this.showSnackbarError('Failed to load awards');
     });
   }
   
@@ -178,17 +176,25 @@ export class AwardComponent implements OnInit {
   }
   
 
-  awardListEdit(id) {
-    const award = this.awards.filter(a => a.id === id);
-    if (award.length) {
-      this.loadAward(award[0]);
-    }
-  }
+  /**
+   * Deletes the chosen award from the list of awards.
+   * @param {Award} award - the award object to delete.
+   */
+  deleteAward(award: Award) {
+    this._awardService.deleteAward(award.id).subscribe(response => {
+      this.showSnackbarSuccess('Award successfully deleted');
 
+      // find and delete the award from the datasource
+      // without needing to make another call to the API
+      const index: number = this.awards.findIndex(d => d === award);
+      this.awards.splice(index, 1);
+      this.dataSource = new MatTableDataSource<Element>(this.awards);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
 
-  awardListDelete(id) {
-    this._awardService.deleteAward(id);
-    console.log('delete award', id);
+    }, err => {
+      this.showSnackbarError('Award not deleted');
+    });
   }
 
   
@@ -198,13 +204,13 @@ export class AwardComponent implements OnInit {
    */
   loadAward(award: Award) {
     if (award.hasOwnProperty('id')) {
-      this.createAwardForm.get('id').setValue(award.id);
-      this.createAwardForm.get('user').setValue(award.userAccount.id);
-      this.createAwardForm.get('employee').setValue(award.employee.id);
-      this.createAwardForm.get('awardType').setValue(award.awardType.id);
-      this.createAwardForm.get('description').setValue(award.description);
-      this.createAwardForm.get('awardedDate').setValue(award.awardedDate);
-      this.createAwardForm.get('awardedTime').setValue(award.awardedTime);
+      this.f.id.setValue(award.id);
+      this.f.user.setValue(award.userAccount.id);
+      this.f.employee.setValue(award.employee.id);
+      this.f.awardType.setValue(award.awardType.id);
+      this.f.description.setValue(award.description);
+      this.f.awardedDate.setValue(award.awardedDate);
+      this.f.awardedTime.setValue(award.awardedTime);
 
       // set the form context to 'Update' and move to the form.
       this.setAwardFormContext(true);
@@ -238,20 +244,21 @@ export class AwardComponent implements OnInit {
   }
 
 
-
   /**
    * Triggers an HTTP request to create a new award record.
    * @param {object} context - the body of the HTTP request (the award data)
    */
   createNewAward(context) {
-    this._awardService.createAward(context).subscribe(response => {
-      if (response && response.id) {
-        this.createAwardForm.get('id').setValue(response.id);
-        this.showSnackbarSuccess('Success! The award has been created.');
-        this.setAwardFormContext(true);
-      } else {
+    this._awardService.createAward(context).subscribe(award => {
+      this.f.id.setValue(award.id);
+      this.showSnackbarSuccess('Success! The award has been created.');
+      this.setAwardFormContext(true);
+      this.awards.push(award);
+      this.dataSource = new MatTableDataSource<Element>(this.awards);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    }, err => {
         this.showSnackbarError('Something has gone wrong. Award creation failed.');
-      }
     });
   }
 
@@ -284,12 +291,12 @@ export class AwardComponent implements OnInit {
 			return;
     }
 
-    // grad the current award date & time values
+    // grab the current award date & time values
     const formDate = this.f.awardedDate.value;
     const formTime = this.f.awardedTime.value;
     
     // build the post body
-    const context = {
+    const award = {
       id: this.f.id.value,
       awardType: this.awardType,
       employee: this.employee,
@@ -302,9 +309,9 @@ export class AwardComponent implements OnInit {
     // if the award record doesn't yet have an id, then it's a new award.
     // otherwise, it's an existing award.
     if (this.createAwardForm.get('id').value) {
-      this.updateExistingAward(context);
+      this.updateExistingAward(award);
     } else {
-      this.createNewAward(context);
+      this.createNewAward(award);
     }
 
     this.isAwardListEdit = false;

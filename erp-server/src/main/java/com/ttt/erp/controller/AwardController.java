@@ -44,7 +44,7 @@ public class AwardController {
 
     // TODO: get actual userId from cookie
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteAwardById (
+    public ResponseEntity<Long> deleteAwardById (
         @CookieValue(value = "userId", defaultValue = "1") String modifiedById,
         @PathVariable("id") Long awardId
     ) {

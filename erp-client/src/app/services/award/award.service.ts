@@ -14,7 +14,10 @@ export class AwardService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
-  constructor(private httpClient: HttpClient, private messageService: MessageService) {}
+  constructor(
+    private httpClient: HttpClient, 
+    private messageService: MessageService
+  ) {}
 
   /** Log a AwardService message with the MessageService */
   private log(message: string) {
@@ -61,11 +64,8 @@ export class AwardService {
     );
   }
 
-  deleteAward(award: Award): Observable<any> {
-    return this.httpClient.delete<Award>(`/api/awards/${award.id}`).pipe(
-      tap((deleteAward: Award) => this.log(`deleted award w/ id=${deleteAward.id}`)),
-      catchError(this.handleError<Award>('deleteAward'))
-    );
+  deleteAward(id: number) {
+    return this.httpClient.delete<Award>(`/api/awards/${id}`);
   }
 
 }

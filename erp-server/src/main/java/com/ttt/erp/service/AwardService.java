@@ -3,7 +3,6 @@ package com.ttt.erp.service;
 import com.ttt.erp.model.Award;
 import com.ttt.erp.repository.AwardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -45,16 +44,17 @@ public class AwardService extends LogService {
 
 
     // delete award
-    public ResponseEntity<String> deleteAward(Long userAccountId, Long awardId) {
+    public ResponseEntity<Long> deleteAward(Long userAccountId, Long awardId) {
         try {
             Award toDelete = this.repository.findById(awardId);
             logDelete(userAccountId, toDelete.getClass().getSimpleName(), awardId);
             this.repository.delete(toDelete);
-            return new ResponseEntity<>("Success", HttpStatus.OK);
+            return ResponseEntity.ok().build();
         } catch (Exception e) {
-            System.err.println("Error on Award update");
-            e.printStackTrace();
-            return new ResponseEntity<>("Failed", HttpStatus.BAD_REQUEST);
+//            System.err.println("Error on Award delete");
+//            e.printStackTrace();
+            return ResponseEntity.notFound().build();
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 }

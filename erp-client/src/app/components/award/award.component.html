@@ -94,7 +94,7 @@
             </mat-form-field>
           </div>
 
-          <mat-table [dataSource]="dataSource" matSort>
+          <mat-table class="mat-table" [dataSource]="dataSource" matSort>
             <ng-container matColumnDef="id">
               <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
               <mat-cell *matCellDef="let award"> {{ award.id }} </mat-cell>
@@ -111,19 +111,19 @@
             </ng-container>
 
             <ng-container matColumnDef="awardedDate">
-              <mat-header-cell *matHeaderCellDef mat-sort-header class="sm-hidden">Awarded Date</mat-header-cell>
-              <mat-cell *matCellDef="let award" class="sm-hidden"> {{ award.awardedDate | date:'shortDate' }} </mat-cell>
+              <mat-header-cell *matHeaderCellDef mat-sort-header class="hide-sm-down">Awarded Date</mat-header-cell>
+              <mat-cell *matCellDef="let award" class="hide-sm-down"> {{ award.awardedDate | date:'shortDate' }} </mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="awardedTime">
-              <mat-header-cell *matHeaderCellDef mat-sort-header class="sm-hidden">Awarded Time</mat-header-cell>
-              <mat-cell *matCellDef="let award" class="sm-hidden"> {{ award.awardedTime | time }} </mat-cell>
+              <mat-header-cell *matHeaderCellDef mat-sort-header class="hide-sm-down">Awarded Time</mat-header-cell>
+              <mat-cell *matCellDef="let award" class="hide-sm-down"> {{ award.awardedTime | time }} </mat-cell>
             </ng-container>
             
             <ng-container matColumnDef="edit">
               <mat-header-cell *matHeaderCellDef class="col-action">Edit</mat-header-cell>
               <mat-cell *matCellDef="let award" class="col-action">
-                <button mat-icon-button color="accent" (click)="awardListEdit(award.id)">
+                <button mat-icon-button color="accent" (click)="loadAward(award)">
                   <mat-icon class="mat-18">edit</mat-icon>
                 </button>
               </mat-cell>
@@ -132,7 +132,7 @@
             <ng-container matColumnDef="delete">
               <mat-header-cell *matHeaderCellDef class="col-action">Delete</mat-header-cell>
               <mat-cell *matCellDef="let award" class="col-action">
-                <button mat-icon-button color="accent" (click)="awardListDelete(award.id)">
+                <button mat-icon-button color="accent" (click)="deleteAward(award)">
                   <mat-icon class="mat-18">delete</mat-icon>
                 </button>
               </mat-cell>
@@ -142,7 +142,7 @@
             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
           </mat-table>
 
-          <mat-paginator [length]="length" [pageSizeOptions]="[10, 25, 100]" showFirstLastButtons></mat-paginator>
+          <mat-paginator [length]="length" [pageSize]="25" [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons></mat-paginator>
         </div>
 
       </div>
