@@ -5,7 +5,7 @@ import {AccountRecoveryService} from '../../../services/account-recovery/account
 import {RecoveryQuestion} from '../../../models/recovery.model';
 
 @Component({
-  selector: 'erp-account-recovery-selection',
+  selector: 'erp-account-recovery',
   templateUrl: './account-recovery.component.html',
   styleUrls: ['./account-recovery.component.scss']
 })
