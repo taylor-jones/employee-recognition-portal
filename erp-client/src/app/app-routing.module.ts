@@ -9,7 +9,7 @@ import { AdminHomeComponent } from './components/admin/admin-home/admin-home.com
 import { SelfComponent } from './components/self/self.component';
 import { MyPageComponent } from './components/my-page/my-page.component';
 import {AccountRecoveryComponent} from './components/account-recovery/account-recovery/account-recovery.component';
-import {ChangePasswordComponent} from './components/account-recovery/change-password/change-password.component';
+// import {ChangePasswordComponent} from './components/account-recovery/change-password/change-password.component';
 
 const routes: Routes = [
 	{ path: '', component: HomeComponent, canActivate: [AuthGuardService] },

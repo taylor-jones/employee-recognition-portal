@@ -14,8 +14,7 @@ export class AccountRecoveryComponent implements OnInit {
   username: string;
   errorMessage: string;
   questions: RecoveryQuestion[];
-
-  u = this.username;
+  change = false;
 
   constructor(private accountRecoveryService: AccountRecoveryService,
               private router: Router) {
@@ -39,7 +38,8 @@ export class AccountRecoveryComponent implements OnInit {
     this.accountRecoveryService.checkRecoveryAnswers(this.username, this.questions).subscribe(
       () => {
         console.log('Success - change password');
-        this.router.navigate(['/changePassword']);
+        // this.router.navigate(['/changePassword']);
+        this.change = true;
       },
       (error) => {
         this.errorMessage = 'One or more questions are incorrect.';

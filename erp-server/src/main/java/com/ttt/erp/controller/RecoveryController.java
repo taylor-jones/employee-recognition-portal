@@ -1,6 +1,7 @@
 package com.ttt.erp.controller;
 
 import com.sun.org.apache.xpath.internal.operations.Bool;
+import com.ttt.erp.model.PasswordResetRequest;
 import com.ttt.erp.model.RecoveryQuestion;
 import com.ttt.erp.service.RecoveryService;
 import org.springframework.http.HttpStatus;
@@ -38,8 +39,8 @@ public class RecoveryController {
     @PostMapping(value = "/{username}/newPassword")
     public ResponseEntity updatePassword(
             @PathVariable(value = "username") String username,
-            @RequestBody String newPassword) {
-        Boolean isChanged = this.recoveryService.updateUsersPassword(username, newPassword);
+            @RequestBody PasswordResetRequest request) {
+        Boolean isChanged = this.recoveryService.updateUsersPassword(request.getUsername(), request.getPassword());
 
         return isChanged ? new ResponseEntity(HttpStatus.OK) : new ResponseEntity(HttpStatus.UNAUTHORIZED);
     }

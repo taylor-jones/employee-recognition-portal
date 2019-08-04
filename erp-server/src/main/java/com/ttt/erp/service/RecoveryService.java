@@ -48,10 +48,8 @@ public class RecoveryService extends LogService{
         return result.size() == recoveryQuestions.size();
     }
 
-    public Boolean updateUsersPassword(String username, final String newPassword) {
+    public Boolean updateUsersPassword(String username, final String password) {
         try {
-            final String password = newPassword.substring(12);
-
             UserAccount existing = this.userAccountRepository.findByUsername(username);
             UserAccount modified = existing;
 
@@ -59,11 +57,7 @@ public class RecoveryService extends LogService{
             logUpdate(modified.getId(), existing.getClass().getSimpleName(), existing.getId(), existing, modified);
             Optional.ofNullable(this.userAccountRepository.save(modified));
 
-            if (this.userAccountRepository.findByUsername(username).getPassword() == password) {
-                return true;
-            } else {
-                return false;
-            }
+            return this.userAccountRepository.findByUsername(username).getPassword().equals(password);
         } catch (Exception e) {
             e.printStackTrace();
             return false;
