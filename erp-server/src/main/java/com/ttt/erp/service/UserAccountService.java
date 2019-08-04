@@ -30,14 +30,11 @@ public class UserAccountService extends LogService {
         return this.repository.findByUsername(principal.getName());
     }
 
-    public String signatureFileNameByUsername(String username) {
-        return this.repository.findByUsername(username).getSignature();
+    public Optional<String> signatureFileNameByUsername(String username) {
+        return Optional.ofNullable(this.repository.findByUsername(username).getSignature());
     }
 
-    /* Create a new user. If non-admin, should have signature data. Store the signature
-    * data separately so that it doesn't get
-    *
-    */
+    
     public Optional<UserAccount> createUser(Long userAccountId, UserAccount user) {
         try {
             if (! user.getIsAdmin()) {
@@ -60,7 +57,13 @@ public class UserAccountService extends LogService {
         try {
             UserAccount existing = this.repository.findById(userId);
             modified.setId(userId);
-            logUpdate(userAccountId, existing.getClass().getSimpleName(), existing.getId(), existing, modified);
+            Optional<String> fName = signatureFileNameByUsername(existing.getUsername());
+            if (fName.isPresent()) {
+                modified.setSignature(fName.get());
+            } else {
+                modified.setSignature(null);
+            }
+            logUpdate(userAccountId, existing.getClass().getSimpleName(), userId, existing, modified);
             return Optional.ofNullable(this.repository.save(modified));
         } catch (Exception e) {
             System.out.println("Error on UserAccount update");

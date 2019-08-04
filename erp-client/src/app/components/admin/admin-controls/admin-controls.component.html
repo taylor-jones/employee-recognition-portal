@@ -9,7 +9,7 @@
           <mat-checkbox 
             class="admin-check" 
             value="_newAdminCheck" 
-            (click)="adminToggle(_newAdminCheck, true)"
+            (click)="adminToggle()"
             formControlName="isAdmin"
           >Admin user</mat-checkbox>
           <mat-form-field>
@@ -21,7 +21,7 @@
           <mat-form-field required>
             <input matInput placeholder="Email" value="" formControlName="email" required>
           </mat-form-field>
-          <erp-canvas [width]="300" [height]="150"></erp-canvas>
+          <erp-canvas [hidden]="newUserForm.value.isAdmin" [width]="300" [height]="150" [includeExportButton]="false"></erp-canvas>
           <div class="common-buttons">
             <button mat-button color="primary" class="action-button-left" type="submit">Submit</button>
             <button mat-button color="accent" class="action-button-right" type="reset">Clear</button>
@@ -40,22 +40,20 @@
           </mat-form-field>
           <div *ngIf="_selectedUser">
             <mat-checkbox 
-              class="admin-check" 
-              value="_existingAdminCheck" 
-              (click)="adminToggle(_existingAdminCheck)"
+              class="admin-check"
               formControlName="isAdmin"
             >Admin user</mat-checkbox>
             <mat-form-field>
-              <input matInput placeholder="Username" value="{{_selectedUser.username || null}}" formControlName="username">
+              <input matInput placeholder="Username" formControlName="username">
             </mat-form-field>
             <mat-form-field>
-              <input matInput placeholder="Password" value="{{_selectedUser.password || null}}" formControlName="password">
+              <input matInput placeholder="Password" formControlName="password">
             </mat-form-field>
             <mat-form-field>
-              <input matInput placeholder="Email" value="{{_selectedUser.email}}" formControlName="email">
+              <input matInput placeholder="Email" formControlName="email">
             </mat-form-field>
             <div class="common-buttons">
-              <button mat-button color="primary" class="action-button-left" type="submit">Save</button>
+              <button mat-button color="primary" class="action-button-left" (click)="updateSelectedUser()" type="submit">Save</button>
               <button mat-button color="accent" class="action-button-right" (click)="deleteSelectedUser()" type="submit">Delete</button>
             </div>
           </div>

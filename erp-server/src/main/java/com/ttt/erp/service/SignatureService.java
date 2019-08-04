@@ -6,6 +6,7 @@ import com.ttt.erp.model.UserAccount;
 import com.ttt.erp.service.UserAccountService;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
@@ -35,7 +36,7 @@ public class SignatureService {
   }
 
   private byte[] base64ToBytes(String encodedImage) {
-    return Base64.getDecoder().decode( encodedImage );                                        // rawData[1] is the base64 data
+    return Base64.getDecoder().decode( encodedImage );
   }
 
   private String dataFromBase64(String base64) {
@@ -47,7 +48,7 @@ public class SignatureService {
   }
 
   private void createSignatureDirIfNotExists() {
-    File directory = new File(directoryName);
+    File directory = new File(this.directoryName);
     if (! directory.exists()){
         directory.mkdir();
     }
@@ -63,7 +64,12 @@ public class SignatureService {
   }
 
   public Optional<String> getSignatureForUsername(String username) {
-    return Optional.ofNullable(this.userService.signatureFileNameByUsername(username));
+    return this.userService.signatureFileNameByUsername(username);
+  }
+
+  // Return false if the file wasn't deleted or doesn't exist, else return true
+  public boolean deleteSignatureByFileName(String fileName) {
+    return new File(directoryName + "/" + fileName).delete();
   }
 
   public String newSignatureForUser(String body, UserAccount user) {

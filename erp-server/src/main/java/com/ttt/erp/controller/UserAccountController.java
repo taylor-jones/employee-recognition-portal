@@ -63,10 +63,10 @@ public class UserAccountController {
     // TODO: get actual userId from cookie
     @PutMapping("/{id}")
     public Optional<UserAccount> updateUserAccountById (
-        @CookieValue(value = "userId", defaultValue = "1") String modifiedById,
-        @PathVariable("id") Long awardId,
+        @CookieValue(value = "user") String actingUser,
+        @PathVariable("id") Long userId,
         @RequestBody UserAccount modified) {
-        return this.service.updateUser(Long.parseLong(modifiedById), awardId, modified);
+        return this.service.updateUser(this.repository.findByUsername(actingUser).getId(), userId, modified);
     }
 
     @DeleteMapping("/{id}")

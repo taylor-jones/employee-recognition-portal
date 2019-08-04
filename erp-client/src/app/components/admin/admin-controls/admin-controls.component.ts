@@ -25,8 +25,8 @@ export class AdminControlsComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   ngOnInit() {
-    this.initUserForm();
-    this.initExistingUserForm();
+    this.newUserForm = this.initUserFormGroup();
+    this.existingUserForm = this.initUserFormGroup();   // existing user form should has to start out empty
     this.getAllUsers();
   }
 
@@ -36,41 +36,44 @@ export class AdminControlsComponent implements OnInit {
       password: new FormControl(null),
       email: new FormControl(null),
       isAdmin: new FormControl(false)
-    });
+    })
   }
 
-  initUserForm(): void {
-    this.newUserForm = this.initUserFormGroup();
-  }
-
-  initExistingUserForm(): void {
-    this.existingUserForm = this.initUserFormGroup();
+  initFormGroupFromUser(initUser: User) {
+    return new FormGroup({
+      username: new FormControl(initUser.username),
+      password: new FormControl(initUser.password),
+      email: new FormControl(initUser.email),
+      isAdmin: new FormControl(initUser.isAdmin)
+    })
   }
 
   onSelect(value) {
     this._selectedUser = this._users.filter( u => u.id === value)[0];
+    this.existingUserForm = this.initFormGroupFromUser(this._selectedUser); // sync the form and user
   }
 
   // Handles both checkbox toggles
-  adminToggle(current, isNew): void {
-    if (isNew) {
-      this._newAdminCheck = !current;
-    } else {
-      this._existingAdminCheck = !current;
-    }
+  adminToggle(): void {
+    this._newAdminCheck = !this._newAdminCheck;
   }
 
   getAllUsers(): void {
     this.userService.getAllUsers().subscribe (
-      (users) => {
-        this._users = users;
-      },
-      (error) => {
-        console.log(error);
-      }
+      (users) => { this._users = users },
+      (error) => { console.log(error) }
     );
   }
 
+  // Don't send signatures for admin users
+  getSignature() {
+    if (! this.newUserForm.value.isAdmin) {
+      return this.canvasChild.getCanvasData();
+    }
+    return null;
+  }
+
+  // Return the controls back to their original state after submit
   resetForm(form: FormGroup) {
     form.reset();
     Object.keys(form.controls).forEach(key => {
@@ -78,27 +81,43 @@ export class AdminControlsComponent implements OnInit {
     });
   }
 
+  // Re-fetch users and reset the controls. This is meant for callbacks
+  // after user creates/updates/deletes
   refresh(form: FormGroup) {
     this.getAllUsers();
     this.resetForm(form);
+    this.canvasChild.clearCanvas();
   }
 
+  // Create a new user
   submitNewUser() {
     this.newUserForm.value.isEnabled = true;
-    this.newUserForm.value.signature = this.canvasChild.getCanvasData();
+    this.newUserForm.value.signature = this.getSignature();
     this.userService.addUser(this.newUserForm.value).subscribe(
       (ok) => { this.refresh(this.newUserForm) },
-      (error) => { console.log(error) }     // do something more useful with this
+      (error) => { console.error(error) }
     );
   }
 
+  // Delete the selected user
   deleteSelectedUser() {
     this.userService.deleteUser(this._selectedUser).subscribe (
-      (ok) => { 
+      (user) => { 
         this.refresh(this.existingUserForm);
         this._selectedUser = null;
       },
-      (error) => { console.log(error) }     // do something more useful with this
+      (error) => { console.error(error) }
+    )
+  }
+
+  // Update the selected user
+  updateSelectedUser() {
+    this.existingUserForm.value.id = this._selectedUser.id;
+    this.existingUserForm.value.signature = null;
+    this.existingUserForm.value.isEnabled = true;
+    this.userService.updateUser(this.existingUserForm.value).subscribe (
+      (user) => { this.getAllUsers() },
+      (error) => {console.error(error)}
     )
   }
 

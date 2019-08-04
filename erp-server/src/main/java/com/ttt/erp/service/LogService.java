@@ -50,8 +50,8 @@ public class LogService {
         startFields[i].setAccessible(true);
         endFields[i].setAccessible(true);
 
-        String strStart = startFields[i].get(start).toString();
-        String strEnd = startFields[i].get(end).toString();
+        String strStart = startFields[i].get(start) != null ? startFields[i].get(start).toString() : "";
+        String strEnd = startFields[i].get(end) != null ? startFields[i].get(end).toString() : "";
 
         if (!strStart.equals(strEnd)) {
           diffs.add (

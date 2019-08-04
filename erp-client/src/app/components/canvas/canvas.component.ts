@@ -17,6 +17,7 @@ export class CanvasComponent implements AfterViewInit {
   
   @Input() width: number = 500;
   @Input() height: number = 250;
+  @Input() includeExportButton: boolean = true;
 
   constructor(private canvasService: CanvasService) { }
 

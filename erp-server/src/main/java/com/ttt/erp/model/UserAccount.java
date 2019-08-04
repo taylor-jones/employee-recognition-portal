@@ -15,6 +15,7 @@ import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 import java.util.Collection;
@@ -146,7 +147,11 @@ public class UserAccount {
     }
 
     public void setIsEnabled(Boolean isEnabled) {
-        this.isEnabled = isEnabled;
+        if (isEnabled == null) {
+            this.isEnabled = true;
+        } else {
+            this.isEnabled = isEnabled;
+        }
     }
 
 
