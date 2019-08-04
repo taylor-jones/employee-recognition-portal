@@ -2,11 +2,14 @@ package com.ttt.erp.controller;
 
 import com.ttt.erp.model.Award;
 import com.ttt.erp.repository.AwardRepository;
+import com.ttt.erp.service.AwardPdfService;
 import com.ttt.erp.service.AwardService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +23,9 @@ public class AwardController {
     @Autowired
     AwardService service;
 
+    @Autowired
+    AwardPdfService awardPdfService;
+
 
     /**
      * Gets the Award with the specified Id
@@ -30,7 +36,19 @@ public class AwardController {
     public Award getAward(@PathVariable("id") final Long id) {
         return repository.findById(id);
     }
-    
+
+
+    /**
+     * Generates the PDF Award with the specified Id
+     * @param id - the id of the award
+     * @return - the Award JSON
+     */
+    @GetMapping(value = "/{id}/send", produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<Long> sendAward(@PathVariable("id") final Long id) throws FileNotFoundException {
+        return this.awardPdfService.sendAwardPdf(id);
+    }
+
+
     /**
      * Creates a new Award record
      * @param modifiedById - the userId cookie value

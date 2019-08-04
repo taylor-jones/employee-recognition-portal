@@ -356,8 +356,22 @@ export class AwardComponent implements OnInit {
       this.setAwardFormContext(true);
       this.awards.push(award);
       this.refreshAwardList();
+      this.sendAwardToEmployee(award);
     }, err => {
         this.showSnackbarError('Something has gone wrong. Award creation failed.');
+    });
+  }
+
+
+  /**
+   * Triggers an HTTP request to generate and send a PDF of the award to the employee.
+   * @param award - the award to sent to the recipient employee
+   */
+  sendAwardToEmployee(award: Award) {
+    this._awardService.sendAward(award.id).subscribe(response => {
+      this.showSnackbarSuccess(`A PDF award certificate has been sent to ${award.employee.email}!`);
+    }, err => {
+      this.showSnackbarError('The PDF award certificate was unable to be sent.')
     });
   }
 

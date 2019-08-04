@@ -43,12 +43,10 @@ export class AwardService {
 	getAwardById(id: number): Observable<Award> {
 		return this.httpClient.get<Award>(`/api/awards/${id}`);
 	}
-
   
   getAllAwards(): Observable<Award[]> {
 		return this.httpClient.get<Award[]>(`/api/awards`);
   }
-  
   
   createAward(award: Award): Observable<Award> {
     return this.httpClient.post<Award>(`/api/awards`, JSON.stringify(award), this.httpOptions).pipe(
@@ -66,6 +64,10 @@ export class AwardService {
 
   deleteAward(id: number) {
     return this.httpClient.delete<Award>(`/api/awards/${id}`);
+  }
+
+  sendAward(id: number) {
+    return this.httpClient.get(`/api/awards/${id}/send`);
   }
 
 }

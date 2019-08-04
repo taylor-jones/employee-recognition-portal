@@ -21,19 +21,28 @@ public class AwardService extends LogService {
     private UserAccountRepository userAccountRepository;
 
 
-    // get all awards for either admin or a specified user
+    /**
+     * get all awards for either admin or a specified user
+     * @param requestedByUser - unsername of user that make request
+     * @param isAdmin - is the user an admin user?
+     * @return - list of Award records
+     */
     public List<Award> getAllAwards(String requestedByUser, Boolean isAdmin) {
         if (isAdmin) {
             return this.repository.findAll();
         } else {
             UserAccount userAccount = userAccountRepository.findByUsername(requestedByUser);
-            System.out.println("\n\n\n\n\n\n" + userAccount + "\n\n\n\n\n");
             return this.repository.findByUserAccount(userAccount);
         }
     }
 
 
-    // create new award
+    /**
+     * Creates and returns a new Award record
+     * @param userAccountId - the id of the user that created the award
+     * @param award  - the award data
+     * @return - the created Award
+     */
     public Optional<Award> createAward(Long userAccountId, Award award) {
         try {
             Award newAward = repository.save(award);
@@ -47,7 +56,12 @@ public class AwardService extends LogService {
     }
 
 
-    // update existing award
+    /**
+     * Updates and returns an existing Award record
+     * @param userAccountId - the id of the user that updated the award
+     * @param modified  - the modified award data
+     * @return - the updated Award
+     */
     public Optional<Award> updateAward(Long userAccountId, Long awardId, Award modified) {
         try {
             Award existing = this.repository.findById(awardId);
@@ -62,7 +76,12 @@ public class AwardService extends LogService {
     }
 
 
-    // delete award
+    /**
+     * Deletes an Award record
+     * @param userAccountId - the id of the user that deleted the award
+     * @param awardId  - the id of the award to delete
+     * @return - 200 if successful, 404 if not
+     */
     public ResponseEntity<Long> deleteAward(Long userAccountId, Long awardId) {
         try {
             Award toDelete = this.repository.findById(awardId);
@@ -70,10 +89,7 @@ public class AwardService extends LogService {
             this.repository.delete(toDelete);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
-//            System.err.println("Error on Award delete");
-//            e.printStackTrace();
             return ResponseEntity.notFound().build();
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 }
