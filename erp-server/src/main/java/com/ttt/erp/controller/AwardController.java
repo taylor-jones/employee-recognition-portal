@@ -20,43 +20,70 @@ public class AwardController {
     @Autowired
     AwardService service;
 
+
+    /**
+     * Gets the Award with the specified Id
+     * @param id - the id of the award
+     * @return - the Award JSON
+     */
     @GetMapping("/{id}")
     public Award getAward(@PathVariable("id") final Long id) {
         return repository.findById(id);
     }
-
-    // TODO: get actual userId from cookie
+    
+    /**
+     * Creates a new Award record
+     * @param modifiedById - the userId cookie value
+     * @param newAward - the Award data
+     * @return the Award JSON if successful
+     */
     @PostMapping
     public Optional<Award> addAward (
-        @CookieValue(value = "userId", defaultValue = "1") String modifiedById,
+        @CookieValue(value = "userId") String modifiedById,
         @RequestBody Award newAward) {
         return this.service.createAward(Long.parseLong(modifiedById), newAward);
     }
 
-    // TODO: get actual userId from cookie
+    /**
+     * Updates an award record
+     * @param modifiedById - the cookie userId value
+     * @param awardId - the id of the award to update
+     * @param modified - the modified award data
+     * @return - the updated Award JSON, if successful
+     */
     @PutMapping("/{id}")
     public Optional<Award> updateAwardById (
-        @CookieValue(value = "userId", defaultValue = "1") String modifiedById,
+        @CookieValue(value = "userId") String modifiedById,
         @PathVariable("id") Long awardId,
         @RequestBody Award modified) {
         return this.service.updateAward(Long.parseLong(modifiedById), awardId, modified);
     }
 
-    // TODO: get actual userId from cookie
+    /**
+     * Deletes an Award record
+     * @param modifiedById - the cookie userId value
+     * @param awardId - the Award to delete
+     * @return 200 if successful, other HTTP error code if not
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Long> deleteAwardById (
-        @CookieValue(value = "userId", defaultValue = "1") String modifiedById,
+        @CookieValue(value = "userId") String modifiedById,
         @PathVariable("id") Long awardId
     ) {
         return this.service.deleteAward(Long.parseLong(modifiedById), awardId);
     }
 
+    /**
+     * Gets all the awards created by a particular user, or all awards if user is admin
+     * @param requestedByUser - the user cookie value (username)
+     * @param isAdmin - boolean - is the user an admin user?
+     * @return JSON array of awards available to the requesting user.
+     */
     @GetMapping
     public List<Award> getAll(
         @CookieValue(value = "user") String requestedByUser,
         @CookieValue(value = "admin") String isAdmin
     ) {
         return this.service.getAllAwards(requestedByUser, Boolean.parseBoolean(isAdmin));
-//        return repository.findAll();
     }
 }

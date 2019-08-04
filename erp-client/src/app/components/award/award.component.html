@@ -1,13 +1,16 @@
-<mat-toolbar>Awards</mat-toolbar>
+<mat-toolbar>
+  <span>Awards</span>
+  <span>Welcome, {{ cookieUser }}!</span>
+</mat-toolbar>
 
 <div class="container">
   <mat-tab-group [(selectedIndex)]="selectedTab" (selectedTabChange)="handleTabChange($event)">
 
-    <mat-tab label="{{ formContext.titleText }}">
+    <mat-tab label="{{ context.form.title }}">
       <div class="tab-wrapper">
         <div>
-          <h1 class="mat-h1">{{ formContext.titleText }}</h1>
-          <p class="mat-subheading-1">{{ formContext.subtitleText }}</p>
+          <h1 class="mat-h1">{{ context.form.title }}</h1>
+          <p class="mat-subheading-1">{{ context.form.subtitle }}</p>
 
           <form [formGroup]="createAwardForm" (ngSubmit)="onSubmit()">
 
@@ -79,7 +82,7 @@
             </div>
 
             <div class="form-actions">
-              <button mat-flat-button color="primary" type="submit">{{ formContext.submitButtonText }}</button>
+              <button mat-flat-button color="primary" type="submit">{{ context.form.submitButton }}</button>
               <button mat-flat-button class="neutral" type="reset" (click)="onReset()">Cancel</button>
             </div>
           </form>
@@ -92,11 +95,11 @@
 
         <div id="award-datatable">
           <div id="pre-table-header">
-            <h1 class="mat-h1">My Awards</h1>
-            <p class="mat-subheading-1">View, edit, or delete awards that you've created.</p>
+            <h1 class="mat-h1">{{ context.table.title }}</h1>
+            <p class="mat-subheading-1">{{ context.table.subtitle }}</p>
 
             <mat-form-field>
-                <input matInput type="text" [formControl]="filterControl" placeholder="Type to filter">
+                <input matInput type="text" [formControl]="filters.control" placeholder="Type to filter">
               </mat-form-field>
           </div>
 
@@ -127,10 +130,10 @@
             </ng-container>
             
             <ng-container matColumnDef="edit">
-              <mat-header-cell *matHeaderCellDef class="col-action">Edit</mat-header-cell>
+              <mat-header-cell *matHeaderCellDef class="col-action">{{ context.table.viewEditText }}</mat-header-cell>
               <mat-cell *matCellDef="let award" class="col-action">
                 <button mat-icon-button color="accent" (click)="loadAward(award)">
-                  <mat-icon class="mat-18">edit</mat-icon>
+                  <mat-icon class="mat-18">{{ context.table.viewEditIcon }}</mat-icon>
                 </button>
               </mat-cell>
             </ng-container>

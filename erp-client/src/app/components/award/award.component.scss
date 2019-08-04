@@ -8,6 +8,11 @@
   margin-top: 40px;
 }
 
+mat-toolbar.mat-toolbar {
+  display: flex;
+  justify-content: space-between;
+}
+
 
 // 
 // award form

@@ -52,11 +52,20 @@ export class AwardComponent implements OnInit {
   // award form
   // 
 
-  formContext = {
-    titleText: null,
-    subtitleText: null,
-    submitButtonText: null,
-  };
+  // holds varying element text depending on context
+  context = {
+    form: {
+      title: null,
+      subtitle: null,
+      submitButton: null,
+    },
+    table: {
+      title: null,
+      subtitle: null,
+      viewEditText: null,
+      viewEditIcon: null,
+    }
+  }
 
 	createAwardForm: FormGroup;
   submitted = false;
@@ -90,8 +99,11 @@ export class AwardComponent implements OnInit {
 	pageSize: number;
 	length: number;
   dataSource = new MatTableDataSource([]);
-  filterControl = new FormControl('');
-  filterValue = '';
+
+  filters = {
+    control: new FormControl(''),
+    value: '',
+  }
 
 
   //
@@ -120,6 +132,7 @@ export class AwardComponent implements OnInit {
 
   ngOnInit() {
     this.setAwardFormContext(false);
+    this.setAwardTableContext();
 
     // setup the award form
 		this.createAwardForm = this._formBuilder.group({
@@ -138,6 +151,7 @@ export class AwardComponent implements OnInit {
       this.f.description.disable();
       this.f.awardedDate.disable();
       this.f.awardedTime.disable();
+      this.selectedTab = 1;   // go to Review Awards tab by default
     }
 
 
@@ -147,8 +161,6 @@ export class AwardComponent implements OnInit {
       this.users = users;
       this.onUserChange(this.cookieUser);
     });
-
-
 
     // fetch all the award types
 		this._awardTypeService.getAllAwardTypes().subscribe((awardTypes) => {
@@ -166,10 +178,10 @@ export class AwardComponent implements OnInit {
     this.getAllAwards();
 
     // setup the table filter
-    this.filterControl.valueChanges
+    this.filters.control.valueChanges
       .subscribe(value => {
-        this.filterValue = value;
-        this.dataSource.filter = JSON.stringify(this.filterValue);
+        this.filters.value = value;
+        this.dataSource.filter = JSON.stringify(this.filters.value);
       })
   }
   
@@ -262,6 +274,11 @@ export class AwardComponent implements OnInit {
    * @param {Award} award - the award object to delete.
    */
   deleteAward(award: Award) {
+    if (this.isAdmin) {
+      this.showSnackbarError('Administrator accounts may not delete Award records!');
+      return;
+    }
+
     this._awardService.deleteAward(award.id).subscribe(response => {
       this.showSnackbarSuccess('Award successfully deleted');
 
@@ -375,7 +392,7 @@ export class AwardComponent implements OnInit {
     
     // make sure it's not an admin user
     if (this.isAdmin) {
-      this.showSnackbarError('Whoops! Awards are read-only for admin accounts.')
+      this.showSnackbarError('Whoops! Awards are read-only for administrator accounts.')
       return;
     }
     
@@ -454,25 +471,43 @@ export class AwardComponent implements OnInit {
   }
   
   /**
-   * Updates the title and button labels based on the context of the visible award.
-   * If it's a New Award, the title is 'New Award' and the buttons say 'Create'.
-   * If it's an existing award, the title is 'Update Award' and the button say 'Save'
+   * Updates the contextual text of the Award Form based on various
+   * situational components.
    */
   setAwardFormContext(isExistingAward: boolean) {
     if (this.isAdmin) {
-      this.formContext.titleText = 'View Award';
-      this.formContext.submitButtonText = 'Save Changes';
-      this.formContext.subtitleText = 'As an admin, you may view all award details, but you cannot make change to the award record.';
+      this.context.form.title = 'View Award';
+      this.context.form.subtitle = 'As an admin, you may view all award details, but you cannot make change to the award record.';
+      this.context.form.submitButton = 'Save Changes';
     } else if (isExistingAward) {
-      this.formContext.titleText = 'Update Award';
-      this.formContext.submitButtonText = 'Save Changes';
-      this.formContext.subtitleText = 'Use the form below to make changes to this award record.';
+      this.context.form.title = 'Update Award';
+      this.context.form.subtitle = 'Use the form below to make changes to this award record.';
+      this.context.form.submitButton = 'Save Changes';
     } else {
-      this.formContext.titleText = 'New Award';
-      this.formContext.submitButtonText = 'Create Award';
-      this.formContext.subtitleText = 'Use the form below to create a new award for one of the employees.';
+      this.context.form.title = 'New Award';
+      this.context.form.subtitle = 'Use the form below to create a new award for one of the employees.';
+      this.context.form.submitButton = 'Create Award';
     }
   }
+
+  /**
+   * Updates the contextual text of the Award Table based on various
+   * situational components.
+   */
+  setAwardTableContext() {
+    if (this.isAdmin) {
+      this.context.table.title = 'All Awards';
+      this.context.table.subtitle = 'View the awards created by all users.';
+      this.context.table.viewEditText = 'View';
+      this.context.table.viewEditIcon = 'details';
+    } else {
+      this.context.table.title = 'My Awards';
+      this.context.table.title = 'View, edit, or delete awards that you\'ve created.';
+      this.context.table.viewEditText = 'Edit';
+      this.context.table.viewEditIcon = 'edit';
+    }
+  }
+
 
   /**
    * When the user clicks the tab to review awards,
@@ -483,7 +518,10 @@ export class AwardComponent implements OnInit {
 
     if ($event.index === 1) {
       this.onReset();
-      this.f.user.setValue(this.cookieUser);
+    } else if ($event.index === 0) {
+      if (!this.isAwardListEdit) {
+        this.f.user.setValue(this.cookieUser);
+      }
     }
   }
 }
