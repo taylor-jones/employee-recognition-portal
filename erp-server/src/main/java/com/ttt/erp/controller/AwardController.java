@@ -52,7 +52,11 @@ public class AwardController {
     }
 
     @GetMapping
-    public List<Award> getAll() {
-        return repository.findAll();
+    public List<Award> getAll(
+        @CookieValue(value = "user") String requestedByUser,
+        @CookieValue(value = "admin") String isAdmin
+    ) {
+        return this.service.getAllAwards(requestedByUser, Boolean.parseBoolean(isAdmin));
+//        return repository.findAll();
     }
 }

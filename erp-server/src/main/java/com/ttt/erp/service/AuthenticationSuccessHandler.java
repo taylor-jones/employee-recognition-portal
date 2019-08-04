@@ -1,6 +1,5 @@
 package com.ttt.erp.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ttt.erp.model.UserAccount;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -29,11 +28,14 @@ public class AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccess
         UserAccount userAccount = this.userAccountService.getUserByUsername(authentication.getName());
         if (userAccount != null) {
             this.userManager.set(userAccount);
-            Cookie userCookie = new Cookie("user", userAccount.getUsername().toString());
+            Cookie userCookie = new Cookie("user", userAccount.getUsername());
+            Cookie userIdCookie = new Cookie("userId", userAccount.getId().toString());
             Cookie roleCookie = new Cookie("admin", userAccount.getIsAdmin().toString());
             userCookie.setPath(globalCookieAccess);
+            userIdCookie.setPath(globalCookieAccess);
             roleCookie.setPath(globalCookieAccess);
             response.addCookie(userCookie);
+            response.addCookie(userIdCookie);
             response.addCookie(roleCookie);
             response.setStatus(HttpServletResponse.SC_OK);
         } else {

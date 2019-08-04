@@ -10,21 +10,27 @@
           <p class="mat-subheading-1">{{ formContext.subtitleText }}</p>
 
           <form [formGroup]="createAwardForm" (ngSubmit)="onSubmit()">
-            <mat-form-field>
+
+            <div class="form-group">
+            <mat-form-field class="col-half">
               <input matInput placeholder="ID" formControlName="id" [ngClass]="{ 'is-invalid': submitted && f.id.errors }" />
             </mat-form-field>
 
-            <mat-form-field>
-              <!-- <input matInput type="text" placeholder="Created By" formControlName="user" [ngClass]="{ 'is-invalid': submitted && f.user.errors }" />
+            <mat-form-field class="col-half">
+              <input 
+                matInput 
+                type="text" 
+                placeholder="Created By" 
+                formControlName="user" 
+                [ngClass]="{ 'is-invalid': submitted && f.user.errors }" 
+                value="{{ cookieUser }}" 
+                (change)="onUserChange($event)"
+              />
               <mat-error *ngIf="submitted && f.user.errors" class="invalid-feedback">
                   <mat-error *ngIf="f.user.errors.required">User is required</mat-error>
-              </mat-error> -->
-              <mat-select (selectionChange)='onUserSelectChange()' placeholder="Created By" formControlName="user" [ngClass]="{ 'is-invalid': submitted && f.user.errors }">
-                <mat-option *ngFor="let user of users; let i = index" [value]="users[i].id">
-                  {{ users[i].username }}
-                </mat-option>
-              </mat-select>
+              </mat-error>
             </mat-form-field>
+          </div>
 
             <mat-form-field>
               <mat-select (selectionChange)='onAwardTypeSelectChange()' placeholder="Award Type" formControlName="awardType" [ngClass]="{ 'is-invalid': submitted && f.awardType.errors }">
@@ -55,7 +61,7 @@
 
             <div class="form-group">
               <mat-form-field class="col-half">
-                <input matInput [matDatepicker]="datepicker" placeholder="Awarded Date" formControlName="awardedDate" [ngClass]="{ 'is-invalid': f.awardedDate.errors }" />
+                <input matInput [matDatepicker]="datepicker" placeholder="Awarded Date" formControlName="awardedDate" (chage)="onAwardedDateChange()" [ngClass]="{ 'is-invalid': f.awardedDate.errors }" />
                 <mat-error *ngIf="f.awardedDate.errors" class="invalid-feedback">
                   <mat-error *ngIf="f.awardedDate.errors">Awarded Date must be a valid date</mat-error>
                 </mat-error>

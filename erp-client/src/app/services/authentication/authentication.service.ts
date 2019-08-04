@@ -50,6 +50,7 @@ export class AuthenticationService {
   }
 
   logout(): void {
+    this.cookieService.deleteAll();
     this.http.post(`/api/logout`, {})
       .pipe(
         retry(3)

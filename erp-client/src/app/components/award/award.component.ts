@@ -3,6 +3,7 @@ import { AwardService } from 'src/app/services/award/award.service';
 import { Award } from 'src/app/models/award.model';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { SnackbarService } from 'src/app/services/snackbar/snackbar.service';
+import { CookieService } from 'ngx-cookie-service';
 
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { MomentDateAdapter, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
@@ -39,6 +40,13 @@ export class AwardComponent implements OnInit {
   selectedTab: number = 0;
   isAwardListEdit = false;
 
+  //
+  // cookies
+  //
+  cookieUser: string;
+  isAdmin: boolean;
+  userId: number;
+
 
   // 
   // award form
@@ -57,7 +65,7 @@ export class AwardComponent implements OnInit {
 	awardTypes = [];
 	employees = [];
   users = [];
-
+  
   // objects to use for HTTP requests involving relational data
   awardType: AwardType;
   employee: Employee;
@@ -97,9 +105,17 @@ export class AwardComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private _snackBar: SnackbarService,
     private _userService: UserService,
+    private _cookieService: CookieService,
   ) {
     this.dataSource.data = this.awards;
     this.dataSource.filterPredicate = this.handleTableFilter();
+    
+    // check user credentials
+    const cookies: {} = _cookieService.getAll();
+    this.cookieUser = cookies['user'];
+    this.isAdmin = cookies['admin'] == 'true';
+    this.userId = cookies['userId'] || 0;
+    // console.log(cookies);
   }
 
   ngOnInit() {
@@ -108,19 +124,31 @@ export class AwardComponent implements OnInit {
     // setup the award form
 		this.createAwardForm = this._formBuilder.group({
       id: new FormControl({ value: null, disabled: true }),
-      user: new FormControl(null, { validators: Validators.required }),
+      user: new FormControl({ value: null, disabled: true }),
       awardType: new FormControl(null, { validators: Validators.required }),
       employee: new FormControl(null, { validators: Validators.required }),
 			description: new FormControl(null),
 			awardedDate: new FormControl(null, { validators: ValidateDate }),
-			awardedTime: new FormControl(null, { validators: ValidateTime }),
+      awardedTime: new FormControl(null, { validators: ValidateTime }),
     });
+
+    if (this.isAdmin) {
+      this.f.awardType.disable();
+      this.f.employee.disable();
+      this.f.description.disable();
+      this.f.awardedDate.disable();
+      this.f.awardedTime.disable();
+    }
+
 
     // fetch all the users
 		this._userService.getAllUsers().subscribe((users) => {
       users.sort((a, b): number =>  a.username.toLowerCase() < b.username.toLowerCase() ? -1 : 1);
-			this.users = users;
+      this.users = users;
+      this.onUserChange(this.cookieUser);
     });
+
+
 
     // fetch all the award types
 		this._awardTypeService.getAllAwardTypes().subscribe((awardTypes) => {
@@ -256,17 +284,22 @@ export class AwardComponent implements OnInit {
   loadAward(award: Award) {
     if (award.hasOwnProperty('id')) {
       this.f.id.setValue(award.id);
-      this.f.user.setValue(award.userAccount.id);
+      this.f.user.setValue(award.userAccount.username);
       this.f.employee.setValue(award.employee.id);
       this.f.awardType.setValue(award.awardType.id);
       this.f.description.setValue(award.description);
       this.f.awardedDate.setValue(award.awardedDate);
       this.f.awardedTime.setValue(award.awardedTime);
 
+      this.employee = award.employee;
+      this.awardType = award.awardType;
+      this.user = award.userAccount;
+
       // set the form context to 'Update' and move to the form.
       this.setAwardFormContext(true);
       this.isAwardListEdit = true;
       this.selectedTab = 0;
+      this.submitted = false;
     }
   }
 
@@ -317,6 +350,11 @@ export class AwardComponent implements OnInit {
    * @param {object} context - the body of the HTTP request (the award data)
    */
   updateExistingAward(context) {
+    if (this.user.username != this.cookieUser) {
+      this.showSnackbarError('Whoops! You can\'t edit another user\'s awards!')
+      return;
+    }
+
     this._awardService.updateAward(context).subscribe(response => {
       if (response && response.id) {
         this.createAwardForm.get('id').setValue(response.id);
@@ -333,17 +371,23 @@ export class AwardComponent implements OnInit {
    * Triggered when the "Create Award" button is pressed.
    */
   onSubmit() {
-		this.submitted = true;
-
+    this.submitted = true;
+    
+    // make sure it's not an admin user
+    if (this.isAdmin) {
+      this.showSnackbarError('Whoops! Awards are read-only for admin accounts.')
+      return;
+    }
+    
     // if the form isn't valid, stop processing
 		if (this.createAwardForm.invalid) {
 			return;
     }
-
+    
     // grab the current award date & time values
     const formDate = this.f.awardedDate.value;
     const formTime = this.f.awardedTime.value;
-    
+
     // build the post body
     const award = {
       id: this.f.id.value,
@@ -371,9 +415,8 @@ export class AwardComponent implements OnInit {
    * Updates the class-level selected user object whenever 
    * a change is made on the input form.
    */
-  onUserSelectChange() {
-    const curr = this.f.user.value;
-    this.user = this.users.filter(obj => obj.id === curr)[0];
+  onUserChange(value) {
+    this.user = this.users.filter(obj => obj.username === value)[0];
   }
   
   /**
@@ -402,11 +445,11 @@ export class AwardComponent implements OnInit {
 		this.submitted = false;
     this.createAwardForm.reset();
     this.setAwardFormContext(false);
-
+    
     if (this.isAwardListEdit) {
       this.selectedTab = 1;
     }
-
+    
     this.isAwardListEdit = false;
   }
   
@@ -416,7 +459,11 @@ export class AwardComponent implements OnInit {
    * If it's an existing award, the title is 'Update Award' and the button say 'Save'
    */
   setAwardFormContext(isExistingAward: boolean) {
-    if (isExistingAward) {
+    if (this.isAdmin) {
+      this.formContext.titleText = 'View Award';
+      this.formContext.submitButtonText = 'Save Changes';
+      this.formContext.subtitleText = 'As an admin, you may view all award details, but you cannot make change to the award record.';
+    } else if (isExistingAward) {
       this.formContext.titleText = 'Update Award';
       this.formContext.submitButtonText = 'Save Changes';
       this.formContext.subtitleText = 'Use the form below to make changes to this award record.';
@@ -432,8 +479,11 @@ export class AwardComponent implements OnInit {
    * reset the Award Form.
    */
   handleTabChange($event) {
+    this.submitted = false;
+
     if ($event.index === 1) {
       this.onReset();
+      this.f.user.setValue(this.cookieUser);
     }
   }
 }

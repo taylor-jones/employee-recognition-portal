@@ -1,11 +1,14 @@
 package com.ttt.erp.service;
 
 import com.ttt.erp.model.Award;
+import com.ttt.erp.model.UserAccount;
 import com.ttt.erp.repository.AwardRepository;
+import com.ttt.erp.repository.UserAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -13,6 +16,22 @@ public class AwardService extends LogService {
 
     @Autowired
     private AwardRepository repository;
+
+    @Autowired
+    private UserAccountRepository userAccountRepository;
+
+
+    // get all awards for either admin or a specified user
+    public List<Award> getAllAwards(String requestedByUser, Boolean isAdmin) {
+        if (isAdmin) {
+            return this.repository.findAll();
+        } else {
+            UserAccount userAccount = userAccountRepository.findByUsername(requestedByUser);
+            System.out.println("\n\n\n\n\n\n" + userAccount + "\n\n\n\n\n");
+            return this.repository.findByUserAccount(userAccount);
+        }
+    }
+
 
     // create new award
     public Optional<Award> createAward(Long userAccountId, Award award) {
