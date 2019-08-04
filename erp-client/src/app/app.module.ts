@@ -13,23 +13,23 @@ import { MaterialModule } from './material.module';
 import { CookieService } from 'ngx-cookie-service';
 
 // Page Components
-import { AdminControlsComponent } from './components/admin/admin-controls/admin-controls.component';
-import { AdminHomeComponent } from './components/admin/admin-home/admin-home.component';
-import { AdminTableComponent } from './components/admin/admin-table/admin-table.component';
+import { AdminControlsComponent } from './components/admin-controls/admin-controls.component';
+import { AdminTableComponent } from './components/admin-table/admin-table.component';
 import { AwardComponent } from './components/award/award.component';
 import { CanvasComponent } from './components/canvas/canvas.component';
+import { CreateAwardComponent } from './components/award/createAward.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
-import { MyPageComponent } from './components/my-page/my-page.component';
 import { SelfComponent } from './components/self/self.component';
+import {AccountRecoveryComponent} from './components/account-recovery/account-recovery/account-recovery.component';
+import { ChangePasswordComponent } from './components/account-recovery/change-password/change-password.component';
 
 // Pipes
 import { ConvertTimePipe } from './pipes/convert-time.pipe';
 
-
 @NgModule({
 	declarations: [
-    AdminHomeComponent,
+    AdminTableComponent,
     AdminTableComponent,
     AdminControlsComponent,
 		AppComponent,
@@ -39,7 +39,9 @@ import { ConvertTimePipe } from './pipes/convert-time.pipe';
     LoginComponent,
     MyPageComponent,
     SelfComponent,
-    ConvertTimePipe
+    ConvertTimePipe,
+    AccountRecoveryComponent,
+    ChangePasswordComponent,
 	],
 	imports: [
     AppRoutingModule,
@@ -51,7 +53,7 @@ import { ConvertTimePipe } from './pipes/convert-time.pipe';
     ReactiveFormsModule
   ],
   exports: [],
-	providers: [ CookieService ],
+	providers: [CookieService],
 	bootstrap: [ AppComponent ]
 })
 export class AppModule {}

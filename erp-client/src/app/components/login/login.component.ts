@@ -17,11 +17,9 @@ export class LoginComponent implements OnInit {
   errorMessage: string;
   showSpinner = false;
 
-  constructor(
-    private authService: AuthenticationService,
-    private router: Router,
-    private cookieService: CookieService
-  ) {}
+  constructor(private authService: AuthenticationService,
+              private router: Router,
+              private cookieService: CookieService){ }
 
   // constructor(private loginService: LoginService) {}
 

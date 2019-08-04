@@ -64,12 +64,15 @@ public class UserAccount {
     @JsonIgnore
     private Set<Award> awards = new HashSet<>();
 
+    @OneToMany(targetEntity = RecoveryQuestion.class, mappedBy = "userAccount", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<RecoveryQuestion> questions = new HashSet<>();
 
 
     // constructors
 
     public UserAccount() {}
-    
+
     public UserAccount(Long id, String email, String username, String password, String signature, Boolean isAdmin) {
         this.id = id;
         this.email = email;
@@ -118,7 +121,10 @@ public class UserAccount {
     public Set<Award> getAwards() {
         return this.awards;
     }
-    
+
+    public Set<RecoveryQuestion> getQuestions() {
+        return questions;
+    }
 
     // setters
 
@@ -154,6 +160,9 @@ public class UserAccount {
         }
     }
 
+    public void setQuestions(Set<RecoveryQuestion> questions) {
+        this.questions = questions;
+    }
 
     // equals, hashcode, and toString
 
