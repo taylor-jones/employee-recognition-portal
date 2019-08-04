@@ -2,10 +2,8 @@ package com.ttt.erp.service;
 
 
 import com.itextpdf.io.image.ImageDataFactory;
-import com.itextpdf.kernel.pdf.PdfDocument;
-import com.itextpdf.kernel.pdf.PdfVersion;
-import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.kernel.pdf.WriterProperties;
+import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.kernel.pdf.*;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
@@ -33,7 +31,9 @@ public class AwardPdfService {
     private EmailService emailService;
 
 
+    // class-level constants
     private static final String OUTPUT_DIR = "awards/";
+    private static final PdfNumber LANDSCAPE = new PdfNumber(90);
 
 
     private static ByteArrayInputStream generateAwardPdf(Award award) throws IOException {
@@ -42,11 +42,19 @@ public class AwardPdfService {
         UserAccount userAccount = award.getUserAccount();
         AwardType awardType = award.getAwardType();
 
+        // setup the pdf document
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         PdfWriter writer = new PdfWriter(output, new WriterProperties().setPdfVersion(PdfVersion.PDF_2_0));
         PdfDocument pdfDocument = new PdfDocument(writer);
         pdfDocument.setTagged();
+        PageSize pageSize = PageSize.LETTER.rotate();
+        pdfDocument.setDefaultPageSize(pageSize);
         Document document = new Document(pdfDocument);
+
+        // add the TTT logo
+        String logoSrc = "src/main/resources/logo.png";
+        Image logo = new Image(ImageDataFactory.create(logoSrc)).scaleAbsolute(200, 50);
+        document.add(logo);
 
         document.add(new Paragraph(awardType.getName()));
         document.add(new Paragraph("awarded to"));
@@ -71,8 +79,8 @@ public class AwardPdfService {
 
         if (userAccount.getSignature() != null) {
             String signatureSrc = "signatures/" + userAccount.getSignature();
-            Image image = new Image(ImageDataFactory.create(signatureSrc)).scaleAbsolute(100, 100);
-            document.add(image);
+            Image signature = new Image(ImageDataFactory.create(signatureSrc)).scaleAbsolute(100, 100);
+            document.add(signature);
 
 //            PdfFileSpec fileSpec = PdfFileSpec.createEmbeddedFileSpec(pdfDocument, signatureSrc, "signature.png", PdfName.ApplicationOctetStream);
         }
