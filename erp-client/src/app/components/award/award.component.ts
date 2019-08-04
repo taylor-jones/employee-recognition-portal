@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AwardService } from 'src/app/services/award/award.service';
 import { Award } from 'src/app/models/award.model';
-import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { SnackbarService } from 'src/app/services/snackbar/snackbar.service';
 
@@ -68,7 +67,7 @@ export class AwardComponent implements OnInit {
   // 
   // award table
   // 
-	awards: any = null;
+	awards: any = [];
 	displayedColumns: string[] = [
     'id',
     'awardType',
@@ -83,25 +82,30 @@ export class AwardComponent implements OnInit {
 	pageSize: number;
 	length: number;
   dataSource = new MatTableDataSource([]);
-  
+  filterControl = new FormControl('');
+  filterValue = '';
+
 
   //
   // methods
   //
 
 	constructor(
-    private _authService: AuthenticationService,
     private _awardService: AwardService,
 		private _awardTypeService: AwardTypeService,
 		private _employeeService: EmployeeService,
     private _formBuilder: FormBuilder,
     private _snackBar: SnackbarService,
     private _userService: UserService,
-  ) {}
+  ) {
+    this.dataSource.data = this.awards;
+    this.dataSource.filterPredicate = this.handleTableFilter();
+  }
 
   ngOnInit() {
     this.setAwardFormContext(false);
 
+    // setup the award form
 		this.createAwardForm = this._formBuilder.group({
       id: new FormControl({ value: null, disabled: true }),
       user: new FormControl(null, { validators: Validators.required }),
@@ -112,22 +116,33 @@ export class AwardComponent implements OnInit {
 			awardedTime: new FormControl(null, { validators: ValidateTime }),
     });
 
+    // fetch all the users
 		this._userService.getAllUsers().subscribe((users) => {
       users.sort((a, b): number =>  a.username.toLowerCase() < b.username.toLowerCase() ? -1 : 1);
 			this.users = users;
     });
 
+    // fetch all the award types
 		this._awardTypeService.getAllAwardTypes().subscribe((awardTypes) => {
       awardTypes.sort((a, b): number =>  a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1);
 			this.awardTypes = awardTypes;
     });
     
+    // fetch all the employees
 		this._employeeService.getAllEmployees().subscribe((employees) => {
       employees.sort((a, b): number =>  a.firstName.toLowerCase() < b.firstName.toLowerCase() ? -1 : 1);
       this.employees = employees;
 		});
 
+    // fetch all the awards
     this.getAllAwards();
+
+    // setup the table filter
+    this.filterControl.valueChanges
+      .subscribe(value => {
+        this.filterValue = value;
+        this.dataSource.filter = JSON.stringify(this.filterValue);
+      })
   }
   
   
@@ -144,35 +159,73 @@ export class AwardComponent implements OnInit {
   }
 
 
+  /**
+   * Processes the table filter to check for any columns having
+   * a match to the filter text.
+   */
+  handleTableFilter(): (data: any, filter: string) => boolean {
+    const toHumanTime = t => {
+      if (!t) return '';
+      const timeArr = t.split(':');
+      const meridiem = timeArr[0] > '11' ? 'pm' : 'am';
+      return `${(Number(timeArr[0]) + 11) % 12 + 1}:${timeArr[1]} ${meridiem}`;
+    };
+
+    const toHumanDate = d => {
+      if (!d) return '';
+      return moment(d).format('L');
+    }
+
+    const filterFunction = function(data, filter): boolean {
+      const search = JSON.parse(filter).toLowerCase();
+      const fullNames = data.employee.firstName.toLowerCase() + ' ' + data.employee.lastName.toLowerCase();
+      const awardedDates = toHumanDate(data.awardedDate);
+      const awardedTimes = toHumanTime(data.awardedTime);
+
+      return !filter 
+        || data.awardType.name.toLowerCase().indexOf(search) !== -1
+        || data.id.toString().toLowerCase().indexOf(search) !== -1
+        || fullNames.indexOf(search) !== -1
+        || awardedDates.indexOf(search) !== -1
+        || awardedTimes.indexOf(search) !== -1;
+    };
+
+    return filterFunction;
+  }
+
+
+  /**
+   * Refreshes the list of awards based on the current awards in the
+   * awards array. Updates the sorting and paginator;
+   */
+  refreshAwardList(): void {
+    this.length = this.awards.length;
+    this.dataSource.data = this.awards;
+
+    this.dataSource.sortingDataAccessor = (item, property) => {
+      switch(property) {
+        case 'awardType': return item.awardType.name.toLocaleLowerCase();
+        case 'employee': return item.employee.firstName.toLocaleLowerCase();
+        default: return item[property];
+      }
+    };
+    
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+
+  /**
+   * Gets the existing awards from the db.
+   */
 	getAllAwards(): void {
 		this._awardService.getAllAwards().subscribe(awards => {
       this.awards = awards;
       this.length = awards.length;
-      this.dataSource = new MatTableDataSource(this.awards);
-
-      this.dataSource.sortingDataAccessor = (item, property) => {
-        switch(property) {
-          case 'awardType': return item.awardType.name.toLocaleLowerCase();
-          case 'employee': return item.employee.firstName.toLocaleLowerCase();
-          default: return item[property];
-        }
-      };
-      
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-
+      this.refreshAwardList();
     }, error => {
       this.showSnackbarError('Failed to load awards');
     });
-  }
-  
-
-  // TODO: Make this work w/ employee names and award types
-	public filter(value: string) {
-    this.dataSource.filter = value.trim().toLocaleLowerCase();
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
   }
   
 
@@ -188,9 +241,7 @@ export class AwardComponent implements OnInit {
       // without needing to make another call to the API
       const index: number = this.awards.findIndex(d => d === award);
       this.awards.splice(index, 1);
-      this.dataSource = new MatTableDataSource<Element>(this.awards);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+      this.refreshAwardList();
 
     }, err => {
       this.showSnackbarError('Award not deleted');
@@ -254,9 +305,7 @@ export class AwardComponent implements OnInit {
       this.showSnackbarSuccess('Success! The award has been created.');
       this.setAwardFormContext(true);
       this.awards.push(award);
-      this.dataSource = new MatTableDataSource<Element>(this.awards);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+      this.refreshAwardList();
     }, err => {
         this.showSnackbarError('Something has gone wrong. Award creation failed.');
     });

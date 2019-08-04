@@ -72,96 +72,96 @@ $grid-breakpoints: (
 //
 
 .hide {
-  display: none;
+  display: none !important;
 }
 
 .hide-xs {
   @include break-only(xs) {
-    display: none;
+    display: none !important;
   }
 }
 
 .hide-sm {
   @include break-only(sm) {
-    display: none;
+    display: none !important;
   }
 }
 
 .hide-md {
   @include break-only(md) {
-    display: none;
+    display: none !important;
   }
 }
 
 .hide-lg {
   @include break-only(lg) {
-    display: none;
+    display: none !important;
   }
 }
 
 .hide-xl {
   @include break-only(xl) {
-    display: none;
+    display: none !important;
   }
 }
 
 
 .hide-xs-up {
   @include break(xs) {
-    display: none;
+    display: none !important;
   }
 }
 
 .hide-sm-up {
   @include break(sm) {
-    display: none;
+    display: none !important;
   }
 }
 
 .hide-md-up {
   @include break(md) {
-    display: none;
+    display: none !important;
   }
 }
 
 .hide-lg-up {
   @include break(lg) {
-    display: none;
+    display: none !important;
   }
 }
 
 .hide-xl-up {
   @include break(xl) {
-    display: none;
+    display: none !important;
   }
 }
 
 
 .hide-xs-down {
   @include break-below(sm) {
-    display: none;
+    display: none !important;
   }
 }
 
 .hide-sm-down {
   @include break-below(md) {
-    display: none;
+    display: none !important;
   }
 }
 
 .hide-md-down {
   @include break-below(lg) {
-    display: none;
+    display: none !important;
   }
 }
 
 .hide-lg-down {
   @include break-below(xl) {
-    display: none;
+    display: none !important;
   }
 }
 
 .hide-xl-down {
-  display: none;
+  display: none !important;
 }
 

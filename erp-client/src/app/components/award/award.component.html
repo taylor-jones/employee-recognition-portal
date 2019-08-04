@@ -81,7 +81,6 @@
       </div>
     </mat-tab>
 
-
     <mat-tab label="Review Awards">
       <div class="tab-wrapper">
 
@@ -89,9 +88,10 @@
           <div id="pre-table-header">
             <h1 class="mat-h1">My Awards</h1>
             <p class="mat-subheading-1">View, edit, or delete awards that you've created.</p>
+
             <mat-form-field>
-              <input matInput type="text" (keyup)="filter($event.target.value)" placeholder="Type to filter">
-            </mat-form-field>
+                <input matInput type="text" [formControl]="filterControl" placeholder="Type to filter">
+              </mat-form-field>
           </div>
 
           <mat-table class="mat-table" [dataSource]="dataSource" matSort>
@@ -112,7 +112,7 @@
 
             <ng-container matColumnDef="awardedDate">
               <mat-header-cell *matHeaderCellDef mat-sort-header class="hide-sm-down">Awarded Date</mat-header-cell>
-              <mat-cell *matCellDef="let award" class="hide-sm-down"> {{ award.awardedDate | date:'shortDate' }} </mat-cell>
+              <mat-cell *matCellDef="let award" class="hide-sm-down"> {{ award.awardedDate | date:'M/d/yyyy' }} </mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="awardedTime">

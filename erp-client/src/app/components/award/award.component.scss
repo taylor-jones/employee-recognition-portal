@@ -101,8 +101,9 @@ form {
 // award table
 // 
 
-mat-table.mat-table {
+table {
   margin-bottom: 16px;
+  width: 100%;
 }
 
 mat-header-cell:first-of-type,
@@ -121,7 +122,5 @@ mat-cell:last-of-type {
 }
 
 .col-wide {
-  width: 20vw;
-  min-width: 96px;
-  max-width: 264px;
+  min-width: 200px;
 }
