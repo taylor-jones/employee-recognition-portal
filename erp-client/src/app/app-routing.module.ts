@@ -7,6 +7,7 @@ import { AwardComponent } from './components/award/award.component';
 import { AuthGuardService } from './services/auth-guard/auth-guard.service';
 import { AdminHomeComponent } from './components/admin/admin-home/admin-home.component';
 import { SelfComponent } from './components/self/self.component';
+import { ReportComponent } from './components/report/report.component';
 
 const routes: Routes = [
 	{ path: '', component: HomeComponent, canActivate: [AuthGuardService] },
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'me', component: SelfComponent, canActivate: [AuthGuardService] },
   { path: 'admin', component: AdminHomeComponent, canActivate: [AuthGuardService] },
+  { path: 'reports', component: ReportComponent, canActivate: [AuthGuardService] },
   { path: '**', redirectTo: 'login' },
 ];
 

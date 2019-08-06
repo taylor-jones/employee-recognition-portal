@@ -21,6 +21,7 @@ import { CanvasComponent } from './components/canvas/canvas.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { SelfComponent } from './components/self/self.component';
+import { ReportComponent } from './components/report/report.component';
 
 // Pipes
 import { ConvertTimePipe } from './pipes/convert-time.pipe';
@@ -37,6 +38,7 @@ import { ConvertTimePipe } from './pipes/convert-time.pipe';
     HomeComponent,
 		LoginComponent,
     SelfComponent,
+    ReportComponent,
     ConvertTimePipe
 	],
 	imports: [
