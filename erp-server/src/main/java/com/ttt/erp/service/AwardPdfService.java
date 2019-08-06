@@ -81,8 +81,6 @@ public class AwardPdfService {
             String signatureSrc = "signatures/" + userAccount.getSignature();
             Image signature = new Image(ImageDataFactory.create(signatureSrc)).scaleAbsolute(100, 100);
             document.add(signature);
-
-//            PdfFileSpec fileSpec = PdfFileSpec.createEmbeddedFileSpec(pdfDocument, signatureSrc, "signature.png", PdfName.ApplicationOctetStream);
         }
 
         document.close();
@@ -95,9 +93,10 @@ public class AwardPdfService {
             // gather the components needed to build the file name
             Award award = repository.findById(id);
             Employee employee = award.getEmployee();
+            UserAccount userAccount = award.getUserAccount();
 
             String filename = employee.getFullName() + " - Award.pdf";
-            String subjectLine = "Congratulations on award from TTT";
+            String subjectLine = "New Award from " + userAccount.getUsername() + " at TTT";
             String htmlString = "<p>Dear " + employee.getFirstName() + ",</p>" +
                 "<p>Thank you for your contributions to our organization. " +
                 "On behalf of everyone at Team Triple T, we'd like to present " +
