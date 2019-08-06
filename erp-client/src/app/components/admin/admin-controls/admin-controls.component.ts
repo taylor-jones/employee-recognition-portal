@@ -16,6 +16,7 @@ export class AdminControlsComponent implements OnInit {
   private _newAdminCheck: boolean = false;
   private _existingAdminCheck: boolean = false;
   newUserForm: FormGroup;
+  existingUserForm: FormGroup;
   private _formBuilder: FormBuilder;
 
   // Gain access the child canvas component values and functions
@@ -24,56 +25,102 @@ export class AdminControlsComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   ngOnInit() {
-    this.newUserForm = new FormGroup({
+    this.newUserForm = this.initUserFormGroup();
+    this.existingUserForm = this.initUserFormGroup();   // existing user form should has to start out empty
+    this.getAllUsers();
+  }
+
+  initUserFormGroup() {
+    return new FormGroup({
       username: new FormControl(null),
       password: new FormControl(null),
       email: new FormControl(null),
       isAdmin: new FormControl(false)
-    });
-    this.getAllUsers();
+    })
+  }
+
+  initFormGroupFromUser(initUser: User) {
+    return new FormGroup({
+      username: new FormControl(initUser.username),
+      password: new FormControl(initUser.password),
+      email: new FormControl(initUser.email),
+      isAdmin: new FormControl(initUser.isAdmin)
+    })
   }
 
   onSelect(value) {
     this._selectedUser = this._users.filter( u => u.id === value)[0];
-  }
-
-  resetForm() {
-    this.newUserForm.reset();
-    Object.keys(this.newUserForm.controls).forEach(key => {
-      this.newUserForm.get(key).setErrors(null) ;
-    });
+    this.existingUserForm = this.initFormGroupFromUser(this._selectedUser); // sync the form and user
   }
 
   // Handles both checkbox toggles
-  adminToggle(current, isNew): void {
-    if (isNew) {
-      this._newAdminCheck = !current;
-    } else {
-      this._existingAdminCheck = !current;
-    }
-  }
-
-  onSubmit() {
-    this.newUserForm.value.isEnabled = true;
-    this.newUserForm.value.signature = this.canvasChild.getCanvasData();
-    this.userService.addUser(this.newUserForm.value).subscribe(
-      (ok) => {
-        this.getAllUsers();
-        this.resetForm();
-      },
-      (error) => {console.log(error)}
-    );
+  adminToggle(): void {
+    this._newAdminCheck = !this._newAdminCheck;
   }
 
   getAllUsers(): void {
     this.userService.getAllUsers().subscribe (
-      (users) => {
-        this._users = users;
-      },
-      (error) => {
-        console.log(error);
-      }
+      (users) => { this._users = users },
+      (error) => { console.log(error) }
     );
   }
+
+  // Don't send signatures for admin users
+  getSignature() {
+    if (! this.newUserForm.value.isAdmin) {
+      return this.canvasChild.getCanvasData();
+    }
+    return null;
+  }
+
+  // Return the controls back to their original state after submit
+  resetForm(form: FormGroup) {
+    form.reset();
+    Object.keys(form.controls).forEach(key => {
+      form.get(key).setErrors(null);
+    });
+  }
+
+  // Re-fetch users and reset the controls. This is meant for callbacks
+  // after user creates/updates/deletes
+  refresh(form: FormGroup) {
+    this.getAllUsers();
+    this.resetForm(form);
+    this.canvasChild.clearCanvas();
+  }
+
+  // Create a new user
+  submitNewUser() {
+    this.newUserForm.value.isEnabled = true;
+    this.newUserForm.value.signature = this.getSignature();
+    this.userService.addUser(this.newUserForm.value).subscribe(
+      (ok) => { this.refresh(this.newUserForm) },
+      (error) => { console.error(error) }
+    );
+  }
+
+  // Delete the selected user
+  deleteSelectedUser() {
+    this.userService.deleteUser(this._selectedUser).subscribe (
+      (user) => { 
+        this.refresh(this.existingUserForm);
+        this._selectedUser = null;
+      },
+      (error) => { console.error(error) }
+    )
+  }
+
+  // Update the selected user
+  updateSelectedUser() {
+    this.existingUserForm.value.id = this._selectedUser.id;
+    this.existingUserForm.value.signature = null;
+    this.existingUserForm.value.isEnabled = true;
+    this.userService.updateUser(this.existingUserForm.value).subscribe (
+      (user) => { this.getAllUsers() },
+      (error) => {console.error(error)}
+    )
+  }
+
+
 
 }

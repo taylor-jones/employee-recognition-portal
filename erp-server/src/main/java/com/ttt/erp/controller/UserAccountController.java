@@ -60,26 +60,21 @@ public class UserAccountController {
         return this.userManager.get();
     }
 
-    // TODO: potentially this to get users profile?
-//    @GetMapping(value = "/me")
-
-
     // TODO: get actual userId from cookie
     @PutMapping("/{id}")
     public Optional<UserAccount> updateUserAccountById (
-        @CookieValue(value = "userId", defaultValue = "1") String modifiedById,
-        @PathVariable("id") Long awardId,
+        @CookieValue(value = "user") String actingUser,
+        @PathVariable("id") Long userId,
         @RequestBody UserAccount modified) {
-        return this.service.updateUser(Long.parseLong(modifiedById), awardId, modified);
+        return this.service.updateUser(this.repository.findByUsername(actingUser).getId(), userId, modified);
     }
 
-    // TODO: get actual userId from cookie
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteUserAccountById (
-        @CookieValue(value = "userId", defaultValue = "1") String modifiedById,
-        @PathVariable("id") Long awardId
+    public Optional<UserAccount> deleteUserAccountById (
+        @CookieValue(value = "user") String actingUser,
+        @PathVariable("id") Long userId
     ) {
-        return this.service.deleteUser(Long.parseLong(modifiedById), awardId);
+        return this.service.deleteUser(this.repository.findByUsername(actingUser).getId(), userId);
     }
 
     @GetMapping

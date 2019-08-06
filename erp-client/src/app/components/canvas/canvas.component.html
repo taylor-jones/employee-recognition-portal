@@ -8,11 +8,11 @@
     (mouseup)="penUp()">
   </canvas>
   <section>
-    <p>Locked: {{!unlocked}}</p>
-    <button (click)="clearCanvas()">Reset</button>
-    <button (click)="randomPath()">Random</button>
-    <button (click)="toggleLock()">Toggle lock</button>
-    <button (click)="canvasToData()">To data</button>
+    <button type="button" (click)="clearCanvas()">Reset</button>
+    <button type="button" (click)="randomPath()">Random</button>
+    <button type="button" (click)="toggleLock()">Toggle lock</button>
+    <button *ngIf="includeExportButton" (click)="canvasToData()">To data</button>
+    <p *ngIf="!unlocked">Locked</p>
   </section>
 </div>
 

@@ -2,6 +2,8 @@ package com.ttt.erp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import org.springframework.lang.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -13,6 +15,7 @@ import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 import java.util.Collection;
@@ -44,7 +47,7 @@ public class UserAccount {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "signature")
+    @Column(name = "signature", nullable = true)
     private String signature;
 
     @NotNull
@@ -135,7 +138,7 @@ public class UserAccount {
         this.password = password;
     }
 
-    public void setSignature(String signature) {
+    public void setSignature(@Nullable String signature) {
         this.signature = signature;
     }
 
@@ -144,7 +147,11 @@ public class UserAccount {
     }
 
     public void setIsEnabled(Boolean isEnabled) {
-        this.isEnabled = isEnabled;
+        if (isEnabled == null) {
+            this.isEnabled = true;
+        } else {
+            this.isEnabled = isEnabled;
+        }
     }
 
 
