@@ -1,0 +1,167 @@
+@import './breakpoint-functions';
+
+// NOTE: Why all the single line comments?
+// Because scss will include multiline comments
+// in the bundled output, but it will ignore
+// single line comments.
+
+
+// These breakpoints are aligned with the 
+// Angular Material breakpoints sizes.
+// https://github.com/angular/flex-layout/wiki/Responsive-API
+
+
+// 
+// Breakpoint Declarations
+// 
+
+$grid-breakpoints: (
+  xs: 0px,
+  sm: 600px,
+  md: 960px,
+  lg: 1200px,
+  xl: 1920px
+ );
+
+
+//
+// How to use the breakpoints:
+//
+
+// EX 1: Style something starting when the viewport 
+//       is at the 'sm' size (aka 600px and above):
+//
+//  .foo {
+//    @include break(sm) {
+//      ...
+//    }
+//  }
+
+// EX 2: Style something at all breakpoint sizes
+//       up until the 'xl' breakpoint (aka below 1920px):
+//
+//  .foo {
+//    @include break-below(xl) {
+//      ...
+//    }
+//  }
+
+// EX 3: Style something only when the viewport is
+//       at the 'md' size (aka 960px - 1199px):
+//
+//  .foo {
+//    @include break-only(md) {
+//      ...
+//    }
+//  }
+
+// EX 4: Style something only when the viewport is between 
+//       the 'sm' and 'lg' sizes (aka 600px - 1199px):
+//
+//  .foo {
+//    @include break-between(sm, md) {
+//      ...
+//    }
+//  }
+
+
+
+
+//
+// Breakpoint Helper Classes
+//
+
+.hide {
+  display: none !important;
+}
+
+.hide-xs {
+  @include break-only(xs) {
+    display: none !important;
+  }
+}
+
+.hide-sm {
+  @include break-only(sm) {
+    display: none !important;
+  }
+}
+
+.hide-md {
+  @include break-only(md) {
+    display: none !important;
+  }
+}
+
+.hide-lg {
+  @include break-only(lg) {
+    display: none !important;
+  }
+}
+
+.hide-xl {
+  @include break-only(xl) {
+    display: none !important;
+  }
+}
+
+
+.hide-xs-up {
+  @include break(xs) {
+    display: none !important;
+  }
+}
+
+.hide-sm-up {
+  @include break(sm) {
+    display: none !important;
+  }
+}
+
+.hide-md-up {
+  @include break(md) {
+    display: none !important;
+  }
+}
+
+.hide-lg-up {
+  @include break(lg) {
+    display: none !important;
+  }
+}
+
+.hide-xl-up {
+  @include break(xl) {
+    display: none !important;
+  }
+}
+
+
+.hide-xs-down {
+  @include break-below(sm) {
+    display: none !important;
+  }
+}
+
+.hide-sm-down {
+  @include break-below(md) {
+    display: none !important;
+  }
+}
+
+.hide-md-down {
+  @include break-below(lg) {
+    display: none !important;
+  }
+}
+
+.hide-lg-down {
+  @include break-below(xl) {
+    display: none !important;
+  }
+}
+
+.hide-xl-down {
+  display: none !important;
+}
+

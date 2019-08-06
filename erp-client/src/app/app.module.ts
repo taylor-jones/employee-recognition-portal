@@ -18,10 +18,12 @@ import { AdminHomeComponent } from './components/admin/admin-home/admin-home.com
 import { AdminTableComponent } from './components/admin/admin-table/admin-table.component';
 import { AwardComponent } from './components/award/award.component';
 import { CanvasComponent } from './components/canvas/canvas.component';
-import { CreateAwardComponent } from './components/award/createAward.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { SelfComponent } from './components/self/self.component';
+
+// Pipes
+import { ConvertTimePipe } from './pipes/convert-time.pipe';
 
 
 @NgModule({
@@ -32,10 +34,10 @@ import { SelfComponent } from './components/self/self.component';
 		AppComponent,
     AwardComponent,
     CanvasComponent,
-		CreateAwardComponent,
     HomeComponent,
 		LoginComponent,
     SelfComponent,
+    ConvertTimePipe
 	],
 	imports: [
     AppRoutingModule,
@@ -48,7 +50,7 @@ import { SelfComponent } from './components/self/self.component';
     // NoopAnimationsModule <--- causes animations to not work if imported
   ],
   exports: [],
-	providers: [CookieService],
+	providers: [ CookieService ],
 	bootstrap: [ AppComponent ]
 })
 export class AppModule {}

@@ -1,3 +1,6 @@
+// Project-Level Stylesheets
+@import './styles/breakpoints';
+
 // Angular Material Core Theme
 @import '~@angular/material/theming';
 
@@ -18,7 +21,7 @@ $theme: mat-light-theme($primary, $accent);
 //
 
 body {
-  background: #fafafa;
+  // background: #fafafa;
   margin: 0;
   padding: 0;
 }
@@ -29,7 +32,7 @@ body {
 //
 
 .container {
-  width: 80%;
+  width: 85%;
   max-width: 1200px;
   margin: 60px auto;
 }

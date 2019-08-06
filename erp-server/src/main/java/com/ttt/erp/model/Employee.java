@@ -84,6 +84,10 @@ public class Employee {
         return this.lastName;
     }
 
+    public String getFullName() {
+        return this.firstName + ' ' + this.lastName;
+    }
+
     public Set<EmployeeRegion> getRegions() {
         return this.regions;
     }

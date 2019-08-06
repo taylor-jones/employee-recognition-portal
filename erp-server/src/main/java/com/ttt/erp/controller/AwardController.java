@@ -2,11 +2,14 @@ package com.ttt.erp.controller;
 
 import com.ttt.erp.model.Award;
 import com.ttt.erp.repository.AwardRepository;
+import com.ttt.erp.service.AwardPdfService;
 import com.ttt.erp.service.AwardService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,39 +23,85 @@ public class AwardController {
     @Autowired
     AwardService service;
 
+    @Autowired
+    AwardPdfService awardPdfService;
+
+
+    /**
+     * Gets the Award with the specified Id
+     * @param id - the id of the award
+     * @return - the Award JSON
+     */
     @GetMapping("/{id}")
     public Award getAward(@PathVariable("id") final Long id) {
         return repository.findById(id);
     }
 
-    // TODO: get actual userId from cookie
+
+    /**
+     * Generates the PDF Award with the specified Id
+     * @param id - the id of the award
+     * @return - the Award JSON
+     */
+    @GetMapping(value = "/{id}/send", produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<Long> sendAward(@PathVariable("id") final Long id) throws FileNotFoundException {
+        return this.awardPdfService.sendAwardPdf(id);
+    }
+
+
+    /**
+     * Creates a new Award record
+     * @param modifiedById - the userId cookie value
+     * @param newAward - the Award data
+     * @return the Award JSON if successful
+     */
     @PostMapping
     public Optional<Award> addAward (
-        @CookieValue(value = "userId", defaultValue = "1") String modifiedById,
+        @CookieValue(value = "userId") String modifiedById,
         @RequestBody Award newAward) {
         return this.service.createAward(Long.parseLong(modifiedById), newAward);
     }
 
-    // TODO: get actual userId from cookie
+    /**
+     * Updates an award record
+     * @param modifiedById - the cookie userId value
+     * @param awardId - the id of the award to update
+     * @param modified - the modified award data
+     * @return - the updated Award JSON, if successful
+     */
     @PutMapping("/{id}")
     public Optional<Award> updateAwardById (
-        @CookieValue(value = "userId", defaultValue = "1") String modifiedById,
+        @CookieValue(value = "userId") String modifiedById,
         @PathVariable("id") Long awardId,
         @RequestBody Award modified) {
         return this.service.updateAward(Long.parseLong(modifiedById), awardId, modified);
     }
 
-    // TODO: get actual userId from cookie
+    /**
+     * Deletes an Award record
+     * @param modifiedById - the cookie userId value
+     * @param awardId - the Award to delete
+     * @return 200 if successful, other HTTP error code if not
+     */
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteAwardById (
-        @CookieValue(value = "userId", defaultValue = "1") String modifiedById,
+    public ResponseEntity<Long> deleteAwardById (
+        @CookieValue(value = "userId") String modifiedById,
         @PathVariable("id") Long awardId
     ) {
         return this.service.deleteAward(Long.parseLong(modifiedById), awardId);
     }
 
+    /**
+     * Gets all the awards created by a particular user, or all awards if user is admin
+     * @param requestedByUser - the user cookie value (username)
+     * @param isAdmin - boolean - is the user an admin user?
+     * @return JSON array of awards available to the requesting user.
+     */
     @GetMapping
-    public List<Award> getAll() {
-        return repository.findAll();
+    public List<Award> getAll(
+        @CookieValue(value = "user") String requestedByUser,
+        @CookieValue(value = "admin") String isAdmin
+    ) {
+        return this.service.getAllAwards(requestedByUser, Boolean.parseBoolean(isAdmin));
     }
 }
