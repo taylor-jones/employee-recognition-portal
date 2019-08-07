@@ -1,0 +1,40 @@
+@import '../../../styles.scss';
+
+mat-toolbar.mat-toolbar {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10%;
+}
+
+mat-card {
+  margin: auto;
+  width: 50%;
+
+  mat-card-content {
+    margin-top: 5%;
+  }
+
+  mat-form-field {
+    display: block;
+    width: 100%;
+    margin: auto;
+  }
+
+  .muted {
+    color: gray;
+  }
+}
+
+form {
+  margin: auto;
+  margin-top: 10%;
+  width: 80%;
+}
+
+h1, p {
+  padding-left: 10%;
+}
+
+p {
+  margin-bottom: 10%;
+}

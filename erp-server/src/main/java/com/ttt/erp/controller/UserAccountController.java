@@ -31,11 +31,6 @@ public class UserAccountController {
     @Autowired
     UserManager userManager;
 
-    @GetMapping("/{id}")
-    public UserAccount getUserAccount(@PathVariable("id") final Long id) {
-        return repository.findById(id);
-    }
-
     /**
      * Get all the awards for a particular user account
      * @param id - the userAccount.id
