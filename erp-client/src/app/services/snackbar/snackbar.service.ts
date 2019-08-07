@@ -27,7 +27,10 @@ export class SnackbarService {
    * @param {string} action - the text of the Action button
    * @param {object} options - the options to include for the snackbar
    */
-  public showError(message, action, options) {
+  public showError(message, action = 'Okay', options = {
+    duration: 3000,
+    panelClass: [ 'snackbar-error' ]
+  }) {
     this._snackbar.open(message, action, options);
   }
 }
