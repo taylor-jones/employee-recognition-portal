@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { CookieService } from 'ngx-cookie-service';
-import { AdminControlsComponent } from '../admin/admin-controls/admin-controls.component';
-import { UserService } from 'src/app/services/user/user.service';
-import { User } from 'src/app/models/user.model';
-import { SnackbarService } from 'src/app/services/snackbar/snackbar.service';
-import { FormGroup } from '@angular/forms';
-import { MatInput } from '@angular/material';
+import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
+import {CookieService} from 'ngx-cookie-service';
+import {AdminControlsComponent} from '../admin/admin-controls/admin-controls.component';
+import {UserService} from 'src/app/services/user/user.service';
+import {User} from 'src/app/models/user.model';
+import {SnackbarService} from 'src/app/services/snackbar/snackbar.service';
+import {FormGroup} from '@angular/forms';
+import {MatInput} from '@angular/material';
 
 @Component({
   selector: 'erp-my-page',
@@ -19,7 +19,7 @@ export class MyPageComponent extends AdminControlsComponent implements OnInit {
   private passwordType: string;
   accountForm: FormGroup;
 
-  constructor (
+  constructor(
     private cookieService: CookieService,
     private snackbarService: SnackbarService,
     public userService: UserService
@@ -42,9 +42,9 @@ export class MyPageComponent extends AdminControlsComponent implements OnInit {
 
   setPasswordType() {
     if (this.readOnly == true) {
-      this.passwordType = 'password'
+      this.passwordType = 'password';
     } else {
-      this.passwordType = 'text'
+      this.passwordType = 'text';
     }
   }
 
@@ -55,27 +55,31 @@ export class MyPageComponent extends AdminControlsComponent implements OnInit {
   }
 
   getMyUser() {
-    this.userService.getUserByUsername(this.currentUser).subscribe (
-      user => { 
+    this.userService.getUserByUsername(this.currentUser).subscribe(
+      user => {
         this.me = user;
         this.accountForm = this.initFormGroupFromUser(this.me);
       },
-      error => { this.onError(`Unable to get current user: ${error})`)}
-    )
+      error => {
+        this.onError(`Unable to get current user: ${error})`);
+      }
+    );
   }
 
   updateMyUser() {
-    this.userService.updateUser(this.accountForm.value).subscribe (
-      (user) => { 
+    this.userService.updateUser(this.accountForm.value).subscribe(
+      (user) => {
         this.me = user;
         this.toggleReadOnly();
       },
-      (error) => { this.onError(`Failed to updated user: ${error}`) }
-    )
+      (error) => {
+        this.onError(`Failed to updated user: ${error}`);
+      }
+    );
   }
 
   onError(message: string) {
-    this.snackbarService.showError(message, 'Dang it', {panelClass: [ 'snackbar-error' ]})
+    this.snackbarService.showError(message, 'Dang it', { duration: 3000, panelClass: ['snackbar-error']});
   }
 
 }
