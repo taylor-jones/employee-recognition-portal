@@ -79,7 +79,7 @@ export class MyPageComponent extends AdminControlsComponent implements OnInit {
   }
 
   onError(message: string) {
-    this.snackbarService.showError(message, 'Dang it', { duration: 3000, panelClass: ['snackbar-error']});
+    this.snackbarService.showError(message, 'Dang it', {duration: null, panelClass: [ 'snackbar-error' ]})
   }
 
 }
