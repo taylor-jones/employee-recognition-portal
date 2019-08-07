@@ -1,6 +1,8 @@
 package com.ttt.erp.service;
 
+import com.ttt.erp.model.RecoveryQuestion;
 import com.ttt.erp.model.UserAccount;
+import com.ttt.erp.repository.RecoveryQuestionRepository;
 import com.ttt.erp.repository.UserAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +18,9 @@ public class UserAccountService extends LogService {
 
     @Autowired
     private UserAccountRepository repository;
+
+    @Autowired
+    RecoveryQuestionRepository recoveryAnswersRepository;
 
     @Autowired
     private SignatureService signatureService;
@@ -34,7 +39,7 @@ public class UserAccountService extends LogService {
         return Optional.ofNullable(this.repository.findByUsername(username).getSignature());
     }
 
-    
+
     public Optional<UserAccount> createUser(Long userAccountId, UserAccount user) {
         try {
             if (! user.getIsAdmin()) {

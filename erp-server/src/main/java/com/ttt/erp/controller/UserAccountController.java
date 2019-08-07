@@ -1,8 +1,10 @@
 package com.ttt.erp.controller;
 
 import com.ttt.erp.model.Award;
+import com.ttt.erp.model.RecoveryQuestion;
 import com.ttt.erp.model.UserAccount;
 import com.ttt.erp.repository.AwardRepository;
+import com.ttt.erp.repository.RecoveryQuestionRepository;
 import com.ttt.erp.repository.UserAccountRepository;
 import com.ttt.erp.service.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -30,6 +31,14 @@ public class UserAccountController {
 
     @Autowired
     UserManager userManager;
+
+    @Autowired
+    private RecoveryQuestionRepository recoveryQuestionRepository;
+
+    @GetMapping("/{id}")
+    public UserAccount getUserAccount(@PathVariable("id") final Long id) {
+        return repository.findById(id);
+    }
 
     /**
      * Get all the awards for a particular user account

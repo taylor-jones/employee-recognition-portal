@@ -4,30 +4,10 @@
 <!--<br>-->
 <!--<button (click)="handleLogin()" [disabled]="!username || !password">Click me!</button>-->
 
-
-
-<!--<div layout-fill layout="column" layout-align="center none">-->
-<!--  <div layout="row" layout-align="center none">-->
-
-<!--    <mat-card class="login-container">-->
-<!--      <mat-form-field class="example-full-width">-->
-<!--        <input matInput placeholder="Favorite food" value="Sushi">-->
-<!--      </mat-form-field>-->
-
-<!--      <mat-form-field class="example-full-width">-->
-<!--        <textarea matInput placeholder="Leave a comment"></textarea>-->
-<!--      </mat-form-field>-->
-<!--    </mat-card>-->
-<!--  </div>-->
-<!--</div>-->
-
-<!-- Classes main-div and example-card are catagorized in .css file -->
 <div class="login-container">
-
   <mat-card class="login-card">
     <mat-card-header>
       <div class="login-box-header">
-        <!-- Src image is temporary hosted in image.ibb-->
         <img [src]="'assets/Images/prototype-logo.svg'" class="login-logo">
       </div>
     </mat-card-header>
@@ -47,6 +27,7 @@
             </mat-form-field></td>
           </tr></table>
       </form>
+      <a mat-label class="forgot-password" href="/forgotPassword">Forgot Password?</a>
       <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner>
     </mat-card-content>
     <mat-card-actions>
