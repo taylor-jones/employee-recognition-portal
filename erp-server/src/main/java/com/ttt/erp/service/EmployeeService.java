@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -75,4 +76,43 @@ public class EmployeeService extends LogService {
         return regions;
     };
 
+
+    /**
+     * Response Format:
+     * - [0] employee id
+     * - [1] employee first name
+     * - [2] employee last name
+     * - [3] count of awards
+     * @return the number of awards each employee has received
+     */
+    public List<Object[]> getEmployeeAwardCounts() {
+        return this.repository.getEmployeeAwardCounts();
+    }
+
+
+    /**
+     * Response Format:
+     * - [0] employee id
+     * - [1] employee first name
+     * - [2] employee last name
+     * - [3] count of award types
+     * @return the number of awards each employee has received
+     */
+    public List<Object[]> getEmployeeAwardTypeDiversity() {
+        return this.repository.getEmployeeAwardTypeDiversity();
+    }
+
+
+    /**
+     * Response Format:
+     * - [0] employee id
+     * - [1] employee first name
+     * - [2] employee last name
+     * - [3] count of award types
+     * @return Each employee having received the specified award type
+     *  and the number of times they've received the award type
+     */
+    public List<Object[]> getEmployeesWithAwardType(Long awardTypeId) {
+        return this.repository.getEmployeesWithAwardType(awardTypeId);
+    }
 }

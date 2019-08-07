@@ -1,13 +1,13 @@
 package com.ttt.erp.service;
 
-import org.springframework.stereotype.Service;
 import com.ttt.erp.model.AwardType;
 import com.ttt.erp.repository.AwardTypeRepository;
-import com.ttt.erp.service.LogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -54,4 +54,14 @@ public class AwardTypeService extends LogService {
     }
   }
 
+
+  /**
+   * Returns a list of Object results from the query in the form of:
+   * - [0] - award_type_id
+   * - [1] - award_type_name
+   * - [2] - total times awarded
+   */
+  public List<Object[]> getAwardTypeCounts() {
+    return this.awardTypeRepository.getAwardTypeCounts();
+  }
 }

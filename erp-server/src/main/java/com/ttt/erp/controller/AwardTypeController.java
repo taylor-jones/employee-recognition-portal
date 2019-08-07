@@ -50,6 +50,17 @@ public class AwardTypeController {
     }
 
 
+    /**
+     * Get the number of times each award type has been awarded
+     * @return JSON array of award object, empty array if none found
+     */
+    @GetMapping("/totals")
+    public List<Object[]> getAwardTypeCounts() {
+        return this.service.getAwardTypeCounts();
+    }
+
+
+
     @PostMapping("/{userId}")
     public Optional<AwardType> addAwardType (
         @CookieValue(value = "userId") String modifiedById,

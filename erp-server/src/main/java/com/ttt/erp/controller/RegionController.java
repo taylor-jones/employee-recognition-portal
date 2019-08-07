@@ -41,6 +41,17 @@ public class RegionController {
 
 
     /**
+     * Get the total number of awards give to each region
+     * @return JSON array
+     */
+    @GetMapping("/awards/totals")
+    public List<Object[]> getAwardCounts() {
+        return this.service.getAwardCountsForRegions();
+    }
+
+
+
+    /**
      * Get all the awards for a particular region
      * @param id - the region.id
      * @return JSON array of award objects, empty array if none found
@@ -52,28 +63,26 @@ public class RegionController {
     }
 
 
-
-    // TODO: get actual userId from cookie
     @PostMapping
     public Optional<Region> addRegion (
-        @CookieValue(value = "userId", defaultValue = "1") String modifiedById,
+        @CookieValue(value = "userId") String modifiedById,
         @RequestBody Region newRegion) {
         return this.service.createRegion(Long.parseLong(modifiedById), newRegion);
     }
 
-    // TODO: get actual userId from cookie
+
     @PutMapping("/{id}")
     public Optional<Region> updateRegionById (
-        @CookieValue(value = "userId", defaultValue = "1") String modifiedById,
+        @CookieValue(value = "userId") String modifiedById,
         @PathVariable("id") Long regionId,
         @RequestBody Region modified) {
         return this.service.updateRegion(Long.parseLong(modifiedById), regionId, modified);
     }
 
-    // TODO: get actual userId from cookie
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteRegionById (
-        @CookieValue(value = "userId", defaultValue = "1") String modifiedById,
+        @CookieValue(value = "userId") String modifiedById,
         @PathVariable("id") Long regionId
     ) {
         return this.service.deleteRegion(Long.parseLong(modifiedById), regionId);
