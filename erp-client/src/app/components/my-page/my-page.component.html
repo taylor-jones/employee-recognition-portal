@@ -1,0 +1,54 @@
+<mat-toolbar>
+  <span>Account</span>
+  <span>Welcome, {{currentUser}}!</span>
+</mat-toolbar>
+
+<mat-card>
+  <h1 class="mat-h1">Account Details</h1>
+  <p *ngIf="!readOnly" class="mat-subheading-1">Make changes below and save to update your account</p>
+  <p *ngIf="readOnly" class="mat-subheading-1">View or change your account details below</p>
+  <hr>
+  <mat-card-content>
+    <form [formGroup]="accountForm" (ngSubmit)="updateMyUser()">
+      <mat-form-field>
+        <input 
+          matInput
+          type="text"
+          placeholder="Username"
+          [readonly]="readOnly"
+          [ngClass]="readOnly ? 'muted' : ''"
+          formControlName="username"
+          required
+        >
+      </mat-form-field>
+      <mat-form-field required>
+        <input
+          matInput
+          type="{{passwordType}}"
+          placeholder="Password"
+          [readonly]="readOnly"
+          [ngClass]="readOnly ? 'muted' : ''"
+          formControlName="password"
+          require
+        >
+      </mat-form-field>
+      <mat-form-field required>
+        <input
+          matInput
+          type="email"
+          placeholder="Email"
+          [readonly]="readOnly"
+          [ngClass]="readOnly ? 'muted' : ''"
+          formControlName="email"
+          required
+        >
+      </mat-form-field>
+      <img mat-card-image>
+      <mat-card-actions>
+        <button *ngIf="readOnly" mat-flat-button color="primary" type="button" (click)="toggleReadOnly()">Make Changes</button>
+        <button *ngIf="!readOnly" mat-flat-button color="primary" type="submit">Save</button>
+        <button *ngIf="!readOnly" mat-flat-button type="button" (click)="resetForm()">Cancel</button>
+      </mat-card-actions>
+    </form>
+  </mat-card-content>
+</mat-card>
