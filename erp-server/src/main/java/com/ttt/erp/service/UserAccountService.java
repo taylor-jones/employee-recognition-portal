@@ -5,12 +5,10 @@ import com.ttt.erp.model.UserAccount;
 import com.ttt.erp.repository.RecoveryQuestionRepository;
 import com.ttt.erp.repository.UserAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
-import java.util.Map;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -90,5 +88,17 @@ public class UserAccountService extends LogService {
             e.printStackTrace();
             return Optional.empty();
         }
+    }
+
+
+    /**
+     * Response Format:
+     * - [0] user id
+     * - [1] username
+     * - [2] total awards given
+     * @return List all users along with the number of awards given by each user
+     */
+    public List<Object[]> getUserAwardCounts() {
+        return this.repository.getUserAwardCounts();
     }
 }

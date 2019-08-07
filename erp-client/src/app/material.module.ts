@@ -37,6 +37,7 @@ import {
 
 // 3rd-party Material Components
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 
 @NgModule({
@@ -74,6 +75,7 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 		MatTooltipModule,
     MatPaginatorModule,
     NgxMaterialTimepickerModule,
+    NgxChartsModule,
   ],
   exports: [
     MatAutocompleteModule,
@@ -109,6 +111,7 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 		MatTooltipModule,
     MatPaginatorModule,
     NgxMaterialTimepickerModule,
+    NgxChartsModule
   ]
 })
 export class MaterialModule {}

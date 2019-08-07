@@ -15,6 +15,7 @@ public interface AwardRepository extends JpaRepository<Award, Integer> {
 
     /**
      * Gets a list of all the awards for a particular employee.
+     *
      * @param employee - the Employee to find all awards for
      * @return List of employee's awards , empty array if none are found.
      */
@@ -23,6 +24,7 @@ public interface AwardRepository extends JpaRepository<Award, Integer> {
 
     /**
      * Gets a list of all the awards for a particular award type.
+     *
      * @param awardType - the Award Type to find all awards for
      * @return List of award type's awards , empty array if none are found.
      */
@@ -31,6 +33,7 @@ public interface AwardRepository extends JpaRepository<Award, Integer> {
 
     /**
      * Gets a list of all the awards for a particular user.
+     *
      * @param userAccount - the User Account to find all awards for
      * @return List of user account's awards , empty array if none are found.
      */
