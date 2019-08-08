@@ -326,9 +326,8 @@ export class ReportComponent implements OnInit {
     this._reportService.getAwardTypeCounts().subscribe(response => {
       this.awardTypeCounts = response.map(item => {
         return {
-          id: item[0],
           name: item[1],
-          total: item[2],
+          value: item[2]
         };
       });
 
