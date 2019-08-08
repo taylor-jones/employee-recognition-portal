@@ -20,6 +20,7 @@
           formControlName="username"
           required
         >
+        <mat-error *ngIf="accountForm.controls.username.hasError('required')">Username is required</mat-error>
       </mat-form-field>
       <mat-form-field required>
         <input
@@ -29,8 +30,9 @@
           [readonly]="readOnly"
           [ngClass]="readOnly ? 'muted' : ''"
           formControlName="password"
-          require
+          required
         >
+        <mat-error *ngIf="accountForm.controls.password.hasError('required')">Password is required</mat-error>
       </mat-form-field>
       <mat-form-field required>
         <input
@@ -42,11 +44,13 @@
           formControlName="email"
           required
         >
+        <mat-error *ngIf="accountForm.controls.email.hasError('required')">Email is required</mat-error>
+        <mat-error *ngIf="accountForm.controls.email.hasError('email')">Invalid email</mat-error>
       </mat-form-field>
       <img mat-card-image>
       <mat-card-actions>
         <button *ngIf="readOnly" mat-flat-button color="primary" type="button" (click)="toggleReadOnly()">Make Changes</button>
-        <button *ngIf="!readOnly" mat-flat-button color="primary" type="submit">Save</button>
+        <button *ngIf="!readOnly" [disabled]="accountForm.invalid" mat-flat-button color="primary" type="submit">Save</button>
         <button *ngIf="!readOnly" mat-flat-button type="button" (click)="resetForm()">Cancel</button>
       </mat-card-actions>
     </form>

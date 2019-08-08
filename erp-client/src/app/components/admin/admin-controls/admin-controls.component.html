@@ -13,18 +13,28 @@
             formControlName="isAdmin"
           >Admin user</mat-checkbox>
           <mat-form-field>
-            <input matInput placeholder="Username" value="" formControlName="username" required>
+            <input matInput type="text" placeholder="Username" formControlName="username" required>
+            <mat-error *ngIf="newUserForm.controls.username.hasError('required')">Username is required</mat-error>
           </mat-form-field>
-          <mat-form-field required>
-            <input matInput placeholder="Password" value="" formControlName="password" required>
+          <mat-form-field>
+            <input matInput type="text" placeholder="Password" formControlName="password" required>
+            <mat-error *ngIf="newUserForm.controls.password.hasError('required')">Password is required</mat-error>
           </mat-form-field>
-          <mat-form-field required>
-            <input matInput placeholder="Email" value="" formControlName="email" required>
+          <mat-form-field>
+            <input matInput type="email" placeholder="Email" formControlName="email" required>
+            <mat-error *ngIf="newUserForm.controls.email.hasError('required')">Email is required</mat-error>
+            <mat-error *ngIf="newUserForm.controls.email.hasError('email')">Invalid email</mat-error>
           </mat-form-field>
           <erp-canvas [hidden]="newUserForm.value.isAdmin" [width]="300" [height]="150" [includeExportButton]="false"></erp-canvas>
           <div class="common-buttons">
-            <button mat-button color="primary" class="action-button-left" type="submit">Submit</button>
-            <button mat-button color="accent" class="action-button-right" type="reset">Clear</button>
+            <button
+              mat-button 
+              color="primary" 
+              class="action-button-left" 
+              [disabled]="newUserForm.invalid || (!_newAdminCheck && !canvasChild.touched)" 
+              type="submit">
+            Submit</button>
+            <button mat-button color="accent" class="action-button-right" (click)="resetForm(newUserForm)" type="reset">Clear</button>
           </div>
         </form>
       </mat-tab>
@@ -44,16 +54,20 @@
               formControlName="isAdmin"
             >Admin user</mat-checkbox>
             <mat-form-field>
-              <input matInput placeholder="Username" formControlName="username">
+              <input matInput type="text" placeholder="Username" formControlName="username" required>
+              <mat-error *ngIf="existingUserForm.controls.username.hasError('required')">Username is required</mat-error>
             </mat-form-field>
             <mat-form-field>
-              <input matInput placeholder="Password" formControlName="password">
+              <input matInput type="text" placeholder="Password" formControlName="password" required>
+              <mat-error *ngIf="existingUserForm.controls.password.hasError('required')">Password is required</mat-error>
             </mat-form-field>
             <mat-form-field>
-              <input matInput placeholder="Email" formControlName="email">
+              <input matInput type="email" placeholder="Email" formControlName="email">
+              <mat-error *ngIf="existingUserForm.controls.email.hasError('required')">Email is required</mat-error>
+              <mat-error *ngIf="existingUserForm.controls.email.hasError('email')">Invalid email</mat-error>
             </mat-form-field>
             <div class="common-buttons">
-              <button mat-button color="primary" class="action-button-left" (click)="updateSelectedUser()" type="submit">Save</button>
+              <button mat-button color="primary" class="action-button-left" [disabled]="existingUserForm.invalid" (click)="updateSelectedUser()" type="submit">Save</button>
               <button mat-button color="accent" class="action-button-right" (click)="deleteSelectedUser()" type="submit">Delete</button>
             </div>
           </div>
