@@ -25,6 +25,7 @@ import { MyPageComponent } from './components/my-page/my-page.component';
 import { AccountRecoveryComponent } from './components/account-recovery/account-recovery/account-recovery.component';
 import { ChangePasswordComponent } from './components/account-recovery/change-password/change-password.component';
 import { ReportComponent } from './components/report/report.component';
+import { VerticalBarChartComponent } from './components/report/vertical-bar-chart/vertical-bar-chart.component';
 
 // Pipes
 import {ConvertTimePipe} from './pipes/convert-time.pipe';
@@ -41,10 +42,12 @@ import {ConvertTimePipe} from './pipes/convert-time.pipe';
     LoginComponent,
     MyPageComponent,
     SelfComponent,
-    ReportComponent,
     ConvertTimePipe,
     AccountRecoveryComponent,
     ChangePasswordComponent,
+    ReportComponent,
+    VerticalBarChartComponent,
+    ConvertTimePipe
   ],
   imports: [
     AppRoutingModule,

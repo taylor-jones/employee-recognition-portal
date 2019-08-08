@@ -1,8 +1,8 @@
 <mat-toolbar>
   <span>Reporting</span>
 </mat-toolbar>
-
 <div class="container">
+<<<<<<< HEAD
   <div class="chart-title-area">
     <h2 class="example-h2">Regional Awards</h2>
       <mat-slide-toggle 
@@ -99,4 +99,14 @@
         </mat-table>
       </div>
     </div>
+=======
+  <vertical-bar-chart
+    *ngIf="userAwardCounts"
+    [title]="'Awards sent by user'"
+    [data]="userAwardCounts"
+    [view]="[1000, 300]"
+    [showAxes]="true"
+    [axisLabels]="['User','Awards']">
+  </vertical-bar-chart>
+>>>>>>> Add chart for user award counts
 </div>  
