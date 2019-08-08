@@ -1,8 +1,13 @@
 <mat-toolbar>
   <span>Reporting</span>
 </mat-toolbar>
-
 <div class="container">
-
-
+  <vertical-bar-chart
+    *ngIf="userAwardCounts"
+    [title]="'Awards sent by user'"
+    [data]="userAwardCounts"
+    [view]="[1000, 300]"
+    [showAxes]="true"
+    [axisLabels]="['User','Awards']">
+  </vertical-bar-chart>
 </div>  
