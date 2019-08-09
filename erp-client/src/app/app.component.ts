@@ -10,10 +10,10 @@ import {Router} from '@angular/router';
 export class AppComponent {
   title = 'employee-recognition-portal';
 
-  constructor(private authService: AuthenticationService,
-              private router: Router) {
-
-  }
+  constructor (
+    private authService: AuthenticationService,
+    private router: Router
+  ) {}
 
   handleLogout(): void {
     this.authService.logout();

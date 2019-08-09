@@ -16,8 +16,8 @@ export class UserService {
 		this.jsonHeaders = new HttpHeaders({'Content-Type': 'application/json'});
 	}
 
-	getUserById(id: number): Observable<User> {
-		return this.httpClient.get<User>(`${this.baseEndpoint}/${id}`);
+	getUserByUsername(username: string): Observable<User> {
+		return this.httpClient.get<User>(`${this.baseEndpoint}/${username}`);
 	}
 
 	getAllUsers(): Observable<User[]> {

@@ -51,7 +51,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication().dataSource(dataSource)
                 .usersByUsernameQuery("select username, password, enabled from user_account where username=?")
-                .authoritiesByUsernameQuery("select username, role from user_roles where username=?")
+                .authoritiesByUsernameQuery(
+                    "select username, case when is_admin = 't' then 'ROLE_ADMIN' else 'ROLE_USER' end as role from user_account where username=?"
+                )
                 .passwordEncoder(passwordEncoder1());
     }
 
@@ -77,6 +79,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/api/admin/**").hasRole("ADMIN")
                     .antMatchers("/api/users/whoAmI").authenticated()
                     .antMatchers("/api/users/me").authenticated()
+                    .antMatchers("/api/recover/**").permitAll()
                     .antMatchers("/api/**").hasAnyRole("USER","ADMIN")
                 .and()
                 .formLogin()

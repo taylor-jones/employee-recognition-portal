@@ -1,0 +1,45 @@
+<div *ngIf="change">
+  <erp-change-password [username]="username"></erp-change-password>
+</div>
+
+<div *ngIf="!change">
+  <mat-toolbar *ngIf="!questions">Forgot Password</mat-toolbar>
+  <mat-toolbar *ngIf="questions">Recovery Questions</mat-toolbar>
+
+  <div class="recovery-selection-container">
+    <mat-card class="recovery-selection-card">
+      <mat-card-header>
+        <div class="recovery-selection-box-header">
+          <img [src]="'assets/Images/prototype-logo.svg'" class="recovery-selection-logo">
+        </div>
+      </mat-card-header>
+      <mat-card-content>
+        <form>
+          <table cellspacing="0">
+            <tr>
+              <td>
+                <mat-form-field class="recovery-account-selection">
+                  <input matInput placeholder="What is your username?" [disabled]="questions" [(ngModel)]="username" name="username" required>
+                </mat-form-field>
+              </td>
+            </tr>
+          </table>
+        </form>
+      </mat-card-content>
+      <mat-card-content *ngIf="questions">
+        <div *ngFor="let question of questions">
+          <mat-form-field class="recovery-account-selection">
+            <input matInput [placeholder]="question.question" [(ngModel)]="question.answer" [name]="question.id" required>
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+      <div>{{errorMessage}}</div>
+      <mat-card-actions>
+        <button mat-raised-button *ngIf="!questions" (click)="handleAccountSelection()" [disabled]="!username" color="primary" class="recovery-selection-submit-button">Submit</button>
+        <button mat-raised-button *ngIf="questions" (click)="handleAnswersSubmit()" color="primary" class="recovery-selection-submit-button">Submit</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
+
+

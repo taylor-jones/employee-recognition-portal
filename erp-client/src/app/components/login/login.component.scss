@@ -1,7 +1,6 @@
-//.login-container {
-//  max-width: 400px;
-//
-//}
+mat-spinner {
+  margin: auto;
+}
 
 .login-container {
   height: 55vh;
@@ -21,6 +20,10 @@
 
 .password-input {
   justify-content: center;
+}
+
+.forgot-password {
+  font-size: 10px;
 }
 
 .login-button {

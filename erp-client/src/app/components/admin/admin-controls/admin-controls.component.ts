@@ -22,7 +22,7 @@ export class AdminControlsComponent implements OnInit {
   // Gain access the child canvas component values and functions
   @ViewChild(CanvasComponent, {static: false}) canvasChild: CanvasComponent;
 
-  constructor(private userService: UserService) { }
+  constructor(public userService: UserService) { }
 
   ngOnInit() {
     this.newUserForm = this.initUserFormGroup();
@@ -41,10 +41,13 @@ export class AdminControlsComponent implements OnInit {
 
   initFormGroupFromUser(initUser: User) {
     return new FormGroup({
+      id: new FormControl(initUser.id),
       username: new FormControl(initUser.username),
       password: new FormControl(initUser.password),
       email: new FormControl(initUser.email),
-      isAdmin: new FormControl(initUser.isAdmin)
+      signature: new FormControl(initUser.signature),
+      isAdmin: new FormControl(initUser.isAdmin),
+      isEnabled: new FormControl(initUser.isEnabled)
     })
   }
 

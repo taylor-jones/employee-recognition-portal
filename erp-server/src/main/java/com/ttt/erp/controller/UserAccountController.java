@@ -1,8 +1,10 @@
 package com.ttt.erp.controller;
 
 import com.ttt.erp.model.Award;
+import com.ttt.erp.model.RecoveryQuestion;
 import com.ttt.erp.model.UserAccount;
 import com.ttt.erp.repository.AwardRepository;
+import com.ttt.erp.repository.RecoveryQuestionRepository;
 import com.ttt.erp.repository.UserAccountRepository;
 import com.ttt.erp.service.UserAccountService;
 import com.ttt.erp.service.UserManager;
@@ -28,6 +30,9 @@ public class UserAccountController {
 
     @Autowired
     UserManager userManager;
+
+    @Autowired
+    private RecoveryQuestionRepository recoveryQuestionRepository;
 
     @GetMapping("/{id}")
     public UserAccount getUserAccount(@PathVariable("id") final Long id) {
