@@ -1,6 +1,7 @@
 <mat-toolbar>
   <span>Reporting</span>
 </mat-toolbar>
+<<<<<<< HEAD
 <div class="container">
   <div class="chart-title-area">
     <h2 class="example-h2">Regional Awards</h2>
@@ -115,3 +116,34 @@
     [axisLabels]="['Type','Awards']">
   </vertical-bar-chart>
 </div>  
+=======
+<mat-tab-group>
+  <mat-tab label="Awards by User">
+    <ng-template matTabContent>
+    <div class="container">
+      <vertical-bar-chart
+        *ngIf="userAwardCounts"
+        [title]="'Award counts by user'"
+        [data]="userAwardCounts"
+        [showAxes]="true"
+        [axisLabels]="['User','Awards']">
+      </vertical-bar-chart>
+    </div>
+  </ng-template>
+  </mat-tab>
+  <mat-tab label="Awards by Type">
+    <ng-template matTabContent>
+    <div class="container">
+      <vertical-bar-chart
+        *ngIf="awardTypeCounts"
+        [title]="'Award counts by award type'"
+        [data]="awardTypeCounts"
+        [showAxes]="true"
+        [axisLabels]="['Type','Awards']">
+      </vertical-bar-chart>
+    </div>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>
+
+>>>>>>> Add mat-tab navigation for these reports
