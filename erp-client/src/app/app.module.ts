@@ -18,13 +18,13 @@ import {AdminHomeComponent} from './components/admin/admin-home/admin-home.compo
 import {AdminTableComponent} from './components/admin/admin-table/admin-table.component';
 import {AwardComponent} from './components/award/award.component';
 import {CanvasComponent} from './components/canvas/canvas.component';
-// import { CreateAwardComponent } from './components/award/createAward.component';
 import {HomeComponent} from './components/home/home.component';
 import {LoginComponent} from './components/login/login.component';
 import {SelfComponent} from './components/self/self.component';
 import {MyPageComponent} from './components/my-page/my-page.component';
 import {AccountRecoveryComponent} from './components/account-recovery/account-recovery/account-recovery.component';
 import {ChangePasswordComponent} from './components/account-recovery/change-password/change-password.component';
+import {ReportComponent} from './components/report/report.component';
 
 // Pipes
 import {ConvertTimePipe} from './pipes/convert-time.pipe';
@@ -41,6 +41,7 @@ import {ConvertTimePipe} from './pipes/convert-time.pipe';
     LoginComponent,
     MyPageComponent,
     SelfComponent,
+    ReportComponent,
     ConvertTimePipe,
     AccountRecoveryComponent,
     ChangePasswordComponent,

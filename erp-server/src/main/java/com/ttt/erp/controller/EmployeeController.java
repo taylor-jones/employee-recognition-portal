@@ -33,6 +33,37 @@ public class EmployeeController {
         return employeeRepository.findById(id);
     }
 
+
+    /**
+     * Get the counts of awards for each employee
+     * @return JSON array of objects
+     */
+    @GetMapping("/awards/totals")
+    public List<Object[]> getEmployeeAwardCounts() {
+        return this.employeeService.getEmployeeAwardCounts();
+    }
+
+
+    /**
+     * Get the counts of awards for each employee
+     * @return JSON array of objects
+     */
+    @GetMapping("/awards/diversity")
+    public List<Object[]> getEmployeeAwardTypeDiversity() {
+        return this.employeeService.getEmployeeAwardTypeDiversity();
+    }
+
+
+    /**
+     * Get the employees that have received a specified award type
+     * @return JSON array of objects
+     */
+    @GetMapping("/byAwardType/{id}")
+    public List<Object[]> getEmployeeAwardTypeDiversity(@PathVariable("id") final Long id) {
+        return this.employeeService.getEmployeesWithAwardType(id);
+    }
+
+
     /**
      * Get all the awards for a particular employee
      * @param id - the employee.id

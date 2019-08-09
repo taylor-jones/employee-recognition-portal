@@ -1,0 +1,32 @@
+.chart-container,
+.chart-wrapper {
+  min-height: 400px;
+  height: auto;
+  max-height: 650px;
+}
+
+.chart-container {
+  font-family: sans-serif;
+
+  &:not(:first-of-type) {
+    margin-top: 60px;
+  }
+
+  &:last-of-type {
+    margin-top: 60px;
+  }
+}
+
+.chart-container:empty {
+  min-height: 0;
+  height: 0;
+}
+
+.chart-controls {
+  margin-top: 1em;
+}
+
+.chart-title-area {
+  display: flex;
+  justify-content: space-between;
+}

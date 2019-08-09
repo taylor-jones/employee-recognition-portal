@@ -7,6 +7,7 @@ import { AwardComponent } from './components/award/award.component';
 import { AuthGuardService } from './services/auth-guard/auth-guard.service';
 import { AdminHomeComponent } from './components/admin/admin-home/admin-home.component';
 import { SelfComponent } from './components/self/self.component';
+import { ReportComponent } from './components/report/report.component';
 import { MyPageComponent } from './components/my-page/my-page.component';
 import {AccountRecoveryComponent} from './components/account-recovery/account-recovery/account-recovery.component';
 // import {ChangePasswordComponent} from './components/account-recovery/change-password/change-password.component';
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'me', component: SelfComponent, canActivate: [AuthGuardService] },
   {path: 'forgotPassword', component: AccountRecoveryComponent},
   { path: 'admin', component: AdminHomeComponent, canActivate: [AuthGuardService] },
+  { path: 'reports', component: ReportComponent, canActivate: [AuthGuardService] },
   { path: '**', redirectTo: 'login' },
 ];
 
