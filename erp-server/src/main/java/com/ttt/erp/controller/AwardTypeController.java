@@ -25,10 +25,12 @@ public class AwardTypeController {
     @Autowired
     AwardTypeService service;
 
+
     @GetMapping("")
     public Optional< List<AwardType> > getAll() {
         return Optional.ofNullable(this.repo.findAll());
     }
+
 
     @GetMapping("/{id}")
     public Optional<AwardType> getAwardType(@PathVariable("id") final Long id) {
@@ -37,7 +39,7 @@ public class AwardTypeController {
 
 
     /**
-     * Get all the awards for a particular award type
+     * Get all the awards of a particular award type
      * @param id - the awardType.id
      * @return JSON array of award object, empty array if none found
      */
@@ -48,30 +50,41 @@ public class AwardTypeController {
     }
 
 
-    //TODO: get the userId from cookie instead of path
-    @PostMapping("/{userId}")
-    public Optional<AwardType> addAwardType (
-        @PathVariable("userId") Long userAccountId, 
-        @RequestBody AwardType newAwardType
-    ) {
-        return this.service.createAwardType(userAccountId, newAwardType);
+    /**
+     * Get the number of times each award type has been awarded
+     * @return JSON array of award object, empty array if none found
+     */
+    @GetMapping("/totals")
+    public List<Object[]> getAwardTypeCounts() {
+        return this.service.getAwardTypeCounts();
     }
 
-    //TODO: get the userId from cookie instead of path
+
+
+    @PostMapping("/{userId}")
+    public Optional<AwardType> addAwardType (
+        @CookieValue(value = "userId") String modifiedById,
+        @RequestBody AwardType newAwardType
+    ) {
+        return this.service.createAwardType(Long.parseLong(modifiedById), newAwardType);
+    }
+
+
     @PutMapping("/{userId}/{id}")
     public Optional<AwardType> updateAwardTypeById (
-        @PathVariable("userId") Long userAccountId, 
+        @CookieValue(value = "userId") String modifiedById,
         @PathVariable("id") Long subjectId, 
         @RequestBody AwardType modified
     ) {
-        return this.service.updateAwardType(userAccountId, subjectId, modified);
+        return this.service.updateAwardType(Long.parseLong(modifiedById), subjectId, modified);
     }
+
 
     @DeleteMapping("/{userId}/{id}")
     public ResponseEntity<String> deleteAwardTypeById (
-        @PathVariable("userId") Long userAccountId, 
+        @CookieValue(value = "userId") String modifiedById,
         @PathVariable("id") Long subjectId 
     ) {
-        return this.service.deleteAwardType(userAccountId, subjectId);
+        return this.service.deleteAwardType(Long.parseLong(modifiedById), subjectId);
     }
 }

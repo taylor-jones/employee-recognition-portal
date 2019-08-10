@@ -29,6 +29,10 @@ import { CreateAccountComponent } from './components/createAccount/create-accoun
 import { UsernameSelectionComponent } from './components/createAccount/username-selection/username-selection.component';
 import { SetRecoveryQuestionsComponent } from './components/createAccount/set-recovery-questions/set-recovery-questions.component';
 
+// Report
+import { ReportComponent } from './components/report/report.component';
+import {VerticalBarChartComponent} from './components/report/vertical-bar-chart/vertical-bar-chart.component';
+
 // Pipes
 import {ConvertTimePipe} from './pipes/convert-time.pipe';
 import { SignatureInputComponent } from './components/createAccount/signature-input/signature-input.component';
@@ -52,6 +56,9 @@ import { SignatureInputComponent } from './components/createAccount/signature-in
     SetRecoveryQuestionsComponent,
     UsernameSelectionComponent,
     SignatureInputComponent,
+    ReportComponent,
+    VerticalBarChartComponent,
+    ConvertTimePipe
   ],
   imports: [
     AppRoutingModule,

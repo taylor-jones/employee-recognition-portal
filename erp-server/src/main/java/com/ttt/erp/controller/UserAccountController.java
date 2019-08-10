@@ -1,7 +1,6 @@
 package com.ttt.erp.controller;
 
 import com.ttt.erp.model.Award;
-import com.ttt.erp.model.RecoveryQuestion;
 import com.ttt.erp.model.UserAccount;
 import com.ttt.erp.repository.AwardRepository;
 import com.ttt.erp.repository.RecoveryQuestionRepository;
@@ -11,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import com.ttt.erp.service.UserManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -52,6 +52,15 @@ public class UserAccountController {
         return this.awardRepository.findByUserAccount(userAccount);
     }
 
+    /**
+     * Gets the number of awards given by each user
+     * @return Array of Objects
+     */
+    @GetMapping("/awards/totals")
+    public List<Object[]> getAwardTotals() {
+        return this.service.getUserAwardCounts();
+    }
+
     @PostMapping
     public Optional<UserAccount> addUserAccount (@RequestBody UserAccount newUserAccount, Principal principal) {
         UserAccount actingUser = this.repository.findByUsername(principal.getName());
@@ -65,7 +74,7 @@ public class UserAccountController {
         return this.userManager.get();
     }
 
-    // TODO: get actual userId from cookie
+
     @PutMapping("/{id}")
     public Optional<UserAccount> updateUserAccountById (
         @CookieValue(value = "user") String actingUser,
@@ -87,7 +96,7 @@ public class UserAccountController {
         return repository.findAll();
     }
 
-    @GetMapping("/{username}")
+    @GetMapping("/username/{username}")
     public UserAccount getUserAccount(@PathVariable("username") final String username) {
         return repository.findByUsername(username);
     }

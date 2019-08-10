@@ -11,6 +11,7 @@ import {MyPageComponent} from './components/my-page/my-page.component';
 import {AccountRecoveryComponent} from './components/account-recovery/account-recovery/account-recovery.component';
 import {CreateAccountComponent} from './components/createAccount/create-account/create-account.component';
 // import {ChangePasswordComponent} from './components/account-recovery/change-password/change-password.component';
+import { ReportComponent } from './components/report/report.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent, canActivate: [AuthGuardService]},
@@ -22,7 +23,8 @@ const routes: Routes = [
   {path: 'forgotPassword', component: AccountRecoveryComponent},
   {path: 'admin', component: AdminHomeComponent, canActivate: [AuthGuardService]},
   {path: 'createAccount', component: CreateAccountComponent},
-  {path: '**', redirectTo: 'login'},
+  { path: 'reports', component: ReportComponent, canActivate: [AuthGuardService] },
+  {path: '**', redirectTo: 'login'}
 ];
 
 @NgModule({

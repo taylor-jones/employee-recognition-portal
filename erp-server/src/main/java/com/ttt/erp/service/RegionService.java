@@ -95,4 +95,10 @@ public class RegionService extends LogService {
 
         return awards;
     }
+
+
+    public List<Object[]> getAwardCountsForRegions() {
+        return this.repository.getAwardCountsForRegions();
+    }
+
 }

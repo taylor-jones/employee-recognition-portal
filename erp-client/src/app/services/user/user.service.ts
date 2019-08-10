@@ -16,9 +16,12 @@ export class UserService {
     this.jsonHeaders = new HttpHeaders({'Content-Type': 'application/json'});
   }
 
-  getUserByUsername(username: string): Observable<User> {
-    return this.httpClient.get<User>(`${this.baseEndpoint}/${username}`);
-  }
+  // getUserByUsername(username: string): Observable<User> {
+  //   return this.httpClient.get<User>(`${this.baseEndpoint}/${username}`);
+  // }
+	getUserByUsername(username: string): Observable<User> {
+		return this.httpClient.get<User>(`${this.baseEndpoint}/username/${username}`);
+	}
 
   checkUsername(username: string): Observable<boolean> {
     return this.httpClient.get<boolean>(`${this.baseEndpoint}/validate/${username}`);
