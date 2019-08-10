@@ -1,0 +1,25 @@
+<div class="chartControls">
+  <span class="chartControl"><mat-checkbox checked="valueLabels" (click)="toggleValueLabels()">Show values</mat-checkbox></span>
+  <span class="chartControl"><mat-checkbox checked="showGridLines" (click)="toggleGridlines()">Toggle gridlines</mat-checkbox></span>
+  <span class="chartControl"><mat-checkbox checked="showAll" (click)="toggleShowAll()">Show all</mat-checkbox></span>
+</div>
+<div class="chart-wrapper">
+  <ngx-charts-bar-vertical
+    scheme="vivid"
+    [results]="showAll ? data : filteredData"
+    [gradient]="false"
+    [xAxis]="showAxes"
+    [yAxis]="showAxes"
+    [legend]="showLegend"
+    [showXAxisLabel]="showAxisLabels"
+    [showYAxisLabel]="showAxisLabels"
+    [showGridLines]="showGridlines"
+    [showDataLabel]="valueLabels"
+    [xAxisLabel]="axisLabels[0]"
+    [yAxisLabel]="axisLabels[1]"
+    (select)="onSelect($event)">
+  </ngx-charts-bar-vertical>
+</div>
+
+
+
