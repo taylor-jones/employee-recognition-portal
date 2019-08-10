@@ -1,25 +1,24 @@
-<h1 class="mat-h1">{{title}}</h1>
-<hr>
-<span>
-  <div><mat-checkbox checked="valueLabels" (click)="toggleValueLabels()">Show values</mat-checkbox></div>
-  <div><mat-checkbox checked="showGridLines" (click)="toggleGridlines()">Toggle gridlines</mat-checkbox></div>
-</span>
-<ngx-charts-bar-vertical
-  [view]="view"
-  scheme="vivid"
-  [results]="data"
-  [gradient]="false"
-  [xAxis]="showAxes"
-  [yAxis]="showAxes"
-  [legend]="showLegend"
-  [showXAxisLabel]="showAxisLabels"
-  [showYAxisLabel]="showAxisLabels"
-  [showGridLines]="showGridlines"
-  [showDataLabel]="valueLabels"
-  [xAxisLabel]="axisLabels[0]"
-  [yAxisLabel]="axisLabels[1]"
-  (select)="onSelect($event)">
-</ngx-charts-bar-vertical>
-
+<div class="chartControls">
+  <span class="chartControl"><mat-checkbox checked="valueLabels" (click)="toggleValueLabels()">Show values</mat-checkbox></span>
+  <span class="chartControl"><mat-checkbox checked="showGridLines" (click)="toggleGridlines()">Toggle gridlines</mat-checkbox></span>
+  <span class="chartControl"><mat-checkbox checked="showAll" (click)="toggleShowAll()">Show all</mat-checkbox></span>
+</div>
+<div class="chart-wrapper">
+  <ngx-charts-bar-vertical
+    scheme="vivid"
+    [results]="showAll ? data : filteredData"
+    [gradient]="false"
+    [xAxis]="showAxes"
+    [yAxis]="showAxes"
+    [legend]="showLegend"
+    [showXAxisLabel]="showAxisLabels"
+    [showYAxisLabel]="showAxisLabels"
+    [showGridLines]="showGridlines"
+    [showDataLabel]="valueLabels"
+    [xAxisLabel]="axisLabels[0]"
+    [yAxisLabel]="axisLabels[1]"
+    (select)="onSelect($event)">
+  </ngx-charts-bar-vertical>
+</div>
 
 

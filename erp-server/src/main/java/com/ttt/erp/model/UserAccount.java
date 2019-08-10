@@ -69,6 +69,10 @@ public class UserAccount implements Serializable {
     @JsonIgnore
     private Set<RecoveryQuestion> questions = new HashSet<>();
 
+    @OneToMany(targetEntity = Log.class, mappedBy = "userAccount", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<Log> logs = new HashSet<>();
+
 
     // constructors
 

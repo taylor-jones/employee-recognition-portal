@@ -8,8 +8,7 @@ import {Employee} from '../../models/employee.model';
 })
 
 export class EmployeeService {
-  constructor(private httpClient: HttpClient) {
-  }
+  constructor(private httpClient: HttpClient) {}
 
   getEmployeeById(id: number): Observable<Employee> {
     return this.httpClient.get<Employee>(`/api/employees/${id}`);
@@ -18,8 +17,4 @@ export class EmployeeService {
   getAllEmployees(): Observable<Employee[]> {
     return this.httpClient.get<Employee[]>(`/api/employees`);
   }
-
-  // getAllAwards(): Observable<Employee[]> {
-  //   return this.httpClient.get<Employee[]>(`/api/awards`);
-  // }
 }

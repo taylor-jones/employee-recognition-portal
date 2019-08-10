@@ -51,10 +51,6 @@ export class CreateAccountComponent implements OnInit {
     this.userToCreate.isAdmin = false;
 
     this.userService.addUserCreatedUser(this.userToCreate).subscribe((createdUser) => {
-        this.user.recoveryQuestions.forEach((recoveryQuestion) => {
-          recoveryQuestion.userAccount = createdUser;
-        });
-        console.log(this.user);
         this.accountRecoveryService.setRecoveryQuestions(createdUser.username, this.user.recoveryQuestions).subscribe(() => {
             this.router.navigate(['login']);
           },

@@ -13,29 +13,26 @@ import {MaterialModule} from './material.module';
 import {CookieService} from 'ngx-cookie-service';
 
 // Page Components
-import {AdminControlsComponent} from './components/admin/admin-controls/admin-controls.component';
-import {AdminHomeComponent} from './components/admin/admin-home/admin-home.component';
-import {AdminTableComponent} from './components/admin/admin-table/admin-table.component';
-import {AwardComponent} from './components/award/award.component';
-import {CanvasComponent} from './components/canvas/canvas.component';
-// import { CreateAwardComponent } from './components/award/createAward.component';
-import {HomeComponent} from './components/home/home.component';
-import {LoginComponent} from './components/login/login.component';
-import {SelfComponent} from './components/self/self.component';
-import {MyPageComponent} from './components/my-page/my-page.component';
-import {AccountRecoveryComponent} from './components/account-recovery/account-recovery/account-recovery.component';
-import {ChangePasswordComponent} from './components/account-recovery/change-password/change-password.component';
+import { AdminControlsComponent } from './components/admin/admin-controls/admin-controls.component';
+import { AdminHomeComponent } from './components/admin/admin-home/admin-home.component';
+import { AdminTableComponent } from './components/admin/admin-table/admin-table.component';
+import { AwardComponent } from './components/award/award.component';
+import { CanvasComponent } from './components/canvas/canvas.component';
+import { HomeComponent } from './components/home/home.component';
+import { LoginComponent } from './components/login/login.component';
+import { SelfComponent } from './components/self/self.component';
+import { MyPageComponent } from './components/my-page/my-page.component';
+import { AccountRecoveryComponent } from './components/account-recovery/account-recovery/account-recovery.component';
+import { ChangePasswordComponent } from './components/account-recovery/change-password/change-password.component';
+import { ReportComponent } from './components/report/report.component';
+import { VerticalBarChartComponent } from './components/report/vertical-bar-chart/vertical-bar-chart.component';
 import { CreateAccountComponent } from './components/createAccount/create-account/create-account.component';
 import { UsernameSelectionComponent } from './components/createAccount/username-selection/username-selection.component';
 import { SetRecoveryQuestionsComponent } from './components/createAccount/set-recovery-questions/set-recovery-questions.component';
-
-// Report
-import { ReportComponent } from './components/report/report.component';
-import {VerticalBarChartComponent} from './components/report/vertical-bar-chart/vertical-bar-chart.component';
+import { SignatureInputComponent } from './components/createAccount/signature-input/signature-input.component';
 
 // Pipes
 import {ConvertTimePipe} from './pipes/convert-time.pipe';
-import { SignatureInputComponent } from './components/createAccount/signature-input/signature-input.component';
 
 @NgModule({
   declarations: [

@@ -16,29 +16,36 @@ export class ReportService {
   ) {}
 
 
-  getUserAwardCounts(): Observable<any>{
+  getUserAwardCounts(): Observable<any> {
     return this.http.get<any[]>(`/api/users/awards/totals`);
   }
 
-  getEmployeeAwardCounts(): Observable<any>{
+  getEmployeeAwardCounts(): Observable<any> {
     return this.http.get<any[]>(`/api/employees/awards/totals`);
   }
 
-  getEmployeeAwardDiversity(): Observable<any>{
+  getEmployeeAwardDiversity(): Observable<any> {
     return this.http.get<any[]>(`/api/employees/awards/diversity`);
   }
 
-  getEmployeesWithAwardType(awardTypeId: number): Observable<any>{
+  getEmployeesWithAwardType(awardTypeId: number): Observable<any> {
     return this.http.get<any[]>(`/api/employees/byAwardType/${awardTypeId}`);
   }
 
-  getAwardTypeCounts(): Observable<any>{
+  getAwardTypeCounts(): Observable<any> {
     return this.http.get<any[]>(`/api/awardTypes/totals`);
   }
 
-  getRegionAwardCounts(): Observable<any>{
+  getRegionAwardCounts(): Observable<any> {
     return this.http.get<any[]>(`/api/regions/awards/totals`);
   }
-  
-}
 
+  getRegionAwards(regionId: number): Observable<any> {
+    return this.http.get<any[]>(`/api/regions/${regionId}/awards`);
+  }
+
+  getRegionEmployees(regionId: number): Observable<any> {
+    return this.http.get<any[]>(`/api/regions/${regionId}/employees`);
+  }
+
+}
