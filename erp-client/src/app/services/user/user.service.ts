@@ -1,38 +1,42 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { User } from '../../models/user.model';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {User} from '../../models/user.model';
 
 @Injectable({
-	providedIn: 'root'
+  providedIn: 'root'
 })
 
 export class UserService {
 
-	private baseEndpoint = `/api/users`;
-	private jsonHeaders: HttpHeaders = null;
+  private baseEndpoint = `/api/users`;
+  private jsonHeaders: HttpHeaders = null;
 
-	constructor(private httpClient: HttpClient) {
-		this.jsonHeaders = new HttpHeaders({'Content-Type': 'application/json'});
-	}
+  constructor(private httpClient: HttpClient) {
+    this.jsonHeaders = new HttpHeaders({'Content-Type': 'application/json'});
+  }
 
-	getUserByUsername(username: string): Observable<User> {
-		return this.httpClient.get<User>(`${this.baseEndpoint}/${username}`);
-	}
+  getUserByUsername(username: string): Observable<User> {
+    return this.httpClient.get<User>(`${this.baseEndpoint}/${username}`);
+  }
 
-	getAllUsers(): Observable<User[]> {
-		return this.httpClient.get<User[]>(`${this.baseEndpoint}`);
-	}
+  checkUsername(username: string): Observable<boolean> {
+    return this.httpClient.get<boolean>(`${this.baseEndpoint}/validate/${username}`);
+  }
 
-	addUser(user: User): Observable<string> {
-		return this.httpClient.post<string>(`${this.baseEndpoint}`, user, {headers: this.jsonHeaders});
-	}
+  getAllUsers(): Observable<User[]> {
+    return this.httpClient.get<User[]>(`${this.baseEndpoint}`);
+  }
 
-	updateUser(user: User): Observable<User> {
-		return this.httpClient.put<User>(`${this.baseEndpoint}/${user.id}`, user, {headers: this.jsonHeaders})
-	}
+  addUser(user: User): Observable<string> {
+    return this.httpClient.post<string>(`${this.baseEndpoint}`, user, {headers: this.jsonHeaders});
+  }
 
-	deleteUser(user: User): Observable<User> {
-		return this.httpClient.delete<User>(`${this.baseEndpoint}/${user.id}`, {headers: this.jsonHeaders});
-	}
+  updateUser(user: User): Observable<User> {
+    return this.httpClient.put<User>(`${this.baseEndpoint}/${user.id}`, user, {headers: this.jsonHeaders});
+  }
+
+  deleteUser(user: User): Observable<User> {
+    return this.httpClient.delete<User>(`${this.baseEndpoint}/${user.id}`, {headers: this.jsonHeaders});
+  }
 }

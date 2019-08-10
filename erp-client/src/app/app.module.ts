@@ -25,9 +25,13 @@ import {SelfComponent} from './components/self/self.component';
 import {MyPageComponent} from './components/my-page/my-page.component';
 import {AccountRecoveryComponent} from './components/account-recovery/account-recovery/account-recovery.component';
 import {ChangePasswordComponent} from './components/account-recovery/change-password/change-password.component';
+import { CreateAccountComponent } from './components/createAccount/create-account/create-account.component';
+import { UsernameSelectionComponent } from './components/createAccount/username-selection/username-selection.component';
+import { SetRecoveryQuestionsComponent } from './components/createAccount/set-recovery-questions/set-recovery-questions.component';
 
 // Pipes
 import {ConvertTimePipe} from './pipes/convert-time.pipe';
+import { SignatureInputComponent } from './components/createAccount/signature-input/signature-input.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +48,10 @@ import {ConvertTimePipe} from './pipes/convert-time.pipe';
     ConvertTimePipe,
     AccountRecoveryComponent,
     ChangePasswordComponent,
+    CreateAccountComponent,
+    SetRecoveryQuestionsComponent,
+    UsernameSelectionComponent,
+    SignatureInputComponent,
   ],
   imports: [
     AppRoutingModule,

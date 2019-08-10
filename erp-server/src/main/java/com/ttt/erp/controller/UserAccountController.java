@@ -8,6 +8,7 @@ import com.ttt.erp.repository.RecoveryQuestionRepository;
 import com.ttt.erp.repository.UserAccountRepository;
 import com.ttt.erp.service.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import com.ttt.erp.service.UserManager;
 import org.springframework.web.bind.annotation.*;
@@ -89,5 +90,11 @@ public class UserAccountController {
     @GetMapping("/{username}")
     public UserAccount getUserAccount(@PathVariable("username") final String username) {
         return repository.findByUsername(username);
+    }
+
+    @GetMapping("/validate/{username}")
+    public ResponseEntity<Boolean> checkUserName(@PathVariable("username") final String username) {
+        UserAccount userAccount = repository.findByUsername(username);
+        return new ResponseEntity<>(userAccount == null, HttpStatus.OK);
     }
 }

@@ -1,0 +1,57 @@
+<div class="set-recovery-questions-container">
+  <mat-card class="username-selection-card">
+    <mat-card-header>
+      <div class="set-recovery-questions-box-header">
+        <img [src]="'assets/Images/prototype-logo.svg'" class="set-recovery-questions-logo">
+      </div>
+    </mat-card-header>
+    <mat-card-content>
+      <form>
+        <table cellspacing="0">
+            <tr>
+              <td>
+                <mat-form-field class="username-input">
+                  <input matInput [placeholder]="question1" [(ngModel)]="answer1" name="answer1" required>
+                </mat-form-field>
+              </td>
+            </tr>
+          <tr>
+              <td>
+                <mat-form-field class="username-input">
+                  <input matInput [placeholder]="question2" [(ngModel)]="answer2" name="answer2" required>
+                </mat-form-field>
+              </td>
+            </tr>
+          <tr>
+              <td>
+                <mat-form-field class="username-input">
+                  <input matInput [placeholder]="question3" [(ngModel)]="answer3" name="answer3" required>
+                </mat-form-field>
+              </td>
+            </tr>
+
+<!--          <div>-->
+<!--            <tr>-->
+<!--              <td>-->
+<!--                <mat-form-field class="set-password">-->
+<!--                  <input matInput placeholder="Enter Password" type="password" [(ngModel)]="password" name="password" required>-->
+<!--                </mat-form-field>-->
+<!--              </td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--              <td>-->
+<!--                <mat-form-field class="set-password">-->
+<!--                  <input matInput placeholder="Re-Enter Password" type="password" [(ngModel)]="rePassword" name="rePassword" required>-->
+<!--                </mat-form-field>-->
+<!--              </td>-->
+<!--            </tr>-->
+<!--          </div>-->
+        </table>
+      </form>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button [disabled]="!answer1 || !answer2 || !answer3" (click)="setRecoveryAnswers()" color="primary" class="username-validation-button">Set Answers</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+

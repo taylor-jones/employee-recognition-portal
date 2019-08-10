@@ -1,15 +1,11 @@
-mat-spinner {
-  margin: auto;
-}
-
-.login-container {
+.set-recovery-questions-container {
   height: 55vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.login-logo {
+.set-recovery-questions-logo {
   max-width: 250px;
   margin: auto;
 }
@@ -22,14 +18,10 @@ mat-spinner {
   justify-content: center;
 }
 
-.forgot-password {
-  font-size: 10px;
+.username-validation-button {
+  justify-content: center;
 }
 
-.create-account {
-  font-size: 10px;
-}
-
-.login-button {
+.password-submit-button {
   justify-content: center;
 }

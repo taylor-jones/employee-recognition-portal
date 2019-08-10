@@ -1,0 +1,14 @@
+{{user | json}}
+
+
+<div *ngIf="!user.username">
+  <erp-username-selection (event)="handleUsername($event)"></erp-username-selection>
+</div>
+
+<div *ngIf="user.username && !user.recoveryQuestions">
+  <erp-set-recovery-questions (event)="handleRecoveryQuestions($event)"></erp-set-recovery-questions>
+</div>
+
+<div *ngIf="user.username && user.recoveryQuestions">
+  <erp-signature-input></erp-signature-input>
+</div>

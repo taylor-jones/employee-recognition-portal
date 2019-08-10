@@ -23,11 +23,20 @@
           </tr>
           <tr>
             <td><mat-form-field class="password-input">
-              <input matInput placeholder="Password" [(ngModel)]="password"type="password" name="password" required>
+              <input matInput placeholder="Password" [(ngModel)]="password" type="password" name="password" required>
             </mat-form-field></td>
           </tr></table>
       </form>
-      <a mat-label class="forgot-password" href="/forgotPassword">Forgot Password?</a>
+      <table cellspacing="0">
+        <tr>
+          <td>
+            <a mat-label class="forgot-password" href="/forgotPassword">Forgot Password?</a>
+          </td>
+          <td>
+            <a mat-label class="create-account" href="/createAccount">Create an Account</a>
+          </td>
+        </tr>
+      </table>
       <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner>
     </mat-card-content>
     <mat-card-actions>
