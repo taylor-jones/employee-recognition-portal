@@ -37,7 +37,6 @@ public class UserAccountService extends LogService {
         return Optional.ofNullable(this.repository.findByUsername(username).getSignature());
     }
 
-
     public Optional<UserAccount> createUser(Long userAccountId, UserAccount user) {
         try {
             if (user.getIsAdmin() == null || !user.getIsAdmin()) {
@@ -46,6 +45,9 @@ public class UserAccountService extends LogService {
                 user.setSignature(null);
             }
             user.setIsEnabled(true);
+
+            // was having cases where the logInsert was looking up the users, before the
+            // create transaction was completed
             UserAccount newUser = repository.save(user);
             if (!newUser.getIsAdmin()) {
                 // works for creating a new user as an unlogged in user

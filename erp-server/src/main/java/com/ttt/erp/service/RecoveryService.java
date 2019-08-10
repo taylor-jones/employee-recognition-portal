@@ -62,6 +62,18 @@ public class RecoveryService extends LogService{
             e.printStackTrace();
             return false;
         }
+    }
 
+    public Boolean setRecoveryQuestions(String username, List<RecoveryQuestion> questions) {
+        try {
+            UserAccount userAccount = this.userAccountRepository.findByUsername(username);
+
+            questions.forEach(question -> question.setUserAccount(userAccount));
+            recoveryQuestionRepository.saveAll(questions);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

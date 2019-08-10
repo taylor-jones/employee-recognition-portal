@@ -1,5 +1,5 @@
 export class RecoveryQuestion {
-  id: string;
+  id: number;
   question: string;
   answer: string;
 }

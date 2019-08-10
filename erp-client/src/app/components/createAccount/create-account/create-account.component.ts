@@ -4,6 +4,7 @@ import {NewUser} from '../../../models/new-user.model';
 import {RecoveryQuestion} from '../../../models/recovery.model';
 import {UserService} from '../../../services/user/user.service';
 import {Router} from '@angular/router';
+import {AccountRecoveryService} from '../../../services/account-recovery/account-recovery.service';
 
 @Component({
   selector: 'erp-create-home',
@@ -18,6 +19,7 @@ export class CreateAccountComponent implements OnInit {
   errorMessage: string;
 
   constructor(private userService: UserService,
+              private accountRecoveryService: AccountRecoveryService,
               private router: Router) {
   }
 
@@ -48,16 +50,18 @@ export class CreateAccountComponent implements OnInit {
     this.userToCreate.signature = this.user.signature;
     this.userToCreate.isAdmin = false;
 
-    // this.userService.addUser(this.newUserForm.value).subscribe(
-    //   (ok) => { this.refresh(this.newUserForm) },
-    //   (error) => { console.error(error) }
-    // );
-
-    this.userService.addUserCreatedUser(this.userToCreate).subscribe(() => {
-        this.router.navigate(['login']);
-      },
-      (error) => {
-        this.errorMessage = error;
+    this.userService.addUserCreatedUser(this.userToCreate).subscribe((createdUser) => {
+        this.user.recoveryQuestions.forEach((recoveryQuestion) => {
+          recoveryQuestion.userAccount = createdUser;
+        });
+        console.log(this.user);
+        this.accountRecoveryService.setRecoveryQuestions(createdUser.username, this.user.recoveryQuestions).subscribe(() => {
+            this.router.navigate(['login']);
+          },
+          (error) => {
+            this.errorMessage = error;
+          }
+        );
       }
     );
   }

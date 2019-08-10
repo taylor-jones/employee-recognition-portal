@@ -15,7 +15,8 @@ export class SignatureInputComponent implements OnInit {
 
   signature: string;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }
@@ -26,8 +27,9 @@ export class SignatureInputComponent implements OnInit {
   }
 
   isTouched() {
-    if (!this.canvasChild)
+    if (!this.canvasChild) {
       return false;
+    }
     return this.canvasChild.getTouched();
   }
 }
