@@ -30,13 +30,16 @@ public class AwardPdfService {
     @Autowired
     private EmailService emailService;
 
+    @Autowired
+    private SignatureService signatureService;
+
 
     // class-level constants
     private static final String OUTPUT_DIR = "awards/";
     private static final PdfNumber LANDSCAPE = new PdfNumber(90);
 
 
-    private static ByteArrayInputStream generateAwardPdf(Award award) throws IOException {
+    private ByteArrayInputStream generateAwardPdf(Award award) throws IOException {
         // gather the components needed to build the file name
         Employee employee = award.getEmployee();
         UserAccount userAccount = award.getUserAccount();
@@ -78,8 +81,11 @@ public class AwardPdfService {
         document.add(new Paragraph(userAccount.getUsername()));
 
         if (userAccount.getSignature() != null) {
-            String signatureSrc = "signatures/" + userAccount.getSignature();
-            Image signature = new Image(ImageDataFactory.create(signatureSrc)).scaleAbsolute(100, 100);
+            Image signature = new Image(
+                ImageDataFactory.create(
+                    signatureService.getSignatureBytes(userAccount.getSignature())
+                )
+            ).scaleAbsolute(100, 100);
             document.add(signature);
         }
 

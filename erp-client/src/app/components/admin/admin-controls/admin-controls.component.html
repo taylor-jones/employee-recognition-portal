@@ -8,8 +8,7 @@
         <form [formGroup]="newUserForm" (ngSubmit)="submitNewUser()">
           <mat-checkbox 
             class="admin-check" 
-            value="_newAdminCheck" 
-            (click)="adminToggle()"
+
             formControlName="isAdmin"
           >Admin user</mat-checkbox>
           <mat-form-field>
