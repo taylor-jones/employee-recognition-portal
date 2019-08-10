@@ -94,7 +94,7 @@ public class UserAccountController {
         return repository.findAll();
     }
 
-    @GetMapping("/{username}")
+    @GetMapping("/username/{username}")
     public UserAccount getUserAccount(@PathVariable("username") final String username) {
         return repository.findByUsername(username);
     }

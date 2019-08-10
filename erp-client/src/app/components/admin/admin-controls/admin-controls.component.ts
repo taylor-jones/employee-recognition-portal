@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { UserService } from 'src/app/services/user/user.service';
 import { User } from 'src/app/models/user.model';
 import { CanvasComponent } from 'src/app/components/canvas/canvas.component';
-import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'admin-controls',
@@ -14,10 +14,8 @@ export class AdminControlsComponent implements OnInit {
   private _users: User[];
   private _selectedUser: User;
   private _newAdminCheck: boolean = false;
-  private _existingAdminCheck: boolean = false;
   newUserForm: FormGroup;
   existingUserForm: FormGroup;
-  private _formBuilder: FormBuilder;
 
   // Gain access the child canvas component values and functions
   @ViewChild(CanvasComponent, {static: false}) canvasChild: CanvasComponent;
@@ -34,7 +32,7 @@ export class AdminControlsComponent implements OnInit {
     return new FormGroup({
       username: new FormControl(null),
       password: new FormControl(null),
-      email: new FormControl(null),
+      email: new FormControl(null, [Validators.email]),
       isAdmin: new FormControl(false)
     })
   }
@@ -44,7 +42,7 @@ export class AdminControlsComponent implements OnInit {
       id: new FormControl(initUser.id),
       username: new FormControl(initUser.username),
       password: new FormControl(initUser.password),
-      email: new FormControl(initUser.email),
+      email: new FormControl(initUser.email, [Validators.email]),
       signature: new FormControl(initUser.signature),
       isAdmin: new FormControl(initUser.isAdmin),
       isEnabled: new FormControl(initUser.isEnabled)
@@ -56,7 +54,6 @@ export class AdminControlsComponent implements OnInit {
     this.existingUserForm = this.initFormGroupFromUser(this._selectedUser); // sync the form and user
   }
 
-  // Handles both checkbox toggles
   adminToggle(): void {
     this._newAdminCheck = !this._newAdminCheck;
   }
@@ -82,6 +79,7 @@ export class AdminControlsComponent implements OnInit {
     Object.keys(form.controls).forEach(key => {
       form.get(key).setErrors(null);
     });
+    this.canvasChild.clearCanvas();
   }
 
   // Re-fetch users and reset the controls. This is meant for callbacks
@@ -123,7 +121,5 @@ export class AdminControlsComponent implements OnInit {
       (error) => {console.error(error)}
     )
   }
-
-
 
 }

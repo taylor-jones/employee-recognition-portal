@@ -55,6 +55,12 @@ export class ReportComponent implements OnInit {
     }
   }
 
+  selectedChart: any = {
+    regions: true,
+    byUser: false,
+    byType: false
+  }
+
 
   // 
   // report chards / graphs
@@ -88,8 +94,6 @@ export class ReportComponent implements OnInit {
   };
 
 
-
-
   constructor(
     private _app: AppComponent,
     private _reportService: ReportService,
@@ -106,6 +110,8 @@ export class ReportComponent implements OnInit {
     }
 
     this.getRegionAwardCounts();
+    this.getUserAwardCounts();
+    this.getAwardTypeCounts();
     this.regionAwardTotalsChart['data'] = [...this.regionAwardTotalsChart['data']];
   }
 
@@ -143,6 +149,14 @@ export class ReportComponent implements OnInit {
   /************************
    *  Report Charts/Graphs
    ************************/
+
+  // Switch chart views
+  toggleSelectedChart(selectedChartKey: string) {
+    Object.keys(this.selectedChart).forEach( k => {
+      this.selectedChart[k] = false;
+    })
+    this.selectedChart[selectedChartKey] = true;
+  }
 
   onRegionAwardsChartSelect($event) {
     const regionId = this.regionAwardCounts.find(region => region.name === $event.name).id;
@@ -269,9 +283,8 @@ export class ReportComponent implements OnInit {
     this._reportService.getUserAwardCounts().subscribe(response => {
       this.userAwardCounts = response.map(item => {
         return {
-          id: item[0],
-          username: item[1],
-          total: item[2],
+          name: item[1],
+          value: item[2]
         };
       });
 
@@ -310,9 +323,8 @@ export class ReportComponent implements OnInit {
     this._reportService.getAwardTypeCounts().subscribe(response => {
       this.awardTypeCounts = response.map(item => {
         return {
-          id: item[0],
           name: item[1],
-          total: item[2],
+          value: item[2]
         };
       });
 

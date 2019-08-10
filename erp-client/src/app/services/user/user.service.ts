@@ -17,7 +17,7 @@ export class UserService {
 	}
 
 	getUserByUsername(username: string): Observable<User> {
-		return this.httpClient.get<User>(`${this.baseEndpoint}/${username}`);
+		return this.httpClient.get<User>(`${this.baseEndpoint}/username/${username}`);
 	}
 
 	getAllUsers(): Observable<User[]> {
