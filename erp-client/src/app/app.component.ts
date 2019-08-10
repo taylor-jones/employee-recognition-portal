@@ -38,10 +38,8 @@ export class AppComponent {
   }
 
   refreshLoginState(): void {
-    console.log('refreshing login state');
     const cookies = this._cookieService.getAll();
     this._isLoggedIn = cookies['userId'] !== null && cookies['userId'] !== undefined;
     this._isAdmin = this.isLoggedIn && cookies['admin'] == 'true';
-    console.log('isLoggedIn: ', this.isLoggedIn, ' | isAdmin: ', this._isAdmin);
   }
 }

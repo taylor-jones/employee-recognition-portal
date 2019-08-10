@@ -9,7 +9,7 @@
     <ul class="menu-links">
       <li *ngIf="isLoggedIn"><a mat-button href="/awards">Awards</a></li>
       <li *ngIf="isLoggedIn && isAdmin"><a mat-button href="/admin">Admin</a></li>
-      <li *ngIf="isLoggedIn"><a mat-button href="/reports">Reports</a></li>
+      <li *ngIf="isLoggedIn && isAdmin"><a mat-button href="/reports">Reports</a></li>
       <li *ngIf="isLoggedIn"><a mat-button href="/account">Account</a></li>
       <li *ngIf="isLoggedIn"><a mat-button (click)="handleLogout()">Logout</a></li>
       <li *ngIf="!isLoggedIn"><a mat-button href="/login">Login</a></li>

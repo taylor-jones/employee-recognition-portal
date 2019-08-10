@@ -1,17 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
-import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
-import { concat, of, throwError, forkJoin, Observable } from 'rxjs';
-import { concatAll } from 'rxjs/operators';
+import { MatTableDataSource, MatSort } from '@angular/material';
+import { Router } from '@angular/router';
 
 import { ReportService } from 'src/app/services/report/report.service';
-import { AwardTypeService } from 'src/app/services/awardType/awardType.service';
 import { SnackbarService } from 'src/app/services/snackbar/snackbar.service';
-import { User } from 'src/app/models/user.model';
-import { AwardType } from 'src/app/models/awardType.model';
-import { Employee } from 'src/app/models/employee.model';
-import { ValidateDate } from 'src/app/validators/date.validator';
-import { ValidateTime } from 'src/app/validators/time.validator';
+import { AppComponent } from 'src/app/app.component';
 
 
 @Component({
@@ -21,13 +15,6 @@ import { ValidateTime } from 'src/app/validators/time.validator';
 })
 export class ReportComponent implements OnInit {
   @ViewChild(MatSort, { static: false }) sort: MatSort;
-
-  //
-  // cookies
-  //
-  cookieUser: string;
-  isAdmin: boolean;
-  userId: number;
 
   //
   // report data
@@ -104,25 +91,21 @@ export class ReportComponent implements OnInit {
 
 
   constructor(
-    private _cookieService: CookieService,
+    private _app: AppComponent,
     private _reportService: ReportService,
     private _snackbar: SnackbarService,
+    private _router: Router,
   ) { 
-    // check user credentials
-    const cookies: {} = _cookieService.getAll();
-    this.cookieUser = cookies['user'];
-    this.isAdmin = cookies['admin'] == 'true';
-    this.userId = cookies['userId'] || 0;
 
     Object.assign(this.regionAwardTotalsChart, this.regionAwardCounts);
   }
 
   ngOnInit() {
+    if (!this._app.isAdmin) {
+      this._router.navigate(['/']);
+    }
+
     this.getRegionAwardCounts();
-    // this.getUserAwardCounts();
-    // this.getAwardTypeCounts();
-    // this.getEmployeeAwardCounts();
-    // this.getEmployeeAwardDiversity();
     this.regionAwardTotalsChart['data'] = [...this.regionAwardTotalsChart['data']];
   }
 
