@@ -1,6 +1,8 @@
-import {Component} from '@angular/core';
-import {AuthenticationService} from './services/authentication/authentication.service';
-import {Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { AuthenticationService } from './services/authentication/authentication.service';
+import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
+
 
 @Component({
   selector: 'erp-root',
@@ -9,13 +11,37 @@ import {Router} from '@angular/router';
 })
 export class AppComponent {
   title = 'employee-recognition-portal';
+  _isLoggedIn: boolean = false;
+  _isAdmin: boolean = false;
 
   constructor (
-    private authService: AuthenticationService,
-    private router: Router
+    private _authService: AuthenticationService,
+    private _router: Router,
+    private _cookieService: CookieService,
   ) {}
 
+  ngOnInit(): void {
+    this.refreshLoginState();
+  }
+
+  get isLoggedIn() {
+    return this._isLoggedIn;
+  }
+
+  get isAdmin() {
+    return this._isAdmin;
+  }
+
   handleLogout(): void {
-    this.authService.logout();
+    this._authService.logout();
+    this.refreshLoginState()
+  }
+
+  refreshLoginState(): void {
+    console.log('refreshing login state');
+    const cookies = this._cookieService.getAll();
+    this._isLoggedIn = cookies['userId'] !== null && cookies['userId'] !== undefined;
+    this._isAdmin = this.isLoggedIn && cookies['admin'] == 'true';
+    console.log('isLoggedIn: ', this.isLoggedIn, ' | isAdmin: ', this._isAdmin);
   }
 }

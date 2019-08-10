@@ -5,15 +5,14 @@
         <img [src]="'assets/Images/prototype-logo.svg'" class="logo">
       </a>
     </div>
-    <!-- <span class="menu-spacer"></span> -->
 
     <ul class="menu-links">
-      <li><a mat-button href="/awards">Awards</a></li>
-      <li><a mat-button href="/admin">Admin</a></li>
-      <li><a mat-button href="/reports">Reports</a></li>
-      <li><a mat-button href="/">Employees</a></li>
-      <li><a mat-button href="/account">Account</a></li>
-      <li><a mat-button (click)="handleLogout()">Logout</a></li>
+      <li *ngIf="isLoggedIn"><a mat-button href="/awards">Awards</a></li>
+      <li *ngIf="isLoggedIn && isAdmin"><a mat-button href="/admin">Admin</a></li>
+      <li *ngIf="isLoggedIn"><a mat-button href="/reports">Reports</a></li>
+      <li *ngIf="isLoggedIn"><a mat-button href="/account">Account</a></li>
+      <li *ngIf="isLoggedIn"><a mat-button (click)="handleLogout()">Logout</a></li>
+      <li *ngIf="!isLoggedIn"><a mat-button href="/login">Login</a></li>
     </ul>
   </mat-toolbar-row>
 </mat-toolbar>
