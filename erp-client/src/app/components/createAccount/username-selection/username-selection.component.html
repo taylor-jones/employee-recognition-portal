@@ -18,6 +18,13 @@
           <div>
             <tr>
               <td>
+                <mat-form-field class="set-email">
+                  <input matInput placeholder="Enter Email" type="email" [(ngModel)]="email" name="email" required>
+                </mat-form-field>
+              </td>
+            </tr>
+            <tr>
+              <td>
                 <mat-form-field class="set-password">
                   <input matInput placeholder="Enter Password" type="password" [(ngModel)]="password" name="password" required>
                 </mat-form-field>
@@ -42,5 +49,3 @@
     </mat-card-actions>
   </mat-card>
 </div>
-
-{{user | json}}

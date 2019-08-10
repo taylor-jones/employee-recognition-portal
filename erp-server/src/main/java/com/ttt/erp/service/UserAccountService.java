@@ -40,13 +40,19 @@ public class UserAccountService extends LogService {
 
     public Optional<UserAccount> createUser(Long userAccountId, UserAccount user) {
         try {
-            if (! user.getIsAdmin()) {
+            if (user.getIsAdmin() == null || !user.getIsAdmin()) {
                 user.setSignature(this.signatureService.newSignatureForUser(user.getSignature(), user));
             } else {
                 user.setSignature(null);
             }
+            user.setIsEnabled(true);
             UserAccount newUser = repository.save(user);
-            logInsert(userAccountId, newUser.getClass().getSimpleName(), newUser.getId());
+            if (!newUser.getIsAdmin()) {
+                // works for creating a new user as an unlogged in user
+                logInsert(newUser.getId(), newUser.getClass().getSimpleName(), userAccountId);
+            } else {
+                logInsert(userAccountId, newUser.getClass().getSimpleName(), newUser.getId());
+            }
             return Optional.ofNullable(newUser);
         } catch (Exception e) {
             System.out.println("Error on UserAccount insert");

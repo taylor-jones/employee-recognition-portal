@@ -106,4 +106,9 @@ public class UserAccountController {
         UserAccount userAccount = repository.findByUsername(username);
         return new ResponseEntity<>(userAccount == null, HttpStatus.OK);
     }
+
+    @PostMapping("/newAccount")
+    public Optional<UserAccount> addUserCreatedAccount (@RequestBody UserAccount newUserAccount) {
+        return this.service.createUser(0L, newUserAccount);
+    }
 }

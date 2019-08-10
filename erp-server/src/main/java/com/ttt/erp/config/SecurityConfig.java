@@ -6,6 +6,7 @@ import com.ttt.erp.service.UnauthorizedEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -80,6 +81,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/api/users/whoAmI").authenticated()
                     .antMatchers("/api/users/me").authenticated()
                     .antMatchers("/api/users/validate/**").permitAll()
+                    .antMatchers("/api/users/newAccount").permitAll()
                     .antMatchers("/api/recover/**").permitAll()
                     .antMatchers("/api/**").hasAnyRole("USER","ADMIN")
                 .and()
