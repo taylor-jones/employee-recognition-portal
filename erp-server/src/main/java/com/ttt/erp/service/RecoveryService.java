@@ -48,12 +48,13 @@ public class RecoveryService extends LogService{
         return result.size() == recoveryQuestions.size();
     }
 
-    public Boolean updateUsersPassword(String username, final String password) {
+    public Boolean updateUsersPassword(String username, String password) {
         try {
             UserAccount existing = this.userAccountRepository.findByUsername(username);
             UserAccount modified = existing;
 
             modified.setPassword(password);
+            // doesn't work and no error message
             logUpdate(modified.getId(), existing.getClass().getSimpleName(), existing.getId(), existing, modified);
             Optional.ofNullable(this.userAccountRepository.save(modified));
 
@@ -68,6 +69,7 @@ public class RecoveryService extends LogService{
         try {
             UserAccount userAccount = this.userAccountRepository.findByUsername(username);
 
+            // TODO: needs logging
             questions.forEach(question -> question.setUserAccount(userAccount));
             recoveryQuestionRepository.saveAll(questions);
             return true;
