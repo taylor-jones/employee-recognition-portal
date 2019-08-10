@@ -1,149 +1,177 @@
 <mat-toolbar>
   <span>Reporting</span>
 </mat-toolbar>
-<<<<<<< HEAD
-<div class="container">
+<div class="report-toggle-controls">
+  <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+    <mat-button-toggle value="bold" (click)="toggleSelectedChart('regions')">Regional Awards</mat-button-toggle>
+    <mat-button-toggle value="italic" (click)="toggleSelectedChart('byUser')">Awards by User</mat-button-toggle>
+    <mat-button-toggle value="underline" (click)="toggleSelectedChart('byType')">Awards by Type</mat-button-toggle>
+  </mat-button-toggle-group>
+</div>
+
+<div *ngIf="selectedChart.regions" class="container">
   <div class="chart-title-area">
     <h2 class="example-h2">Regional Awards</h2>
-      <mat-slide-toggle 
-        [checked]="regionAwardTotalsChart.showAll"
-        (change)="onRegionAwardsSlideToggleChange($event.checked)"
-      >
-        Show All Regions
-      </mat-slide-toggle>
+    <mat-slide-toggle 
+      [checked]="regionAwardTotalsChart.showAll"
+      (change)="onRegionAwardsSlideToggleChange($event.checked)"
+    >
+      Show All Regions
+    </mat-slide-toggle>
+  </div>
+      
+  <mat-tab-group>
+    <mat-tab label="Bar Chart">
+      <ng-template matTabContent>
+        <div class="chart-container">
+          <ngx-charts-bar-vertical
+            [scheme]="regionAwardTotalsChart.scheme"
+            [results]="regionAwardTotalsChart.data"
+            [gradient]="regionAwardTotalsChart.gradient"
+            [xAxis]="regionAwardTotalsChart.showXAxis"
+            [yAxis]="regionAwardTotalsChart.showYAxis"
+            [legend]="regionAwardTotalsChart.showLegend"
+            [showXAxisLabel]="regionAwardTotalsChart.showXAxisLabel"
+            [showYAxisLabel]="regionAwardTotalsChart.showYAxisLabel"
+            [xAxisLabel]="regionAwardTotalsChart.xAxisLabel"
+            [yAxisLabel]="regionAwardTotalsChart.yAxisLabel"
+            (select)="onRegionAwardsChartSelect($event)">
+          </ngx-charts-bar-vertical>
+        </div>
+      </ng-template>
+    </mat-tab>
+        
+    <mat-tab label="Pie Chart">
+      <ng-template matTabContent>
+        <div class="chart-container">
+          <ngx-charts-pie-chart
+            [scheme]="regionAwardTotalsChart.scheme"
+            [results]="regionAwardTotalsChart.data"
+            [legend]="regionAwardTotalsChart.showLegend"
+            [labels]="true"
+            (select)="onRegionAwardsChartSelect($event)">
+          </ngx-charts-pie-chart>
+        </div>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+  
+
+  <!-- Region Employee Awards -->
+  <div *ngIf="selected.region.name" class="chart-container chart-any-height">
+    <h3>Region: {{ selected.region.name }}</h3>
+    <div class="chart-wrapper">
+      <ngx-charts-bar-horizontal-stacked
+        [scheme]="regionEmployeeAwardsChart.scheme"
+        [results]="regionEmployeeAwardsChart.data"
+        [xAxis]="regionEmployeeAwardsChart.showXAxis"
+        [yAxis]="regionEmployeeAwardsChart.showYAxis"
+        [legend]="regionEmployeeAwardsChart.showLegend"
+        [gradient]="regionEmployeeAwardsChart.gradient"
+        [showXAxisLabel]="regionEmployeeAwardsChart.showXAxisLabel"
+        [showYAxisLabel]="regionEmployeeAwardsChart.showYAxisLabel"
+        [xAxisLabel]="regionEmployeeAwardsChart.xAxisLabel"
+        [yAxisLabel]="regionEmployeeAwardsChart.yAxisLabel"
+        (select)="onRegionEmployeeAwardsChartSelect($event)">
+      </ngx-charts-bar-horizontal-stacked>
     </div>
-    
-    <mat-tab-group>
-        <mat-tab label="Bar Chart">
-          <ng-template matTabContent>
-            <div class="chart-container">
-              <ngx-charts-bar-vertical
-                [scheme]="regionAwardTotalsChart.scheme"
-                [results]="regionAwardTotalsChart.data"
-                [gradient]="regionAwardTotalsChart.gradient"
-                [xAxis]="regionAwardTotalsChart.showXAxis"
-                [yAxis]="regionAwardTotalsChart.showYAxis"
-                [legend]="regionAwardTotalsChart.showLegend"
-                [showXAxisLabel]="regionAwardTotalsChart.showXAxisLabel"
-                [showYAxisLabel]="regionAwardTotalsChart.showYAxisLabel"
-                [xAxisLabel]="regionAwardTotalsChart.xAxisLabel"
-                [yAxisLabel]="regionAwardTotalsChart.yAxisLabel"
-                (select)="onRegionAwardsChartSelect($event)">
-              </ngx-charts-bar-vertical>
-            </div>
-          </ng-template>
-        </mat-tab>
-          
-        <mat-tab label="Pie Chart">
-          <ng-template matTabContent>
-            <div class="chart-container">
-              <ngx-charts-pie-chart
-                [scheme]="regionAwardTotalsChart.scheme"
-                [results]="regionAwardTotalsChart.data"
-                [legend]="regionAwardTotalsChart.showLegend"
-                [labels]="true"
-                (select)="onRegionAwardsChartSelect($event)">
-              </ngx-charts-pie-chart>
-            </div>
-          </ng-template>
-        </mat-tab>
-    </mat-tab-group>
+  </div>
+  
+  <!-- Employee Award Details -->
+  <div class="chart-container">
+    <div *ngIf="selected.employee.name" class="chart-wrapper">
+      <h3>Employee: {{ selected.employee.name }} | Award Type: {{ selected.awardType.name }}</h3>
+      <mat-table class="mat-table" [dataSource]="employeeAwards" matSort>
+        <ng-container matColumnDef="id">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
+          <mat-cell *matCellDef="let award"> {{ award.id }} </mat-cell>
+        </ng-container>
 
-    <!-- Region Employee Awards -->
-    <div *ngIf="selected.region.name" class="chart-container chart-any-height">
-      <h3>Region: {{ selected.region.name }}</h3>
-      <div class="chart-wrapper">
-        <ngx-charts-bar-horizontal-stacked
-          [scheme]="regionEmployeeAwardsChart.scheme"
-          [results]="regionEmployeeAwardsChart.data"
-          [xAxis]="regionEmployeeAwardsChart.showXAxis"
-          [yAxis]="regionEmployeeAwardsChart.showYAxis"
-          [legend]="regionEmployeeAwardsChart.showLegend"
-          [gradient]="regionEmployeeAwardsChart.gradient"
-          [showXAxisLabel]="regionEmployeeAwardsChart.showXAxisLabel"
-          [showYAxisLabel]="regionEmployeeAwardsChart.showYAxisLabel"
-          [xAxisLabel]="regionEmployeeAwardsChart.xAxisLabel"
-          [yAxisLabel]="regionEmployeeAwardsChart.yAxisLabel"
-          (select)="onRegionEmployeeAwardsChartSelect($event)">
-        </ngx-charts-bar-horizontal-stacked>
-      </div>
+        <ng-container matColumnDef="description">
+          <mat-header-cell *matHeaderCellDef mat-sort-header class="col-wide">Description</mat-header-cell>
+          <mat-cell *matCellDef="let award" class="col-wide"> {{ award.description }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="awardedDate">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Awarded Date</mat-header-cell>
+          <mat-cell *matCellDef="let award"> {{ award.awardedDate | date:'M/d/yyyy' }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="awardedTime">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Awarded Time</mat-header-cell>
+          <mat-cell *matCellDef="let award"> {{ award.awardedTime | time }} </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
     </div>
+  </div>
+</div>
 
-    <!-- Employee Award Details -->
-    <div class="chart-container">
-      <div *ngIf="selected.employee.name" class="chart-wrapper">
-        <h3>Employee: {{ selected.employee.name }} | Award Type: {{ selected.awardType.name }}</h3>
-        <mat-table class="mat-table" [dataSource]="employeeAwards" matSort>
-          <ng-container matColumnDef="id">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
-            <mat-cell *matCellDef="let award"> {{ award.id }} </mat-cell>
-          </ng-container>
 
-          <ng-container matColumnDef="description">
-            <mat-header-cell *matHeaderCellDef mat-sort-header class="col-wide">Description</mat-header-cell>
-            <mat-cell *matCellDef="let award" class="col-wide"> {{ award.description }} </mat-cell>
-          </ng-container>
+<!-- Award charts by user -->
+<div *ngIf="selectedChart.byUser" class="container">
+  <div class="chart-title-area">
+    <h2 class="example-h2">Award Counts by User</h2>
+  </div>
 
-          <ng-container matColumnDef="awardedDate">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>Awarded Date</mat-header-cell>
-            <mat-cell *matCellDef="let award"> {{ award.awardedDate | date:'M/d/yyyy' }} </mat-cell>
-          </ng-container>
+  <mat-tab-group>
+    <mat-tab label="Bar Chart">
+      <ng-template matTabContent>
+        <vertical-bar-chart
+          *ngIf="userAwardCounts"
+          [data]="userAwardCounts"
+          [showAxes]="true"
+          [axisLabels]="['User','Awards']">
+        </vertical-bar-chart>
+      </ng-template>
+    </mat-tab>
 
-          <ng-container matColumnDef="awardedTime">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>Awarded Time</mat-header-cell>
-            <mat-cell *matCellDef="let award"> {{ award.awardedTime | time }} </mat-cell>
-          </ng-container>
+    <mat-tab label="Pie Chart">
+      <ng-template matTabContent>
+        <div class="chart-container">
+          <ngx-charts-pie-chart
+            [scheme]="'vivid'"
+            [results]="userAwardCounts"
+            [legend]="true"
+            [labels]="true">
+          </ngx-charts-pie-chart>
+        </div>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+  
 
-          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-        </mat-table>
-      </div>
-    </div>
-    <vertical-bar-chart
-      *ngIf="userAwardCounts"
-      [title]="'Award counts by user'"
-      [data]="userAwardCounts"
-      [view]="[1000, 300]"
-      [showAxes]="true"
-      [axisLabels]="['User','Awards']">
-  </vertical-bar-chart>
-  <vertical-bar-chart
-    *ngIf="awardTypeCounts"
-    [title]="'Award counts by award type'"
-    [data]="awardTypeCounts"
-    [view]="[1000, 400]"
-    [showAxes]="true"
-    [axisLabels]="['Type','Awards']">
-  </vertical-bar-chart>
-</div>  
-=======
-<mat-tab-group>
-  <mat-tab label="Awards by User">
-    <ng-template matTabContent>
-    <div class="container">
-      <vertical-bar-chart
-        *ngIf="userAwardCounts"
-        [title]="'Award counts by user'"
-        [data]="userAwardCounts"
-        [showAxes]="true"
-        [axisLabels]="['User','Awards']">
-      </vertical-bar-chart>
-    </div>
-  </ng-template>
-  </mat-tab>
-  <mat-tab label="Awards by Type">
-    <ng-template matTabContent>
-    <div class="container">
-      <vertical-bar-chart
-        *ngIf="awardTypeCounts"
-        [title]="'Award counts by award type'"
-        [data]="awardTypeCounts"
-        [showAxes]="true"
-        [axisLabels]="['Type','Awards']">
-      </vertical-bar-chart>
-    </div>
-    </ng-template>
-  </mat-tab>
-</mat-tab-group>
+<!-- Award charts by award type -->
+<div *ngIf="selectedChart.byType" class="container">
+  <div class="chart-title-area">
+    <h2 class="example-h2">Award Counts by Type</h2>
+  </div>
+  <mat-tab-group>
+    <mat-tab label="Bar Chart">
+      <ng-template matTabContent>
+        <vertical-bar-chart
+          *ngIf="awardTypeCounts"
+          [data]="awardTypeCounts"
+          [showAxes]="true"
+          [axisLabels]="['Type','Awards']">
+        </vertical-bar-chart>
+      </ng-template>
+    </mat-tab>
 
->>>>>>> Add mat-tab navigation for these reports
+    <mat-tab label="Pie Chart">
+      <ng-template matTabContent>
+        <div class="chart-container">
+          <ngx-charts-pie-chart
+            [scheme]="'vivid'"
+            [results]="awardTypeCounts"
+            [legend]="true"
+            [labels]="true">
+          </ngx-charts-pie-chart>
+        </div>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</div>

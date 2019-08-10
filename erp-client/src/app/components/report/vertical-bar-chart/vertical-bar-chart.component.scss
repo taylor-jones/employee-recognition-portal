@@ -1,3 +1,17 @@
+h2 {
+  margin-top: 5%;
+}
+
 .chart-wrapper {
   height: 400px;
+}
+
+.chartControls {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+span.chartControl{
+  display: inline-block;
+  padding-right: 20px;
 }

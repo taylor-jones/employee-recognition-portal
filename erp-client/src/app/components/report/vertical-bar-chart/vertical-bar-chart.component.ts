@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { SnackbarService } from 'src/app/services/snackbar/snackbar.service';
 
 @Component({
@@ -6,13 +6,12 @@ import { SnackbarService } from 'src/app/services/snackbar/snackbar.service';
   templateUrl: './vertical-bar-chart.component.html',
   styleUrls: ['./vertical-bar-chart.component.scss']
 })
-export class VerticalBarChartComponent {
+export class VerticalBarChartComponent implements OnInit {
 
   /**
    * All of these can be overridden as inputs in the template.
    *   data format: [{name, value}, {name, value}, ...]
    */
-  @Input() title: string = '';
   @Input() data: any[] = [];                    // the data passed into the component
   @Input() view: any[] = [1000, 200];           // [width, height]
   @Input() showAxisLabels: boolean = true;      // controls whether axis labels show
@@ -22,10 +21,16 @@ export class VerticalBarChartComponent {
 
   valueLabels: boolean;
   showGridlines: boolean;
+  showAll: boolean = true;
+  filteredData: any[];
 
   constructor(private _snackBar: SnackbarService) {
     this.valueLabels = true;
     this.showGridlines = true;
+  }
+
+  ngOnInit() {
+    this.filteredData = this.nonZeroData();
   }
 
   /**
@@ -53,6 +58,14 @@ export class VerticalBarChartComponent {
 
   toggleGridlines() {
     this.showGridlines = !this.showGridlines;
+  }
+
+  toggleShowAll() {
+    this.showAll = !this.showAll;
+  }
+
+  nonZeroData() {
+    return this.data.filter(d => d.value > 0);
   }
 
   onSelect(event) {
