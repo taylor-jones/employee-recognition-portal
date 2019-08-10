@@ -12,6 +12,7 @@ export class CanvasComponent implements AfterViewInit {
   private canvasHTML;
   private canvasContext;
   private mouseIsDown: boolean = false;
+  touched: boolean = false;
   unlocked: boolean = true;
   mySignature: string = null;
   
@@ -56,11 +57,13 @@ export class CanvasComponent implements AfterViewInit {
   // On mouse up, stop drawing
   penUp(): void {
     this.mouseIsDown = false;
+    this.touched = true;
   }
 
   // TR: Still need to test dynamic width and height using parent component to pass input
   clearCanvas(): void {
     this.canvasContext.clearRect(0, 0, this.width, this.height);
+    this.touched = false;
   }
 
   // TR: Helpful if wrapped by a parent. Can return the data to the parent so the parent
@@ -92,6 +95,7 @@ export class CanvasComponent implements AfterViewInit {
       );
       i++;
     }
+    this.touched = true;
     this.canvasContext.stroke();
   }
 
@@ -100,6 +104,10 @@ export class CanvasComponent implements AfterViewInit {
       (base64) => {this.mySignature = base64},
       (error) => {console.error(error)}
     )
+  }
+
+  getTouched() {
+    return this.touched;
   }
 
 }
