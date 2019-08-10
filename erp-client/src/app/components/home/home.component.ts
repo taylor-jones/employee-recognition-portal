@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {EmployeeService} from '../../services/employee/employee.service';
-import {Employee} from '../../models/employee.model';
+import { Component, OnInit } from '@angular/core';
+import { AppComponent } from 'src/app/app.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'erp-home',
@@ -8,45 +8,21 @@ import {Employee} from '../../models/employee.model';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-
-  awards: Employee[] = [];
-  employees: Employee[] = null;
-  employee: Employee;
-  errorMessage: string;
-  employeeId: number;
-  id: number;
-
-  constructor(private employeeService: EmployeeService) { }
-
+  constructor(
+    private _app: AppComponent,
+    private _router: Router,
+  ) {}
+  
   ngOnInit() {
-  }
-
-  getAllEmployees(): void {
-    this.employeeService.getAllEmployees().subscribe(
-      (employees) => {
-        this.employees = employees;
-      },
-      (error) => {
-        this.errorMessage = 'Failed to load employees';
-      },
-      () => {
-        // If you want to do something
-      }
-    );
-  }
-
-  getEmployeeById(id: number): void {
-    this.employee = null;
-    this.employeeService.getEmployeeById(id).subscribe(
-      (employee) => {
-        this.employee = employee;
-      },
-      (error) => {
-        this.errorMessage = 'Failed to load employee';
-      },
-      () => {
-        // If you want to do something
-      }
-    );
+    // if not logged in, redirect to login page.
+    if (!this._app.isLoggedIn) {
+      this._router.navigate(['/login']);
+    // if admin, redirect to admin page.
+    } else if (this._app.isAdmin) {
+      this._router.navigate(['/admin']);
+    // if logged in but not admin, redirect to account page.
+    } else {
+      this._router.navigate(['/account']);
+    }
   }
 }

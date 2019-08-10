@@ -1,9 +1,3 @@
-<!--<input [(ngModel)]="username" placeholder="Username">{{username}}-->
-<!--<br>-->
-<!--<input [(ngModel)]="password" placeholder="Password">{{password}}-->
-<!--<br>-->
-<!--<button (click)="handleLogin()" [disabled]="!username || !password">Click me!</button>-->
-
 <div class="login-container">
   <mat-card class="login-card">
     <mat-card-header>
@@ -12,7 +6,7 @@
       </div>
     </mat-card-header>
     <mat-card-content>
-      <form>
+      <form (submit)="handleLogin()">
         <table cellspacing="0">
           <tr>
             <td>
@@ -22,16 +16,21 @@
             </td>
           </tr>
           <tr>
-            <td><mat-form-field class="password-input">
-              <input matInput placeholder="Password" [(ngModel)]="password"type="password" name="password" required>
-            </mat-form-field></td>
-          </tr></table>
+            <td>
+              <mat-form-field class="password-input">
+                <input matInput placeholder="Password" [(ngModel)]="password"type="password" name="password" required>
+              </mat-form-field>
+            </td>
+          </tr>
+        </table>
+
+          <a mat-label class="forgot-password" href="/forgotPassword">Forgot Password?</a>
+          <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner>
+
+          <mat-card-actions>
+            <button type="submit" mat-raised-button (click)="handleLogin()" color="primary" class="login-button">Login</button>
+          </mat-card-actions>
       </form>
-      <a mat-label class="forgot-password" href="/forgotPassword">Forgot Password?</a>
-      <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner>
     </mat-card-content>
-    <mat-card-actions>
-      <button mat-raised-button (click)="handleLogin()" color="primary" class="login-button">Login</button>
-    </mat-card-actions>
   </mat-card>
 </div>
