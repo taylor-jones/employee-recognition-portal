@@ -87,6 +87,29 @@ public class UserAccount implements Serializable {
         this.isAdmin = isAdmin;
     }
 
+    public UserAccount(Long id, String email, String username, String password, String signature, Boolean isAdmin, Boolean isEnabled, Set<Award> awards, Set<RecoveryQuestion> questions, Set<Log> logs) {
+        this.id = id;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.signature = signature;
+        this.isAdmin = isAdmin;
+        this.isEnabled = isEnabled;
+        this.awards = awards;
+        this.questions = questions;
+        this.logs = logs;
+    }
+
+    public UserAccount(Long id, String email, String username, String password, String signature, Boolean isAdmin, Boolean isEnabled) {
+        this.id = id;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.signature = signature;
+        this.isAdmin = isAdmin;
+        this.isEnabled = isEnabled;
+    }
+
     public UserAccount(String email, String username, String password, Boolean isAdmin) {
         this.email = email;
         this.username = username;
