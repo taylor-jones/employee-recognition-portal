@@ -55,7 +55,7 @@ public class AwardPdfService {
         Document document = new Document(pdfDocument);
 
         // add the TTT logo
-        String logoSrc = "src/main/resources/logo.png";
+        String logoSrc = "src/main/resources/ttt-logo.png";
         Image logo = new Image(ImageDataFactory.create(logoSrc)).scaleAbsolute(200, 50);
         document.add(logo);
 
@@ -103,11 +103,12 @@ public class AwardPdfService {
 
             String filename = employee.getFullName() + " - Award.pdf";
             String subjectLine = "New Award from " + userAccount.getUsername() + " at TTT";
-            String htmlString = "<p>Dear " + employee.getFirstName() + ",</p>" +
+            String htmlMessage = "<p>Dear " + employee.getFirstName() + ",</p>" +
                 "<p>Thank you for your contributions to our organization. " +
                 "On behalf of everyone at Team Triple T, we'd like to present " +
                 "you with this award as a small token of our appreciation.</p>" +
-                "<p>Keep up the great work!</p>";
+                "<p>Keep up the great work!</p><br />" +
+                "<p>Sincerely,</p><p>" + userAccount.getUsername() + "</p><br />";
 
             // get the pdf data
             ByteArrayInputStream stream = generateAwardPdf(award);
@@ -116,7 +117,7 @@ public class AwardPdfService {
             emailService.sendEmailWithAttachment(
                 employee.getEmail(),
                 subjectLine,
-                htmlString,
+                htmlMessage,
                 filename,
                 stream
             );
