@@ -3,7 +3,7 @@
 </mat-toolbar>
 <div class="report-toggle-controls">
   <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
-    <mat-button-toggle value="bold" (click)="toggleSelectedChart('regions')">Regional Awards</mat-button-toggle>
+    <mat-button-toggle value="bold" (click)="toggleSelectedChart('regions')">Awards by Region</mat-button-toggle>
     <mat-button-toggle value="italic" (click)="toggleSelectedChart('byUser')">Awards by User</mat-button-toggle>
     <mat-button-toggle value="underline" (click)="toggleSelectedChart('byType')">Awards by Type</mat-button-toggle>
   </mat-button-toggle-group>
@@ -11,7 +11,7 @@
 
 <div *ngIf="selectedChart.regions" class="container">
   <div class="chart-title-area">
-    <h2 class="example-h2">Regional Awards</h2>
+    <h2 class="example-h2">Awards by Region</h2>
     <mat-slide-toggle 
       [checked]="regionAwardTotalsChart.showAll"
       (change)="onRegionAwardsSlideToggleChange($event.checked)"
@@ -59,7 +59,7 @@
 
   <!-- Region Employee Awards -->
   <div *ngIf="selected.region.name" class="chart-container chart-any-height">
-    <h3>Region: {{ selected.region.name }}</h3>
+    <h3>{{ selected.region.name }}</h3>
     <div class="chart-wrapper">
       <ngx-charts-bar-horizontal-stacked
         [scheme]="regionEmployeeAwardsChart.scheme"
@@ -80,7 +80,7 @@
   <!-- Employee Award Details -->
   <div class="chart-container">
     <div *ngIf="selected.employee.name" class="chart-wrapper">
-      <h3>Employee: {{ selected.employee.name }} | Award Type: {{ selected.awardType.name }}</h3>
+      <h3>{{ selected.employee.name }} : {{ selected.awardType.name }}</h3>
       <mat-table class="mat-table" [dataSource]="employeeAwards" matSort>
         <ng-container matColumnDef="id">
           <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
