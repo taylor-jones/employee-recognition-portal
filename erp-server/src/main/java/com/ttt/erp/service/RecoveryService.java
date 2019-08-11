@@ -8,17 +8,18 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class RecoveryService extends LogService{
 
     private final RecoveryQuestionRepository recoveryQuestionRepository;
     private final UserAccountRepository userAccountRepository;
+    private final UserAccountService userAccountService;
 
-    public RecoveryService(RecoveryQuestionRepository recoveryQuestionRepository, UserAccountRepository userAccountRepository) {
+    public RecoveryService(RecoveryQuestionRepository recoveryQuestionRepository, UserAccountRepository userAccountRepository, UserAccountService userAccountService) {
         this.recoveryQuestionRepository = recoveryQuestionRepository;
         this.userAccountRepository = userAccountRepository;
+        this.userAccountService = userAccountService;
     }
 
     public List<RecoveryQuestion> getRecoveryQuestions(String username) {
@@ -48,20 +49,48 @@ public class RecoveryService extends LogService{
         return result.size() == recoveryQuestions.size();
     }
 
-    public Boolean updateUsersPassword(String username, final String password) {
+    public Boolean updateUsersPassword(String username, String password) {
         try {
             UserAccount existing = this.userAccountRepository.findByUsername(username);
-            UserAccount modified = existing;
+            UserAccount modified = new UserAccount(
+                    existing.getId(),
+                    existing.getEmail(),
+                    existing.getUsername(),
+                    password,
+                    existing.getSignature(),
+                    existing.getIsAdmin(),
+                    existing.getIsEnabled()
+            );
 
-            modified.setPassword(password);
-            logUpdate(modified.getId(), existing.getClass().getSimpleName(), existing.getId(), existing, modified);
-            Optional.ofNullable(this.userAccountRepository.save(modified));
+            System.out.println(modified.toString());
+            System.out.println(existing.toString());
+            System.out.println(this.userAccountRepository.findById(existing.getId()).toString());
+//            temp.setPassword(password);
+//            System.out.println(modified.toString());
+//            System.out.println(existing.toString());
+
+//            modified.setPassword(password);
+            this.userAccountService.updateUser(modified.getId(), modified.getId(), modified);
+//            logUpdate(modified.getId(), existing.getClass().getSimpleName(), existing.getId(), existing, modified);
+//            Optional.ofNullable(this.userAccountRepository.save(modified));
 
             return this.userAccountRepository.findByUsername(username).getPassword().equals(password);
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
+    }
+    public Boolean setRecoveryQuestions(String username, List<RecoveryQuestion> questions) {
+        try {
+            UserAccount userAccount = this.userAccountRepository.findByUsername(username);
 
+            // TODO: maybe add logging, but it is kind of covered since this goes with creating account
+            questions.forEach(question -> question.setUserAccount(userAccount));
+            recoveryQuestionRepository.saveAll(questions);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

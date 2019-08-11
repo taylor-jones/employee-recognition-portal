@@ -1,14 +1,15 @@
 package com.ttt.erp.controller;
 
 import com.ttt.erp.model.Award;
-import com.ttt.erp.model.RecoveryQuestion;
 import com.ttt.erp.model.UserAccount;
 import com.ttt.erp.repository.AwardRepository;
 import com.ttt.erp.repository.RecoveryQuestionRepository;
 import com.ttt.erp.repository.UserAccountRepository;
 import com.ttt.erp.service.UserAccountService;
-import com.ttt.erp.service.UserManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import com.ttt.erp.service.UserManager;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -97,5 +98,16 @@ public class UserAccountController {
     @GetMapping("/username/{username}")
     public UserAccount getUserAccount(@PathVariable("username") final String username) {
         return repository.findByUsername(username);
+    }
+
+    @GetMapping("/validate/{username}")
+    public ResponseEntity<Boolean> checkUserName(@PathVariable("username") final String username) {
+        UserAccount userAccount = repository.findByUsername(username);
+        return new ResponseEntity<>(userAccount == null, HttpStatus.OK);
+    }
+
+    @PostMapping("/newAccount")
+    public Optional<UserAccount> addUserCreatedAccount (@RequestBody UserAccount newUserAccount) {
+        return this.service.createUser(0L, newUserAccount);
     }
 }

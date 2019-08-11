@@ -76,7 +76,7 @@ public class RecoveryQuestion {
         this.userAccount = userAccount;
     }
 
-    // equals, hashcode, and toString
+// equals, hashcode, and toString
 
     @Override
     public boolean equals(Object o) {

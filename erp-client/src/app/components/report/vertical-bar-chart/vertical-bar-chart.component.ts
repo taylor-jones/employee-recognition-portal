@@ -69,6 +69,6 @@ export class VerticalBarChartComponent implements OnInit {
   }
 
   onSelect(event) {
-    
+
   }
 }

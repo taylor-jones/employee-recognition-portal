@@ -43,10 +43,9 @@ export class ReportService {
   getRegionAwards(regionId: number): Observable<any> {
     return this.http.get<any[]>(`/api/regions/${regionId}/awards`);
   }
-  
+
   getRegionEmployees(regionId: number): Observable<any> {
     return this.http.get<any[]>(`/api/regions/${regionId}/employees`);
   }
 
 }
-

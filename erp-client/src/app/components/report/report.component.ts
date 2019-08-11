@@ -99,7 +99,7 @@ export class ReportComponent implements OnInit {
     private _reportService: ReportService,
     private _snackbar: SnackbarService,
     private _router: Router,
-  ) { 
+  ) {
 
     Object.assign(this.regionAwardTotalsChart, this.regionAwardCounts);
   }
@@ -190,7 +190,7 @@ export class ReportComponent implements OnInit {
 
 
   /**
-   * Builds a list of the number and type of awards for the 
+   * Builds a list of the number and type of awards for the
    * employees at the selected region.
    * @param regionId id of the selected region
    */
@@ -211,7 +211,7 @@ export class ReportComponent implements OnInit {
 
       // build the series of awards for this employee
       const series = [];
-      
+
       /**
        * Filter all of this region's awards to only those that belong
        * this this employee. Then check this employee's series of awards
@@ -232,10 +232,10 @@ export class ReportComponent implements OnInit {
           });
         }
       });
-      
+
       // push the series of awards to the region employee awards data
       if (series.length > 0) {
-        data.push({ 
+        data.push({
           name: name,
           series: series,
         });
@@ -249,24 +249,24 @@ export class ReportComponent implements OnInit {
   }
 
 
- /**
-  * Builds a list of award details for the selected
-  * employee and award type.
-  * @param $event the selected chart element
-  */
+  /**
+   * Builds a list of award details for the selected
+   * employee and award type.
+   * @param $event the selected chart element
+   */
   onRegionEmployeeAwardsChartSelect($event) {
     // find the associated awards for this employee 
     // and display the details.
     this.selected.employee.name = $event.series;
     this.selected.awardType.name = $event.label;
-    
+
     this.selected.employee.id = (this.regionEmployees[this.selected.region.id])
       .find(e => e.fullName === this.selected.employee.name).id;
-    
+
     this.employeeAwards = new MatTableDataSource(this
       .regionAwards[this.selected.region.id]
-      .filter(a => a.employee.id === this.selected.employee.id 
-        && a.awardType.name === this.selected.awardType.name)); 
+      .filter(a => a.employee.id === this.selected.employee.id
+        && a.awardType.name === this.selected.awardType.name));
 
     this.employeeAwards.sort = this.sort;
   }
@@ -293,7 +293,7 @@ export class ReportComponent implements OnInit {
       this.showSnackbarError('Failed to get user award totals.');
     });
   }
-  
+
 
   /**
    * Fetch the employee award count totals.
@@ -408,7 +408,4 @@ export class ReportComponent implements OnInit {
       this.showSnackbarError('Failed to get employee award diversity data.');
     });
   }
-  
-
-
 }

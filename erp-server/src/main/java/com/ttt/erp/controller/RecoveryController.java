@@ -21,13 +21,25 @@ public class RecoveryController {
         this.recoveryService = recoveryService;
     }
 
+    // get users recovery questions
     @GetMapping(value = "/{username}/questions")
     public List<RecoveryQuestion> getQuestions(
             @PathVariable(value = "username") String username) {
         return this.recoveryService.getRecoveryQuestions(username);
     }
 
+    // sets users recovery questions/answers
     @PostMapping(value = "/{username}/questions", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity setQuestions(
+            @PathVariable(value = "username") String username,
+            @RequestBody List<RecoveryQuestion> questions) {
+        Boolean isValid = this.recoveryService.setRecoveryQuestions(username, questions);
+
+        return isValid ? new ResponseEntity(HttpStatus.OK) : new ResponseEntity(HttpStatus.UNAUTHORIZED);
+    }
+
+    // check users recovery answers
+    @PostMapping(value = "/{username}/answers", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity checkAnswers(
             @PathVariable(value = "username") String username,
             @RequestBody List<RecoveryQuestion> questions) {
@@ -36,6 +48,7 @@ public class RecoveryController {
         return isValid ? new ResponseEntity(HttpStatus.OK) : new ResponseEntity(HttpStatus.UNAUTHORIZED);
     }
 
+    // set new password for user when forgot
     @PostMapping(value = "/{username}/newPassword")
     public ResponseEntity updatePassword(
             @PathVariable(value = "username") String username,

@@ -19,7 +19,7 @@
       Show All Regions
     </mat-slide-toggle>
   </div>
-      
+
   <mat-tab-group>
     <mat-tab label="Bar Chart">
       <ng-template matTabContent>
@@ -40,7 +40,7 @@
         </div>
       </ng-template>
     </mat-tab>
-        
+
     <mat-tab label="Pie Chart">
       <ng-template matTabContent>
         <div class="chart-container">
@@ -55,7 +55,7 @@
       </ng-template>
     </mat-tab>
   </mat-tab-group>
-  
+
 
   <!-- Region Employee Awards -->
   <div *ngIf="selected.region.name" class="chart-container chart-any-height">
@@ -76,7 +76,7 @@
       </ngx-charts-bar-horizontal-stacked>
     </div>
   </div>
-  
+
   <!-- Employee Award Details -->
   <div class="chart-container">
     <div *ngIf="selected.employee.name" class="chart-wrapper">
@@ -142,7 +142,7 @@
     </mat-tab>
   </mat-tab-group>
 </div>
-  
+
 
 <!-- Award charts by award type -->
 <div *ngIf="selectedChart.byType" class="container">

@@ -26,6 +26,10 @@ import { AccountRecoveryComponent } from './components/account-recovery/account-
 import { ChangePasswordComponent } from './components/account-recovery/change-password/change-password.component';
 import { ReportComponent } from './components/report/report.component';
 import { VerticalBarChartComponent } from './components/report/vertical-bar-chart/vertical-bar-chart.component';
+import { CreateAccountComponent } from './components/createAccount/create-account/create-account.component';
+import { UsernameSelectionComponent } from './components/createAccount/username-selection/username-selection.component';
+import { SetRecoveryQuestionsComponent } from './components/createAccount/set-recovery-questions/set-recovery-questions.component';
+import { SignatureInputComponent } from './components/createAccount/signature-input/signature-input.component';
 
 // Pipes
 import {ConvertTimePipe} from './pipes/convert-time.pipe';
@@ -45,6 +49,10 @@ import {ConvertTimePipe} from './pipes/convert-time.pipe';
     ConvertTimePipe,
     AccountRecoveryComponent,
     ChangePasswordComponent,
+    CreateAccountComponent,
+    SetRecoveryQuestionsComponent,
+    UsernameSelectionComponent,
+    SignatureInputComponent,
     ReportComponent,
     VerticalBarChartComponent,
     ConvertTimePipe

@@ -17,8 +17,12 @@ export class AccountRecoveryService {
     return this.httpClient.get<RecoveryQuestion[]>(`api/recover/${username}/questions`);
   }
 
-  checkRecoveryAnswers(username: string, questions: RecoveryQuestion[]): Observable<void> {
+  setRecoveryQuestions(username: string, questions: RecoveryQuestion[]): Observable<void> {
     return this.httpClient.post<void>(`/api/recover/${username}/questions`, questions);
+  }
+
+  checkRecoveryAnswers(username: string, questions: RecoveryQuestion[]): Observable<void> {
+    return this.httpClient.post<void>(`/api/recover/${username}/answers`, questions);
   }
 
   setNewPassword(updateUser: PasswordReset): Observable<void> {
