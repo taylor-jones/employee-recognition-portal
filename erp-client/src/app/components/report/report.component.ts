@@ -75,7 +75,7 @@ export class ReportComponent implements OnInit {
     showYAxisLabel: true,
     xAxisLabel: 'Region',
     yAxisLabel: 'Total Awards',
-    scheme: 'cool',
+    scheme: 'vivid',
     showAll: true,
   };
 
@@ -89,7 +89,7 @@ export class ReportComponent implements OnInit {
     showYAxisLabel: true,
     xAxisLabel: 'Total Awards',
     yAxisLabel: 'Employee',
-    scheme: 'cool',
+    scheme: 'vivid',
     showAll: true,
   };
 
