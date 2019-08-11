@@ -47,7 +47,6 @@ public class LogService {
     Annotation[] annotations = field.getAnnotations();
     if (annotations.length > 0){
       for (int i=0; i<annotations.length; i++) {
-        System.out.println(annotations[i].annotationType().getSimpleName());
         if (annotations[i].annotationType().getSimpleName().equals(annotationName)) {
           return true;
         } 

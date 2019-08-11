@@ -79,6 +79,9 @@ export class AdminControlsComponent implements OnInit {
     Object.keys(form.controls).forEach(key => {
       form.get(key).setErrors(null);
     });
+    if (form == this.newUserForm) {
+      form.value.isAdmin = false;
+    }
     this.canvasChild.clearCanvas();
   }
 

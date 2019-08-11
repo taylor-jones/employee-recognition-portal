@@ -1,5 +1,7 @@
 package com.ttt.erp.controller;
 
+import com.ttt.erp.repository.UserAccountRepository;
+import com.ttt.erp.service.AwsS3ClientService;
 import com.ttt.erp.service.SignatureService;
 import com.ttt.erp.service.UserAccountService;
 
@@ -22,9 +24,21 @@ public class SignatureController {
     @Autowired
     private UserAccountService userService;
 
+    @Autowired 
+    private UserAccountRepository userRepo;
+
+    @Autowired 
+    private AwsS3ClientService s3Client;
+
     @GetMapping
-    public Optional<String> findSignature(Principal principal) {
+    public Optional<String> findSignatureName(Principal principal) {
         return service.getSignatureForUsername(principal.getName());
+    }
+
+    @GetMapping("/file")
+    public void findSignatureFileData(@CookieValue(value = "user") String actingUser) {
+        String fName = this.userRepo.findByUsername(actingUser).getSignature();
+        System.out.println(this.service.getSignatureBase64(fName));
     }
 
     @PostMapping
