@@ -6,6 +6,7 @@ import {User} from 'src/app/models/user.model';
 import {SnackbarService} from 'src/app/services/snackbar/snackbar.service';
 import {FormGroup} from '@angular/forms';
 import {MatInput} from '@angular/material';
+import { AccountRecoveryService } from 'src/app/services/account-recovery/account-recovery.service';
 
 @Component({
   selector: 'erp-my-page',
@@ -21,10 +22,11 @@ export class MyPageComponent extends AdminControlsComponent implements OnInit {
 
   constructor(
     private cookieService: CookieService,
-    private snackbarService: SnackbarService,
-    public userService: UserService
+    public _snackbar: SnackbarService,
+    public userService: UserService,
+    public accountRecoveryService: AccountRecoveryService
   ) {
-    super(userService);
+    super(userService, accountRecoveryService, _snackbar);
     this.currentUser = cookieService.get('user');
     this.readOnly = true;
     this.passwordType = 'password';
@@ -61,7 +63,7 @@ export class MyPageComponent extends AdminControlsComponent implements OnInit {
         this.accountForm = this.initFormGroupFromUser(this.me);
       },
       error => {
-        this.onError(`Unable to get current user: ${error})`);
+        this.customErrorSnackbar(`Unable to get current user: ${error})`);
       }
     );
   }
@@ -69,17 +71,14 @@ export class MyPageComponent extends AdminControlsComponent implements OnInit {
   updateMyUser() {
     this.userService.updateUser(this.accountForm.value).subscribe(
       (user) => {
+        this.customSuccessSnackbar(`Updated user, ${user.username}!`);
         this.me = user;
         this.toggleReadOnly();
       },
       (error) => {
-        this.onError(`Failed to updated user: ${error}`);
+        this.customErrorSnackbar(`Failed to updated user: ${error}`);
       }
     );
-  }
-
-  onError(message: string) {
-    this.snackbarService.showError(message, 'Dang it', {duration: null, panelClass: [ 'snackbar-error' ]})
   }
 
 }
