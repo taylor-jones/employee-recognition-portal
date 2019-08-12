@@ -88,29 +88,26 @@ public class EmployeeController {
     }
 
 
-    // TODO: get actual userId from cookie
     @PostMapping
     public Optional<Employee> addEmployee (
-        @CookieValue(value = "userId", defaultValue = "1") String modifiedById,
+        @CookieValue(value = "userId") String modifiedById,
         @RequestBody Employee newEmployee) {
         return this.employeeService.createEmployee(Long.parseLong(modifiedById), newEmployee);
     }
 
 
-    // TODO: get actual userId from cookie
     @PutMapping("/{id}")
     public Optional<Employee> updateEmployeeById (
-        @CookieValue(value = "userId", defaultValue = "1") String modifiedById,
+        @CookieValue(value = "userId") String modifiedById,
         @PathVariable("id") Long employeeId,
         @RequestBody Employee modified) {
         return this.employeeService.updateEmployee(Long.parseLong(modifiedById), employeeId, modified);
     }
 
 
-    // TODO: get actual userId from cookie
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteEmployeeById (
-        @CookieValue(value = "userId", defaultValue = "1") String modifiedById,
+        @CookieValue(value = "userId") String modifiedById,
         @PathVariable("id") Long employeeId
     ) {
         return this.employeeService.deleteEmployee(Long.parseLong(modifiedById), employeeId);

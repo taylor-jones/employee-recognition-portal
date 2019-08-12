@@ -52,8 +52,9 @@ public class RecoveryService extends LogService{
     public Boolean updateUsersPassword(String username, String password) {
         try {
             UserAccount existing = this.userAccountRepository.findByUsername(username);
+            Long existingId = existing.getId();
             UserAccount modified = new UserAccount(
-                    existing.getId(),
+                    existingId,
                     existing.getEmail(),
                     existing.getUsername(),
                     password,
@@ -61,25 +62,14 @@ public class RecoveryService extends LogService{
                     existing.getIsAdmin(),
                     existing.getIsEnabled()
             );
-
-            System.out.println(modified.toString());
-            System.out.println(existing.toString());
-            System.out.println(this.userAccountRepository.findById(existing.getId()).toString());
-//            temp.setPassword(password);
-//            System.out.println(modified.toString());
-//            System.out.println(existing.toString());
-
-//            modified.setPassword(password);
-            this.userAccountService.updateUser(modified.getId(), modified.getId(), modified);
-//            logUpdate(modified.getId(), existing.getClass().getSimpleName(), existing.getId(), existing, modified);
-//            Optional.ofNullable(this.userAccountRepository.save(modified));
-
+            this.userAccountService.updateUser(existingId, existingId, modified);
             return this.userAccountRepository.findByUsername(username).getPassword().equals(password);
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
     }
+
     public Boolean setRecoveryQuestions(String username, List<RecoveryQuestion> questions) {
         try {
             UserAccount userAccount = this.userAccountRepository.findByUsername(username);

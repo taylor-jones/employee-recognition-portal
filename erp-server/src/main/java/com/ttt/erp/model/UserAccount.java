@@ -2,6 +2,7 @@ package com.ttt.erp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.ttt.erp.annotation.Relationship;
 
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.GrantedAuthority;
@@ -63,14 +64,17 @@ public class UserAccount implements Serializable {
     // relationships
     @OneToMany(targetEntity = Award.class, mappedBy = "userAccount", cascade = CascadeType.ALL)
     @JsonIgnore
+    @Relationship
     private Set<Award> awards = new HashSet<>();
 
     @OneToMany(targetEntity = RecoveryQuestion.class, mappedBy = "userAccount", cascade = CascadeType.ALL)
     @JsonIgnore
+    @Relationship
     private Set<RecoveryQuestion> questions = new HashSet<>();
 
     @OneToMany(targetEntity = Log.class, mappedBy = "userAccount", cascade = CascadeType.ALL)
     @JsonIgnore
+    @Relationship
     private Set<Log> logs = new HashSet<>();
 
 

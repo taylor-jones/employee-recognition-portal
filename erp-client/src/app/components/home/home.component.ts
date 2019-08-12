@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit {
       this._router.navigate(['/admin']);
     // if logged in but not admin, redirect to account page.
     } else {
-      this._router.navigate(['/account']);
+      this._router.navigate(['/awards']);
     }
   }
 }

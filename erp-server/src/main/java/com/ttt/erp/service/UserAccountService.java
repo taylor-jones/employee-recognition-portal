@@ -89,6 +89,7 @@ public class UserAccountService extends LogService {
         try {
             UserAccount toDelete = this.repository.findById(userId);
             logDelete(userAccountId, toDelete.getClass().getSimpleName(), userId);
+            this.signatureService.deleteSignatureByFileName(toDelete.getSignature());
             this.repository.delete(toDelete);
             return Optional.ofNullable(toDelete);
         } catch (Exception e) {
