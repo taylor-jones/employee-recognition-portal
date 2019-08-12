@@ -1,5 +1,6 @@
 package com.ttt.erp.controller;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.ttt.erp.model.Award;
 import com.ttt.erp.model.UserAccount;
 import com.ttt.erp.repository.AwardRepository;
@@ -61,10 +62,14 @@ public class UserAccountController {
     }
 
     @PostMapping
-    public Optional<UserAccount> addUserAccount (@RequestBody UserAccount newUserAccount, Principal principal) {
-        UserAccount actingUser = this.repository.findByUsername(principal.getName());
-        return this.service.createUser(actingUser.getId(), newUserAccount);
-        //return Optional.empty();
+    public ResponseEntity<UserAccount> addUserAccount (
+        @RequestBody UserAccount newUserAccount, 
+        @CookieValue(value = "user") String actingUserName
+    ) {
+        UserAccount actingUser = this.repository.findByUsername(actingUserName);
+        Optional<UserAccount> result = this.service.createUser(actingUser.getId(), newUserAccount);
+        Boolean success = result.isPresent();
+        return success ? ResponseEntity.ok().body(result.get()) : ResponseEntity.badRequest().body(null);
     }
 
     // callback for checking login status
@@ -75,19 +80,24 @@ public class UserAccountController {
 
 
     @PutMapping("/{id}")
-    public Optional<UserAccount> updateUserAccountById (
+    public ResponseEntity<UserAccount> updateUserAccountById (
         @CookieValue(value = "user") String actingUser,
         @PathVariable("id") Long userId,
-        @RequestBody UserAccount modified) {
-        return this.service.updateUser(this.repository.findByUsername(actingUser).getId(), userId, modified);
+        @RequestBody UserAccount modified
+    ) {
+        Optional<UserAccount> result = this.service.updateUser(this.repository.findByUsername(actingUser).getId(), userId, modified);
+        Boolean success = result.isPresent();
+        return success ? ResponseEntity.ok().body(result.get()) : ResponseEntity.badRequest().body(null);
     }
 
     @DeleteMapping("/{id}")
-    public Optional<UserAccount> deleteUserAccountById (
+    public ResponseEntity<UserAccount> deleteUserAccountById (
         @CookieValue(value = "user") String actingUser,
         @PathVariable("id") Long userId
     ) {
-        return this.service.deleteUser(this.repository.findByUsername(actingUser).getId(), userId);
+        Optional<UserAccount> result = this.service.deleteUser(this.repository.findByUsername(actingUser).getId(), userId);
+        Boolean success = result.isPresent();
+        return success ? ResponseEntity.ok().body(result.get()) : ResponseEntity.badRequest().body(null);
     }
 
     @GetMapping

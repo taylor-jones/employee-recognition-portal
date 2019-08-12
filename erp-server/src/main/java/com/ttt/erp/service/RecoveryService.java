@@ -69,6 +69,7 @@ public class RecoveryService extends LogService{
             return false;
         }
     }
+
     public Boolean setRecoveryQuestions(String username, List<RecoveryQuestion> questions) {
         try {
             UserAccount userAccount = this.userAccountRepository.findByUsername(username);

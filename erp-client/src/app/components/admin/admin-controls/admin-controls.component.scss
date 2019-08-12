@@ -1,8 +1,11 @@
+@import '../../../../styles.scss';
+
 #controls-wrapper {
-  float: left;
-  margin-left: 5%;
+  margin: auto;
+  margin-top: 5%;
+  margin-bottom: 5%;
   height: 50%;
-  width: 30%;
+  width: 75%;
 }
 
 #controls {
@@ -18,13 +21,8 @@
   margin-bottom: 10px;
 }
 
-h1 {
-  padding-top: 10px;
-  height: 60px;
-  margin-bottom: 0;
-}
-
 form {
+  margin: auto;
   margin-top: 15px;
 }
 
@@ -32,14 +30,22 @@ form {
   width: 80px !important;
 }
 
-.mat-form-field {
+mat-form-field.mat-form-field {
   display: block;
-  width: 80%;
+  width: 90%;
   margin: auto;
 }
 
+mat-form-field.col-half, div.col-half {
+  display: inline-block;
+  width: 40%;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
 .admin-check.mat-checkbox {
-  margin-left: 10%;
+  display: block;
+  margin-left: 5%;
   margin-bottom: 2%;
 }
 
