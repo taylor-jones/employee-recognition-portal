@@ -5,6 +5,8 @@ import {RecoveryQuestion} from '../../../models/recovery.model';
 import {UserService} from '../../../services/user/user.service';
 import {Router} from '@angular/router';
 import {AccountRecoveryService} from '../../../services/account-recovery/account-recovery.service';
+import {AuthenticationService} from '../../../services/authentication/authentication.service';
+import {AppComponent} from '../../../app.component';
 
 @Component({
   selector: 'erp-create-home',
@@ -20,6 +22,8 @@ export class CreateAccountComponent implements OnInit {
 
   constructor(private userService: UserService,
               private accountRecoveryService: AccountRecoveryService,
+              private authService: AuthenticationService,
+              private app: AppComponent,
               private router: Router) {
   }
 
@@ -52,7 +56,14 @@ export class CreateAccountComponent implements OnInit {
 
     this.userService.addUserCreatedUser(this.userToCreate).subscribe((createdUser) => {
         this.accountRecoveryService.setRecoveryQuestions(createdUser.username, this.user.recoveryQuestions).subscribe(() => {
-            this.router.navigate(['login']);
+            this.authService.authenticate({ username: createdUser.username, password: createdUser.password }).subscribe(() => {
+                this.app.refreshLoginState();
+                this.router.navigate(['/']);
+              },
+              (error) => {
+                this.errorMessage = error;
+              });
+            // this.router.navigate(['login']);
           },
           (error) => {
             this.errorMessage = error;
