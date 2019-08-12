@@ -1,0 +1,10 @@
+    Column    |          Type          | Collation | Nullable |                     Default                      | Storage  | Stats target | Description
+--------------+------------------------+-----------+----------+--------------------------------------------------+----------+--------------+-------------
+ user_role_id | integer                |           | not null | nextval('user_roles_user_role_id_seq'::regclass) | plain    |              |
+ username     | character varying(255) |           | not null |                                                  | extended |              |
+ role         | character varying(20)  |           | not null |                                                  | extended |              |
+Indexes:
+    "user_roles_pkey" PRIMARY KEY, btree (user_role_id)
+    "user_roles_username_role_key" UNIQUE CONSTRAINT, btree (username, role)
+Foreign-key constraints:
+    "user_roles_username_fkey" FOREIGN KEY (username) REFERENCES user_account(username)

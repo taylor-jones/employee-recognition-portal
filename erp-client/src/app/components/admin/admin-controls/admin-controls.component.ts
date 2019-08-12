@@ -3,13 +3,17 @@ import { UserService } from 'src/app/services/user/user.service';
 import { User } from 'src/app/models/user.model';
 import { CanvasComponent } from 'src/app/components/canvas/canvas.component';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { SetRecoveryQuestionsComponent } from '../../createAccount/set-recovery-questions/set-recovery-questions.component';
+import { RecoveryQuestion } from 'src/app/models/recovery.model';
+import { AccountRecoveryService } from 'src/app/services/account-recovery/account-recovery.service';
+import { SnackbarService } from 'src/app/services/snackbar/snackbar.service';
 
 @Component({
   selector: 'admin-controls',
   templateUrl: './admin-controls.component.html',
   styleUrls: ['./admin-controls.component.scss']
 })
-export class AdminControlsComponent implements OnInit {
+export class AdminControlsComponent extends SetRecoveryQuestionsComponent implements OnInit {
 
   private _users: User[];
   private _selectedUser: User;
@@ -20,7 +24,13 @@ export class AdminControlsComponent implements OnInit {
   // Gain access the child canvas component values and functions
   @ViewChild(CanvasComponent, {static: false}) canvasChild: CanvasComponent;
 
-  constructor(public userService: UserService) { }
+  constructor(
+    public userService: UserService,
+    public accountRecoveryService: AccountRecoveryService,
+    public _snackbar: SnackbarService
+  ) {
+    super();
+  }
 
   ngOnInit() {
     this.newUserForm = this.initUserFormGroup();
@@ -33,7 +43,13 @@ export class AdminControlsComponent implements OnInit {
       username: new FormControl(null),
       password: new FormControl(null),
       email: new FormControl(null, [Validators.email]),
-      isAdmin: new FormControl(false)
+      isAdmin: new FormControl(false),
+      isEnabled: new FormControl(true),
+      questions: new FormGroup({
+        answer1: new FormControl(null),
+        answer2: new FormControl(null),
+        answer3: new FormControl(null)
+      })
     })
   }
 
@@ -49,9 +65,21 @@ export class AdminControlsComponent implements OnInit {
     })
   }
 
+  customSuccessSnackbar(message) {
+    this._snackbar.showSuccess(message, 'Okay ✅', {duration: 1000, panelClass: [ 'snackbar-success' ]});
+  }
+
+  customErrorSnackbar(message) {
+    this._snackbar.showError(message, 'Okay ⛔️', {duration: null, panelClass: [ 'snackbar-error' ]});
+  }
+
   onSelect(value) {
-    this._selectedUser = this._users.filter( u => u.id === value)[0];
-    this.existingUserForm = this.initFormGroupFromUser(this._selectedUser); // sync the form and user
+    if (value == null) {
+      this.resetForm(this.existingUserForm)
+    } else {
+      this._selectedUser = this._users.filter( u => u.id === value)[0];
+      this.existingUserForm = this.initFormGroupFromUser(this._selectedUser); // sync the form and user
+    }
   }
 
   adminToggle(): void {
@@ -61,7 +89,7 @@ export class AdminControlsComponent implements OnInit {
   getAllUsers(): void {
     this.userService.getAllUsers().subscribe (
       (users) => { this._users = users },
-      (error) => { console.log(error) }
+      (error) => { this.customErrorSnackbar('Failed to fetch users.') }
     );
   }
 
@@ -80,9 +108,15 @@ export class AdminControlsComponent implements OnInit {
       form.get(key).setErrors(null);
     });
     if (form == this.newUserForm) {
-      form.value.isAdmin = false;
+      this.canvasChild.clearCanvas();
+      let rq = form.get('questions');
+      [rq.get('answer1'), rq.get('answer2'), rq.get('answer3')].forEach( a => {
+        a.setValue(null);
+        a.setErrors(null);
+      });
+      this.newUserForm.get('isAdmin').setValue(false);
+      this.newUserForm.get('isEnabled').setValue(true);
     }
-    this.canvasChild.clearCanvas();
   }
 
   // Re-fetch users and reset the controls. This is meant for callbacks
@@ -90,27 +124,43 @@ export class AdminControlsComponent implements OnInit {
   refresh(form: FormGroup) {
     this.getAllUsers();
     this.resetForm(form);
-    this.canvasChild.clearCanvas();
+  }
+  
+  collectAnswers() {
+    let rq = this.newUserForm.value.questions;
+    return [rq.answer1, rq.answer2, rq.answer3];
+  }
+
+  submitUserQuestions(username: string, questions: RecoveryQuestion[]) {
+    this.accountRecoveryService.setRecoveryQuestions(username, questions).subscribe(
+      user => {
+        this.customSuccessSnackbar(`Created user: ${username}`);
+        this.refresh(this.newUserForm);
+      },
+      error => { this.customErrorSnackbar('Failed to set user recovery questions.') }
+    )
   }
 
   // Create a new user
   submitNewUser() {
-    this.newUserForm.value.isEnabled = true;
     this.newUserForm.value.signature = this.getSignature();
+    let questions = this.mapRecoveryQuestionsToAnswers(this.questions, this.collectAnswers());
+    delete this.newUserForm.value.questions;
     this.userService.addUser(this.newUserForm.value).subscribe(
-      (ok) => { this.refresh(this.newUserForm) },
-      (error) => { console.error(error) }
+      (ok) => { this.submitUserQuestions(this.newUserForm.value.username, questions) },
+      (error) => { this.customErrorSnackbar(`Failed to create new user: ${this.newUserForm.value.username}`) }
     );
   }
 
   // Delete the selected user
   deleteSelectedUser() {
     this.userService.deleteUser(this._selectedUser).subscribe (
-      (user) => { 
+      (user) => {
+        this.customSuccessSnackbar(`Deleted user: ${user.username}`);
         this.refresh(this.existingUserForm);
         this._selectedUser = null;
       },
-      (error) => { console.error(error) }
+      (error) => { this.customErrorSnackbar(`Failed to delete user: ${this._selectedUser.username}`) }
     )
   }
 
@@ -120,8 +170,11 @@ export class AdminControlsComponent implements OnInit {
     this.existingUserForm.value.signature = null;
     this.existingUserForm.value.isEnabled = true;
     this.userService.updateUser(this.existingUserForm.value).subscribe (
-      (user) => { this.getAllUsers() },
-      (error) => {console.error(error)}
+      (user) => { 
+        this.customSuccessSnackbar(`Updated user: ${user.username}`);
+        this.getAllUsers();
+      },
+      (error) => { this.customErrorSnackbar(`Failed to update user: ${this._selectedUser.username}`) }
     )
   }
 

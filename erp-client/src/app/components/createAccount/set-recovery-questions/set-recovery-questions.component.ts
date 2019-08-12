@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {RecoveryQuestion} from '../../../models/recovery.model';
+import { zip } from 'rxjs';
 
 @Component({
   selector: 'erp-set-recovery-questions',
@@ -13,10 +14,12 @@ export class SetRecoveryQuestionsComponent implements OnInit {
   question1 = 'What is your hometown?';
   question2 = 'What was your first pets name?';
   question3 = 'What was your first car?';
+  questions: string[] = [this.question1, this.question2, this.question3];
 
   answer1: string;
   answer2: string;
   answer3: string;
+  answers: string[] = [this.answer1, this.answer2, this.answer3];
 
   constructor() { }
 
@@ -29,5 +32,17 @@ export class SetRecoveryQuestionsComponent implements OnInit {
       {id: null, question: this.question2, answer: this.answer2},
       {id: null, question: this.question3, answer: this.answer3}
     ]);
+  }
+
+  mapRecoveryQuestionsToAnswers(questions: string[], answers: string[]): RecoveryQuestion[] {
+    let recoveryQuestions: RecoveryQuestion[] = [];
+    questions.forEach( (q, index) => {
+      let rq = new RecoveryQuestion();
+      rq.id = index + 1;
+      rq.question = q;
+      rq.answer = answers[index];
+      recoveryQuestions.push(rq);
+    })
+    return recoveryQuestions;
   }
 }
