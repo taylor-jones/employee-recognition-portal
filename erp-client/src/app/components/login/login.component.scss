@@ -45,16 +45,15 @@ table {
   margin-bottom: 1em;
 }
 
-mat-card-actions {
+mat-card-actions.mat-card-actions {
   display: flex;
   justify-content: center;
-  margin-top: 1em;
+  margin-top: 1.5em;
   padding: 0 4px;
 }
 
 .login-button {
   flex: 1;
-  margin-top: 1em;
   min-width: 100px;
 }
 

@@ -1,36 +1,47 @@
 <div class="login-container">
-  <mat-card class="login-card">
-    <mat-card-header>
-      <div class="login-box-header">
-        <img [src]="'assets/Images/prototype-logo.svg'" class="login-logo">
-      </div>
-    </mat-card-header>
-    <mat-card-content>
-      <form (submit)="handleLogin()">
+  <form [formGroup]="loginForm" (submit)="handleLogin()">
+    <mat-card class="login-card">
+      <mat-card-header>
+        <div class="login-box-header">
+          <img [src]="'assets/Images/prototype-logo.svg'" class="login-logo">
+        </div>
+      </mat-card-header>
+      <mat-card-content>
         <table cellspacing="0">
           <tr>
             <td>
               <mat-form-field class="username-input">
-                <input matInput placeholder="Username" [(ngModel)]="username" name="username" required>
+                <input matInput placeholder="Username" formControlName="username" name="username" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+                <mat-error *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                    <mat-error *ngIf="f.username.errors.required">Username is required</mat-error>
+                </mat-error>
               </mat-form-field>
             </td>
           </tr>
           <tr>
-            <td><mat-form-field class="password-input">
-              <input matInput placeholder="Password" [(ngModel)]="password" type="password" name="password" required>
-            </mat-form-field></td>
-          </tr></table>
-      </form>
+            <td>
+              <mat-form-field class="password-input">
+                <input matInput placeholder="Password" type="password" formControlName="password" name="username" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                <mat-error *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                    <mat-error *ngIf="f.password.errors.required">Password is required</mat-error>
+                </mat-error>
 
-      <div class="account-actions">
-        <a mat-label class="forgot-password" href="/forgotPassword">Forgot Password?</a>
-        <a mat-label class="create-account" href="/createAccount">Create an Account</a>
-      </div>
+              </mat-form-field>
+            </td>
+          </tr>
+        </table>
 
-      <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner>
-          <mat-card-actions>
-            <button type="submit" mat-raised-button (click)="handleLogin()" color="primary" class="login-button">Login</button>
-          </mat-card-actions>
-    </mat-card-content>
-  </mat-card>
+        <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner>
+
+        <div class="account-actions">
+          <a mat-label class="forgot-password" href="/forgotPassword">Forgot Password?</a>
+          <a mat-label class="create-account" href="/createAccount">Create an Account</a>
+        </div>
+
+        <mat-card-actions class="mat-card-actions">
+          <button type="submit" mat-raised-button (click)="handleLogin()" color="primary" class="login-button">Login</button>
+        </mat-card-actions>
+      </mat-card-content>
+    </mat-card>
+  </form>
 </div>

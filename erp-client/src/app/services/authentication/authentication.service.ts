@@ -52,9 +52,6 @@ export class AuthenticationService {
   logout(): void {
     this.cookieService.deleteAll();
     this.http.post(`/api/logout`, {})
-      .pipe(
-        retry(3)
-      )
       .subscribe(
         success => {
           this.isLoggedIn = false;
@@ -66,7 +63,7 @@ export class AuthenticationService {
           this.isLoggedIn = false;
           this.user = null;
           this.router.navigate([ 'login' ]);
-        }
+        },
       );
   }
 
