@@ -13,7 +13,7 @@
               <mat-form-field class="username-input">
                 <input matInput placeholder="Username" formControlName="username" name="username" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
                 <mat-error *ngIf="submitted && f.username.errors" class="invalid-feedback">
-                  <mat-error *ngIf="f.username.errors.required">Username is required</mat-error>
+                    <mat-error *ngIf="f.username.errors.required">Username is required</mat-error>
                 </mat-error>
               </mat-form-field>
             </td>
@@ -23,7 +23,7 @@
               <mat-form-field class="password-input">
                 <input matInput placeholder="Password" type="password" formControlName="password" name="username" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
                 <mat-error *ngIf="submitted && f.password.errors" class="invalid-feedback">
-                  <mat-error *ngIf="f.password.errors.required">Password is required</mat-error>
+                    <mat-error *ngIf="f.password.errors.required">Password is required</mat-error>
                 </mat-error>
 
               </mat-form-field>
