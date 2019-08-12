@@ -21,7 +21,7 @@
           <tr>
             <td>
               <mat-form-field class="password-input">
-                <input matInput placeholder="Password" formControlName="password" name="username" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                <input matInput placeholder="Password" type="password" formControlName="password" name="username" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
                 <mat-error *ngIf="submitted && f.password.errors" class="invalid-feedback">
                     <mat-error *ngIf="f.password.errors.required">Password is required</mat-error>
                 </mat-error>
