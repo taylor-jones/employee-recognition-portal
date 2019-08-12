@@ -1,12 +1,18 @@
 package com.ttt.erp.service;
 
-
+import com.itextpdf.io.font.FontConstants;
 import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.*;
 import com.itextpdf.layout.Document;
+import com.itextpdf.layout.Style;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Text;
+import com.itextpdf.layout.property.HorizontalAlignment;
+import com.itextpdf.layout.property.TextAlignment;
 import com.ttt.erp.model.Award;
 import com.ttt.erp.model.AwardType;
 import com.ttt.erp.model.Employee;
@@ -20,6 +26,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 
 
 @Service
@@ -34,10 +42,11 @@ public class AwardPdfService {
     private SignatureService signatureService;
 
 
-    // class-level constants
-    private static final String OUTPUT_DIR = "awards/";
+    // iText constants
     private static final PdfNumber LANDSCAPE = new PdfNumber(90);
-
+    public static final int	ALIGN_CENTER = 3;
+    public static final int	ALIGN_LEFT = 1;
+    public static final int	ALIGN_RIGHT = 2;
 
     private ByteArrayInputStream generateAwardPdf(Award award) throws IOException {
         // gather the components needed to build the file name
@@ -54,41 +63,79 @@ public class AwardPdfService {
         pdfDocument.setDefaultPageSize(pageSize);
         Document document = new Document(pdfDocument);
 
+        //
+        // Define some styling
+        //
+
+        PdfFont timesBold = PdfFontFactory.createFont(FontConstants.TIMES_BOLD);
+        PdfFont timesItalic = PdfFontFactory.createFont(FontConstants.TIMES_ITALIC);
+        PdfFont timesRoman = PdfFontFactory.createFont(FontConstants.TIMES_ROMAN);
+
+        Style h1 = new Style().setFontSize(44).setFont(timesBold).setTextAlignment(TextAlignment.CENTER);
+        Style h2 = new Style().setFontSize(28).setFont(timesBold).setTextAlignment(TextAlignment.CENTER);
+        Style h4 = new Style().setFontSize(14).setFont(timesRoman).setTextAlignment(TextAlignment.CENTER);
+        Style p = new Style().setFontSize(14).setFont(timesItalic).setTextAlignment(TextAlignment.CENTER);
+        Style spacer = new Style().setFontSize(60).setTextAlignment(TextAlignment.CENTER);
+
         // add the TTT logo
         String logoSrc = "src/main/resources/logo.png";
-        Image logo = new Image(ImageDataFactory.create(logoSrc)).scaleAbsolute(200, 50);
+        Image logo = new Image(ImageDataFactory.create(logoSrc))
+            .scaleAbsolute(168, 64)
+            .setHorizontalAlignment(HorizontalAlignment.CENTER);
         document.add(logo);
+        document.add(new Paragraph().addStyle(spacer));
 
-        document.add(new Paragraph(awardType.getName()));
-        document.add(new Paragraph("awarded to"));
-        document.add(new Paragraph(employee.getFullName()));
+        // add the Award Type & Employee
+        document.add(new Paragraph(awardType.getName()).addStyle(h1));
+        document.add(new Paragraph().addStyle(spacer));
+        document.add(new Paragraph("This certificate is presented to").addStyle(p));
+        document.add(new Paragraph(employee.getFullName()).addStyle(h2));
+        document.add(new Paragraph().addStyle(spacer));
 
+        // add the Award description
         if (award.getDescription() != null) {
-            document.add(new Paragraph(award.getDescription()));
+            document.add(new Paragraph(award.getDescription()).addStyle(p));
         }
 
+        // add the Award Date & Award Time
         if (award.getAwardedDate() != null) {
-            document.add(new Paragraph("Awarded on "));
-            document.add(new Paragraph(award.getAwardedDate().toString()));
+            SimpleDateFormat sdf = new SimpleDateFormat("EEEE, MMMM d, yyyy");
+            String formattedDate = sdf.format(award.getAwardedDate());
+
+            document.add(new Paragraph().addStyle(h1));
+
+            if (award.getAwardedTime() != null) {
+                String formattedTime = award.getAwardedTime().format(DateTimeFormatter.ofPattern("h:mm a"));
+
+                document.add(new Paragraph()
+                    .add(new Text("Awarded on  ").addStyle(p))
+                    .add(formattedDate).addStyle(h4)
+                    .add(new Text("  at  ").addStyle(p))
+                    .add(formattedTime).addStyle(h4)
+                );
+            } else {
+                document.add(new Paragraph()
+                    .add(new Text("Awarded on ").addStyle(p))
+                    .add(formattedDate).addStyle(h4)
+                );
+            }
         }
 
-        if (award.getAwardedTime() != null) {
-            document.add(new Paragraph(" at "));
-            document.add(new Paragraph(award.getAwardedTime().toString()));
-        }
+        // Add the Award User
+        document.add(new Paragraph());
+        document.add(new Paragraph("Authorized by").addStyle(p));
 
-        document.add(new Paragraph(" by "));
-        document.add(new Paragraph(userAccount.getUsername()));
-
+        // Add the Award User's signature
         if (userAccount.getSignature() != null) {
             Image signature = new Image(
                 ImageDataFactory.create(
                     signatureService.getSignatureBytes(userAccount.getSignature())
                 )
-            ).scaleAbsolute(100, 100);
+            ).scaleAbsolute(75, 75).setHorizontalAlignment(HorizontalAlignment.CENTER);
             document.add(signature);
         }
 
+        document.add(new Paragraph(userAccount.getUsername()).addStyle(h4));
         document.close();
         return new ByteArrayInputStream(output.toByteArray());
     }
@@ -103,11 +150,12 @@ public class AwardPdfService {
 
             String filename = employee.getFullName() + " - Award.pdf";
             String subjectLine = "New Award from " + userAccount.getUsername() + " at TTT";
-            String htmlString = "<p>Dear " + employee.getFirstName() + ",</p>" +
+            String htmlMessage = "<p>Dear " + employee.getFirstName() + ",</p>" +
                 "<p>Thank you for your contributions to our organization. " +
                 "On behalf of everyone at Team Triple T, we'd like to present " +
                 "you with this award as a small token of our appreciation.</p>" +
-                "<p>Keep up the great work!</p>";
+                "<p>Keep up the great work!</p><br />" +
+                "<p>Sincerely,</p><p>" + userAccount.getUsername() + "</p><br />";
 
             // get the pdf data
             ByteArrayInputStream stream = generateAwardPdf(award);
@@ -116,7 +164,7 @@ public class AwardPdfService {
             emailService.sendEmailWithAttachment(
                 employee.getEmail(),
                 subjectLine,
-                htmlString,
+                htmlMessage,
                 filename,
                 stream
             );
@@ -128,7 +176,7 @@ public class AwardPdfService {
             return ResponseEntity.notFound().build();
         }
     }
-
 }
+
 
 

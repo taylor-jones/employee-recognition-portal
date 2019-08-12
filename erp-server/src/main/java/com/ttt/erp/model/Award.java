@@ -1,7 +1,10 @@
 package com.ttt.erp.model;
 
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.io.IOException;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.Objects;
@@ -183,5 +186,15 @@ public class Award {
             ", employee=" + employee +
             ", userAccount=" + userAccount +
             '}';
+    }
+
+    public String toXMLString() throws IOException {
+        XmlMapper xmlMapper = new XmlMapper();
+
+        // TODO: REMOVE NEXT 2 LINES AFTER CONFIRMATION THAT XML WORKS PROPERLY
+        // xmlMapper.writeValue(new File("awards/generated/test-award.xml"), this);
+        // File file = new File("awards/generated/test-award.xml");
+
+        return xmlMapper.writeValueAsString(this);
     }
 }
