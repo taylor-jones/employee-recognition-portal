@@ -21,16 +21,12 @@
             </mat-form-field></td>
           </tr></table>
       </form>
-      <table cellspacing="0">
-        <tr>
-          <td>
-            <a mat-label class="forgot-password" href="/forgotPassword">Forgot Password?</a>
-          </td>
-          <td>
-            <a mat-label class="create-account" href="/createAccount">Create an Account</a>
-          </td>
-        </tr>
-      </table>
+
+      <div class="account-actions">
+        <a mat-label class="forgot-password" href="/forgotPassword">Forgot Password?</a>
+        <a mat-label class="create-account" href="/createAccount">Create an Account</a>
+      </div>
+
       <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner>
           <mat-card-actions>
             <button type="submit" mat-raised-button (click)="handleLogin()" color="primary" class="login-button">Login</button>
