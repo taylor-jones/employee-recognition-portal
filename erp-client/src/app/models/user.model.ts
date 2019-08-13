@@ -10,6 +10,11 @@ export class User {
   isEnabled: boolean;
 }
 
+export class UserWithTimeStamp extends User {
+  timestamp: String;
+}
+
+
 export class UserWithRecoveryQuestions extends User {
   questions: RecoveryQuestion[]
 }

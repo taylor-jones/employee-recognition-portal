@@ -3,12 +3,13 @@
 mat-toolbar.mat-toolbar {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10%;
+  margin-bottom: 5%;
 }
 
 mat-card {
   margin: auto;
   width: 50%;
+  margin-bottom: 5%;
 
   mat-card-content {
     margin-top: 5%;
@@ -38,3 +39,26 @@ h1, p {
 p {
   margin-bottom: 10%;
 }
+
+.meta-wrapper {
+  display: flex;
+  justify-content: space-between;
+
+  mat-form-field.created {
+    width: 40% !important;
+    margin-right: 10%;
+  }
+
+  .img-container {
+    display: inline-block;
+    width: 50%;
+
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border: gray dashed 0.5px;
+    }
+  }
+}
+

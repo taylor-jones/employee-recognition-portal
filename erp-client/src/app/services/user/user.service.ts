@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {User} from '../../models/user.model';
+import {User, UserWithTimeStamp} from '../../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -16,12 +16,13 @@ export class UserService {
     this.jsonHeaders = new HttpHeaders({'Content-Type': 'application/json'});
   }
 
-  // getUserByUsername(username: string): Observable<User> {
-  //   return this.httpClient.get<User>(`${this.baseEndpoint}/${username}`);
-  // }
 	getUserByUsername(username: string): Observable<User> {
 		return this.httpClient.get<User>(`${this.baseEndpoint}/username/${username}`);
-	}
+  }
+  
+  getUserDetailsByUsername(username: string): Observable<UserWithTimeStamp> {
+    return this.httpClient.get<UserWithTimeStamp>(`${this.baseEndpoint}/username/${username}/details`);
+  }
 
   checkUsername(username: string): Observable<boolean> {
     return this.httpClient.get<boolean>(`${this.baseEndpoint}/validate/${username}`);

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -51,7 +52,7 @@ public class UserAccountService extends LogService {
             UserAccount newUser = repository.save(user);
             if (!newUser.getIsAdmin()) {
                 // works for creating a new user as an unlogged in user
-                logInsert(newUser.getId(), newUser.getClass().getSimpleName(), userAccountId);
+                logInsert(userAccountId, newUser.getClass().getSimpleName(), newUser.getId());
             } else {
                 logInsert(userAccountId, newUser.getClass().getSimpleName(), newUser.getId());
             }

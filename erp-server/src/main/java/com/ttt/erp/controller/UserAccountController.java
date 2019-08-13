@@ -105,6 +105,13 @@ public class UserAccountController {
         return repository.findAll();
     }
 
+
+    @GetMapping("/username/{username}/details")
+    public ResponseEntity<Object> getUserAccountDetails(@PathVariable("username") final String username) {
+        Object user = repository.getUserWithCreatedTime(username);
+        return ResponseEntity.ok().body(user);
+    }
+
     @GetMapping("/username/{username}")
     public UserAccount getUserAccount(@PathVariable("username") final String username) {
         return repository.findByUsername(username);
