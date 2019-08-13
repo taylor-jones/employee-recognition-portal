@@ -25,14 +25,14 @@ export class MyPageComponent extends AdminControlsComponent implements OnInit {
   accountForm: FormGroup;
 
   constructor(
-    private cookieService: CookieService,
     private canvasService: CanvasService,
     private sanitizer: DomSanitizer, 
     public _snackbar: SnackbarService,
+    public cookieService: CookieService,
     public userService: UserService,
     public accountRecoveryService: AccountRecoveryService
   ) {
-    super(userService, accountRecoveryService, _snackbar);
+    super(cookieService, userService, accountRecoveryService, _snackbar);
     this.currentUser = cookieService.get('user');
     this.readOnly = true;
     this.passwordType = 'password';
@@ -109,6 +109,10 @@ export class MyPageComponent extends AdminControlsComponent implements OnInit {
       (user) => {
         this.customSuccessSnackbar(`Updated user, ${user.username}!`);
         this.me = user;
+        let timestamp = this.meWithTimestamp.timestamp;
+        this.meWithTimestamp = this.me;
+        this.meWithTimestamp.timestamp = timestamp
+        this.cookieService.set('user', this.me.username);
         this.toggleReadOnly();
       },
       (error) => {

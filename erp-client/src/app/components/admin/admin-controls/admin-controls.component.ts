@@ -7,6 +7,7 @@ import { SetRecoveryQuestionsComponent } from '../../createAccount/set-recovery-
 import { RecoveryQuestion } from 'src/app/models/recovery.model';
 import { AccountRecoveryService } from 'src/app/services/account-recovery/account-recovery.service';
 import { SnackbarService } from 'src/app/services/snackbar/snackbar.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'admin-controls',
@@ -25,6 +26,7 @@ export class AdminControlsComponent extends SetRecoveryQuestionsComponent implem
   @ViewChild(CanvasComponent, {static: false}) canvasChild: CanvasComponent;
 
   constructor(
+    public cookieService: CookieService,
     public userService: UserService,
     public accountRecoveryService: AccountRecoveryService,
     public _snackbar: SnackbarService
@@ -35,7 +37,7 @@ export class AdminControlsComponent extends SetRecoveryQuestionsComponent implem
   ngOnInit() {
     this.newUserForm = this.initUserFormGroup();
     this.existingUserForm = this.initUserFormGroup();   // existing user form should has to start out empty
-    this.getAllUsers();
+    this.getAllUsersExceptMe();
   }
 
   initUserFormGroup() {
@@ -86,9 +88,10 @@ export class AdminControlsComponent extends SetRecoveryQuestionsComponent implem
     this._newAdminCheck = !this._newAdminCheck;
   }
 
-  getAllUsers(): void {
+  getAllUsersExceptMe(): void {
     this.userService.getAllUsers().subscribe (
-      (users) => { this._users = users },
+      (users) => { 
+        this._users = users.filter( me => me.username != this.cookieService.get('user') ) },
       (error) => { this.customErrorSnackbar('Failed to fetch users.') }
     );
   }
@@ -122,7 +125,7 @@ export class AdminControlsComponent extends SetRecoveryQuestionsComponent implem
   // Re-fetch users and reset the controls. This is meant for callbacks
   // after user creates/updates/deletes
   refresh(form: FormGroup) {
-    this.getAllUsers();
+    this.getAllUsersExceptMe();
     this.resetForm(form);
   }
   
@@ -174,7 +177,7 @@ export class AdminControlsComponent extends SetRecoveryQuestionsComponent implem
     this.userService.updateUser(this.existingUserForm.value).subscribe (
       (user) => { 
         this.customSuccessSnackbar(`Updated user: ${user.username}`);
-        this.getAllUsers();
+        this.getAllUsersExceptMe();
       },
       (error) => { this.customErrorSnackbar(`Failed to update user: ${this._selectedUser.username}`) }
     )
