@@ -25,14 +25,14 @@ export class MyPageComponent extends AdminControlsComponent implements OnInit {
   accountForm: FormGroup;
 
   constructor(
-    private cookieService: CookieService,
     private canvasService: CanvasService,
     private sanitizer: DomSanitizer, 
     public _snackbar: SnackbarService,
+    public cookieService: CookieService,
     public userService: UserService,
     public accountRecoveryService: AccountRecoveryService
   ) {
-    super(userService, accountRecoveryService, _snackbar);
+    super(cookieService, userService, accountRecoveryService, _snackbar);
     this.currentUser = cookieService.get('user');
     this.readOnly = true;
     this.passwordType = 'password';

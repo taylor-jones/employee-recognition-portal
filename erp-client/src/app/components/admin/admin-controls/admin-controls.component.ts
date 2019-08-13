@@ -26,7 +26,7 @@ export class AdminControlsComponent extends SetRecoveryQuestionsComponent implem
   @ViewChild(CanvasComponent, {static: false}) canvasChild: CanvasComponent;
 
   constructor(
-    private cookieService: CookieService,
+    public cookieService: CookieService,
     public userService: UserService,
     public accountRecoveryService: AccountRecoveryService,
     public _snackbar: SnackbarService
