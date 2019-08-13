@@ -26,7 +26,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 
 
@@ -75,7 +74,7 @@ public class AwardPdfService {
         Style h2 = new Style().setFontSize(28).setFont(timesBold).setTextAlignment(TextAlignment.CENTER);
         Style h4 = new Style().setFontSize(14).setFont(timesRoman).setTextAlignment(TextAlignment.CENTER);
         Style p = new Style().setFontSize(14).setFont(timesItalic).setTextAlignment(TextAlignment.CENTER);
-        Style spacer = new Style().setFontSize(60).setTextAlignment(TextAlignment.CENTER);
+        Style spacer = new Style().setFontSize(90).setTextAlignment(TextAlignment.CENTER);
 
         // add the TTT logo
         String logoSrc = "src/main/resources/logo.png";
@@ -99,8 +98,8 @@ public class AwardPdfService {
 
         // add the Award Date & Award Time
         if (award.getAwardedDate() != null) {
-            SimpleDateFormat sdf = new SimpleDateFormat("EEEE, MMMM d, yyyy");
-            String formattedDate = sdf.format(award.getAwardedDate());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy");
+            String formattedDate = formatter.format(award.getAwardedDate());
 
             document.add(new Paragraph().addStyle(h1));
 
@@ -108,9 +107,9 @@ public class AwardPdfService {
                 String formattedTime = award.getAwardedTime().format(DateTimeFormatter.ofPattern("h:mm a"));
 
                 document.add(new Paragraph()
-                    .add(new Text("Awarded on  ").addStyle(p))
+                    .add(new Text("Awarded on ").addStyle(p))
                     .add(formattedDate).addStyle(h4)
-                    .add(new Text("  at  ").addStyle(p))
+                    .add(new Text(" at ").addStyle(p))
                     .add(formattedTime).addStyle(h4)
                 );
             } else {
