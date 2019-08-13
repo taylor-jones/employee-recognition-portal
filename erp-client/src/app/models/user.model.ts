@@ -11,7 +11,7 @@ export class User {
 }
 
 export class UserWithTimeStamp extends User {
-  timestamp: String;
+  timestamp?: String;
 }
 
 

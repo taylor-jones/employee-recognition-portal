@@ -7,10 +7,16 @@ DELETE FROM log;
 DELETE FROM user_account;
 
 
+-- Make sure all users get logs on data init!
 INSERT INTO user_account VALUES
   (1, 'admin@admin.com', 'admin', 'admin', NULL, true, true),
   (1000, 'user1@user1.com', 'user1', 'user1', NULL, false, true);
   (2000, 'user2@user2.com', 'user2', 'user2', NULL, false, true);
+
+INSERT INTO log VALUES
+  (2001, 2001, 'UserAccount', 1, 'insert' NULL, NULL, NULL, NULL false, true),
+  (2002, 2001, 'UserAccount', 1000, 'insert' NULL, NULL, NULL, NULL false, true);
+  (2003, 2001, 'UserAccount', 2000, 'insert' NULL, NULL, NULL, NULL false, true);
 
 -- https://theoffice.fandom.com/wiki/Dundie
 -- I left out the ones that foul language, just in case...

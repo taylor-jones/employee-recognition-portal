@@ -49,7 +49,9 @@
       </mat-form-field>
       <div *ngIf="meWithTimestamp || signatureData" class="meta-wrapper">
         <mat-form-field class="created">
-          <input matInput type="text" placeholder="Date created" value="{{meWithTimestamp.timestamp.split('T')[0]}}" [readonly]="readOnly" disabled>
+          <input matInput type="text" placeholder="Date created" value="{{
+            meWithTimestamp.timestamp != null ? meWithTimestamp.timestamp.split('T')[0] : '2019-08-16'
+          }}" [readonly]="readOnly" disabled>
         </mat-form-field>
         <div class="img-container">
           <img *ngIf="signatureData" [src]="signatureData" alt="Signature">
