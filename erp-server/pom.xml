@@ -77,12 +77,12 @@
 				<artifactId>aws-java-sdk</artifactId>
 				<version>1.11.163</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-xml -->
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-xml 
 		<dependency>
 			<groupId>com.fasterxml.jackson.dataformat</groupId>
 			<artifactId>jackson-dataformat-xml</artifactId>
 			<version>2.10.0.pr1</version>
-		</dependency>
+		</dependency>-->
 
 	</dependencies>
 

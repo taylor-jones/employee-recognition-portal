@@ -1,6 +1,6 @@
 package com.ttt.erp.model;
 
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+//import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -188,7 +188,7 @@ public class Award {
             '}';
     }
 
-    public String toXMLString() throws IOException {
+    /*public String toXMLString() throws IOException {
         XmlMapper xmlMapper = new XmlMapper();
 
         // TODO: REMOVE NEXT 2 LINES AFTER CONFIRMATION THAT XML WORKS PROPERLY
@@ -196,5 +196,5 @@ public class Award {
         // File file = new File("awards/generated/test-award.xml");
 
         return xmlMapper.writeValueAsString(this);
-    }
+    }*/
 }
