@@ -47,7 +47,14 @@
         <mat-error *ngIf="accountForm.controls.email.hasError('required')">Email is required</mat-error>
         <mat-error *ngIf="accountForm.controls.email.hasError('email')">Invalid email</mat-error>
       </mat-form-field>
-      <img mat-card-image>
+      <div *ngIf="meWithTimestamp || signatureData" class="meta-wrapper">
+        <mat-form-field class="created">
+          <input matInput type="text" placeholder="Date created" value="{{meWithTimestamp.timestamp.split('T')[0]}}" [readonly]="readOnly" disabled>
+        </mat-form-field>
+        <div class="img-container">
+          <img *ngIf="signatureData" [src]="signatureData" alt="Signature">
+        </div>
+      </div>
       <mat-card-actions>
         <button *ngIf="readOnly" mat-flat-button color="primary" type="button" (click)="toggleReadOnly()">Make Changes</button>
         <button *ngIf="!readOnly" [disabled]="accountForm.invalid" mat-flat-button color="primary" type="submit">Save</button>

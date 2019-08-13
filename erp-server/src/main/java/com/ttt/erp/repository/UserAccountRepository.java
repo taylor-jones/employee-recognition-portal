@@ -12,6 +12,13 @@ public interface UserAccountRepository extends JpaRepository<UserAccount, Intege
     UserAccount findById(Long id);
     UserAccount findByUsername(String username);
 
+    // Get the User with their time of creation
+    @Query( value = "SELECT ua.*, l.modified_at\n" +
+        "FROM user_account AS ua\n" + 
+        "INNER JOIN log AS l ON l.subject_id = ua.id\n" +
+        "WHERE ua.username = :username\n" +
+        "AND l.operation  = 'insert';", nativeQuery = true)
+    Object getUserWithCreatedTime(String username);
 
     // List all users along with the number of awards given by each user
     @Query(value = "SELECT u.id, u.username, COUNT(a.id) AS total\n" +

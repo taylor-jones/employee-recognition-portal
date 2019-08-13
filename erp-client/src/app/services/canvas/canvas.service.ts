@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+@Injectable({providedIn: 'root'})
 export class CanvasService {
 
   private jsonHeaders: HttpHeaders = null;
@@ -16,7 +17,7 @@ export class CanvasService {
   }
 
   getSignature(): Observable<string> {
-    return this.httpClient.get('/api/signatures', {responseType: 'text'});
+    return this.httpClient.get('/api/signatures/mine', {responseType: 'text'});
   }
 
 }

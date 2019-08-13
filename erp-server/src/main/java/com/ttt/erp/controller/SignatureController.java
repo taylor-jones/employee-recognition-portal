@@ -35,10 +35,13 @@ public class SignatureController {
         return service.getSignatureForUsername(principal.getName());
     }
 
-    @GetMapping("/file")
-    public void findSignatureFileData(@CookieValue(value = "user") String actingUser) {
-        String fName = this.userRepo.findByUsername(actingUser).getSignature();
-        System.out.println(this.service.getSignatureBase64(fName));
+    @GetMapping("/mine")
+    public Optional<String> findSignatureFileData(@CookieValue(value = "user") String actingUser) {
+        if (this.userRepo.findByUsername(actingUser).getIsAdmin() == false) {
+            return Optional.ofNullable( this.service.getSignatureBase64(this.userRepo.findByUsername(actingUser).getSignature()) );
+        } else {
+            return Optional.empty();
+        }
     }
 
     @PostMapping
