@@ -141,10 +141,6 @@ export class AdminControlsComponent extends SetRecoveryQuestionsComponent implem
     )
   }
 
-  falseGuard(){
-
-  }
-
   // Create a new user
   submitNewUser() {
     this.newUserForm.value.signature = this.getSignature();
