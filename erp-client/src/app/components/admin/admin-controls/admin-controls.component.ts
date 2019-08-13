@@ -141,9 +141,15 @@ export class AdminControlsComponent extends SetRecoveryQuestionsComponent implem
     )
   }
 
+  falseGuard(){
+
+  }
+
   // Create a new user
   submitNewUser() {
     this.newUserForm.value.signature = this.getSignature();
+    if (this.newUserForm.value.isAdmin == null)
+      this.newUserForm.value.isAdmin = false
     let questions = this.mapRecoveryQuestionsToAnswers(this.questions, this.collectAnswers());
     delete this.newUserForm.value.questions;
     this.userService.addUser(this.newUserForm.value).subscribe(

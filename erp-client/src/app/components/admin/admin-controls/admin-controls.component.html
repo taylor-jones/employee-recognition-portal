@@ -12,7 +12,7 @@
             formControlName="isAdmin"
           >Admin user</mat-checkbox>
           <mat-form-field class="col-half" >
-            <input matInput type="text" placeholder="Username" formControlName="username"required>
+            <input matInput type="text" placeholder="Username" formControlName="username" required>
             <mat-error *ngIf="newUserForm.controls.username.hasError('required')">Username is required</mat-error>
           </mat-form-field>
           <mat-form-field class="col-half" >
