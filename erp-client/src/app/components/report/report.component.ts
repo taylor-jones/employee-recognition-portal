@@ -116,8 +116,6 @@ export class ReportComponent implements OnInit {
   }
 
   ngAfterViewInit(): void {
-    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-    //Add 'implements AfterViewInit' to the class.
     this.employeeAwards.sort = this.sort;
   }
 
@@ -242,9 +240,10 @@ export class ReportComponent implements OnInit {
       }
     });
 
+
     // update the cached awards list for this region's employees so
     // that we only need to do this process once.
-    this.regionEmployeeAwards[regionId] = data;
+    this.regionEmployeeAwards[regionId] = data.sort((a, b) => a.name > b.name ? 1 : -1);
     this.regionEmployeeAwardsChart['data'] = this.regionEmployeeAwards[regionId];
   }
 
@@ -287,8 +286,6 @@ export class ReportComponent implements OnInit {
           value: item[2]
         };
       });
-
-      console.log(this.userAwardCounts);
     }, err => {
       this.showSnackbarError('Failed to get user award totals.');
     });
@@ -308,8 +305,6 @@ export class ReportComponent implements OnInit {
           total: item[3],
         };
       });
-
-      console.log(this.employeeAwardCounts);
     }, err => {
       this.showSnackbarError('Failed to get employee award totals.');
     });
@@ -327,8 +322,6 @@ export class ReportComponent implements OnInit {
           value: item[2]
         };
       });
-
-      console.log(this.awardTypeCounts);
     }, err => {
       this.showSnackbarError('Failed to get award type totals.');
     });
@@ -402,8 +395,6 @@ export class ReportComponent implements OnInit {
           award_types: item[3],
         };
       });
-
-      console.log(this.employeeAwardDiversity);
     }, err => {
       this.showSnackbarError('Failed to get employee award diversity data.');
     });

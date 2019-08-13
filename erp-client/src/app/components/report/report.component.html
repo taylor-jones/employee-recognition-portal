@@ -83,8 +83,8 @@
       <h3>{{ selected.employee.name }} : {{ selected.awardType.name }}</h3>
       <mat-table class="mat-table" [dataSource]="employeeAwards" matSort>
         <ng-container matColumnDef="id">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
-          <mat-cell *matCellDef="let award"> {{ award.id }} </mat-cell>
+          <mat-header-cell *matHeaderCellDef mat-sort-header class="col-id">Id</mat-header-cell>
+          <mat-cell *matCellDef="let award" class="col-id"> {{ award.id }} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="description">
@@ -93,13 +93,13 @@
         </ng-container>
 
         <ng-container matColumnDef="awardedDate">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>Awarded Date</mat-header-cell>
-          <mat-cell *matCellDef="let award"> {{ award.awardedDate | date:'M/d/yyyy' }} </mat-cell>
+          <mat-header-cell *matHeaderCellDef mat-sort-header class="col-sm">Awarded Date</mat-header-cell>
+          <mat-cell *matCellDef="let award" class="col-sm"> {{ award.awardedDate | date:'M/d/yyyy' }} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="awardedTime">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>Awarded Time</mat-header-cell>
-          <mat-cell *matCellDef="let award"> {{ award.awardedTime | time }} </mat-cell>
+          <mat-header-cell *matHeaderCellDef mat-sort-header class="col-sm">Awarded Time</mat-header-cell>
+          <mat-cell *matCellDef="let award" class="col-sm"> {{ award.awardedTime | time }} </mat-cell>
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
