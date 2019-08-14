@@ -8,9 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserAccountService extends LogService {
@@ -110,5 +113,27 @@ public class UserAccountService extends LogService {
      */
     public List<Object[]> getUserAwardCounts() {
         return this.repository.getUserAwardCounts();
+    }
+
+    
+    /**
+     * Gets a list of existing usernames and emails
+     * to check for validation when attemtping to create
+     * a new user account.
+     * @return JSON list of arrays in the format of:
+     * [username, email]
+     */
+    public List<Object> getExistingUsernamesAndEmails() {
+      List<UserAccount> users = this.repository.findAll();
+      ArrayList<Object> results = new ArrayList<>();
+
+      users.forEach(u -> {
+        ArrayList<Object> curr = new ArrayList<>();
+          curr.add(u.getUsername());
+          curr.add(u.getEmail());
+          results.add(curr);
+      });
+
+      return results;
     }
 }

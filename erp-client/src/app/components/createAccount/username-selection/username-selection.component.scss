@@ -2,30 +2,29 @@ mat-spinner {
   margin: auto;
 }
 
-.username-selection-container {
-  height: 55vh;
-  display: flex;
-  justify-content: center;
+mat-card,
+mat-card-header,
+mat-card-content {
   align-items: center;
+  display: flex;
+  flex-direction: column;
 }
 
-.username-selection-logo {
+mat-card {
+  margin: 60px auto;
   max-width: 250px;
-  margin: auto;
 }
 
-.username-input {
-  align-self: center;
+mat-card-content {
+  margin-top: 20px;
 }
 
-.password-input {
-  justify-content: center;
+mat-form-field {
+  flex: 1 0 0; 
+  margin-bottom: 8px;
 }
 
-.username-validation-button {
-  justify-content: center;
+mat-card-actions {
+  margin-top: 1em;
 }
 
-.password-submit-button {
-  justify-content: center;
-}

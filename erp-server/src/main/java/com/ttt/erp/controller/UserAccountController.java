@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/users")
@@ -121,6 +122,11 @@ public class UserAccountController {
     public ResponseEntity<Boolean> checkUserName(@PathVariable("username") final String username) {
         UserAccount userAccount = repository.findByUsername(username);
         return new ResponseEntity<>(userAccount == null, HttpStatus.OK);
+    }
+
+    @GetMapping("/availability")
+    public List<Object> getExistingUsernamesAndEmails() {
+        return this.service.getExistingUsernamesAndEmails();
     }
 
     @PostMapping("/newAccount")
