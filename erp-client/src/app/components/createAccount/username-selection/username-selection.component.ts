@@ -100,7 +100,7 @@ export class UsernameSelectionComponent implements OnInit {
   }
 
 
-  checkUsername(): void {
+  goToNextStep(): void {
     this.submitted = true;
 
     // if the form isn't valid, stop processing
@@ -108,17 +108,7 @@ export class UsernameSelectionComponent implements OnInit {
       return;
     }
 
-    this.userService.checkUsername(this.username).subscribe(
-      (isValid: boolean) => {
-        if (isValid) {
-          this.sendEvent();
-        } else {
-          this.errorMessage = 'Username already taken!';
-        }
-      }, 
-      (error) => {
-          this.errorMessage = error;
-      });
+    this.sendEvent();
   }
 
 
@@ -135,9 +125,9 @@ export class UsernameSelectionComponent implements OnInit {
     console.log('sending event');
 
     this.event.emit({
-      username: this.username,
-      password: this.password,
-      email: this.email
+      username: this.f.username.value,
+      password: this.f.password.value,
+      email: this.f.email.value,
     });
   }
 }

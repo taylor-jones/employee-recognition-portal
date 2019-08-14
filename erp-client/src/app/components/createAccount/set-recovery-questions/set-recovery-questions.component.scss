@@ -3,6 +3,31 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 30px;
+}
+
+::ng-deep .mat-card-header-text {
+  display: none;
+  position: absolute;
+}
+
+.recovery-questions-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 250px;
+
+  table {
+    margin: 0 auto;
+    width: 225px;
+  }
+
+  tr,
+  td,
+  mat-form-field {
+    width: 100%;
+  }
 }
 
 .set-recovery-questions-logo {

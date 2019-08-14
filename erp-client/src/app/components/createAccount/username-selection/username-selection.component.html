@@ -1,5 +1,5 @@
 <div class="username-selection-container">
-  <form [formGroup]="selectionForm" (ngSubmit)="checkUsername()">
+  <form [formGroup]="selectionForm" (ngSubmit)="goToNextStep()">
     <mat-card class="username-selection-card">
 
       <mat-card-header>
@@ -74,64 +74,10 @@
         </div>
         
         <mat-card-actions>
-          <button mat-raised-button type="submit" color="primary" class="username-validation-button">Check Username</button>
+          <button mat-raised-button type="submit" color="primary" class="username-validation-button">Next Step</button>
         </mat-card-actions>
       
       </mat-card-content>
     </mat-card>
   </form>
 </div>
-
-
-
-<!-- <div class="username-selection-container">
-  <mat-card class="username-selection-card">
-    <mat-card-header>
-      <div class="username-selection-box-header">
-        <img [src]="'assets/Images/prototype-logo.svg'" class="username-selection-logo">
-      </div>
-    </mat-card-header>
-    <mat-card-content>
-      <form>
-        <table cellspacing="0">
-          <tr>
-            <td>
-              <mat-form-field class="username-input">
-                <input matInput placeholder="Choose your Username" [(ngModel)]="username" name="username" [disabled]="validUsername" required>
-              </mat-form-field>
-            </td>
-          </tr>
-          <div>
-            <tr>
-              <td>
-                <mat-form-field class="set-email">
-                  <input matInput placeholder="Enter Email" type="email" [(ngModel)]="email" name="email" required>
-                </mat-form-field>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <mat-form-field class="set-password">
-                  <input matInput placeholder="Enter Password" type="password" [(ngModel)]="password" name="password" required>
-                </mat-form-field>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <mat-form-field class="set-password">
-                  <input matInput placeholder="Re-Enter Password" type="password" [(ngModel)]="rePassword" name="rePassword" required>
-                </mat-form-field>
-              </td>
-            </tr>
-          </div>
-        </table>
-      </form>
-    </mat-card-content>
-    <div *ngIf="errorMessage">
-      {{errorMessage}}
-    </div>
-    <mat-card-actions>
-      <button mat-raised-button [disabled]="!password || !username || !rePassword" (click)="checkUsername()" color="primary" class="username-validation-button">Check Username</button>
-    </mat-card-actions>
-  </mat-card>
-</div> -->

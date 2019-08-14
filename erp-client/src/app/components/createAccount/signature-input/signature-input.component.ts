@@ -8,18 +8,13 @@ import {RecoveryQuestion} from '../../../models/recovery.model';
   styleUrls: ['./signature-input.component.scss']
 })
 export class SignatureInputComponent implements OnInit {
-
   @Output() event: EventEmitter<string> = new EventEmitter();
-
   @ViewChild(CanvasComponent, {static: false}) canvasChild: CanvasComponent;
 
   signature: string;
 
-  constructor() {
-  }
-
-  ngOnInit() {
-  }
+  constructor() {}
+  ngOnInit() {}
 
   getSignature() {
     this.signature = this.canvasChild.getCanvasData();
