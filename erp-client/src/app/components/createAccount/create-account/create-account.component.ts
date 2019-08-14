@@ -42,7 +42,6 @@ export class CreateAccountComponent implements OnInit {
 
   handleAccountSubmit(signature: string) {
     this.user.signature = signature;
-
     this.createUser();
   }
 
@@ -61,14 +60,18 @@ export class CreateAccountComponent implements OnInit {
                 this.router.navigate(['/']);
               },
               (error) => {
+                console.log('error authenticating user', error);
                 this.errorMessage = error;
               });
-            // this.router.navigate(['login']);
           },
           (error) => {
+            console.log('error adding account recovery', error);
             this.errorMessage = error;
           }
         );
+      }, (error) => {
+        console.log('error creating user', error);
+        this.errorMessage = error;
       }
     );
   }

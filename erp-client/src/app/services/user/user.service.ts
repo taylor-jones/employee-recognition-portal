@@ -28,6 +28,10 @@ export class UserService {
     return this.httpClient.get<boolean>(`${this.baseEndpoint}/validate/${username}`);
   }
 
+  getAvailability(): Observable<any> {
+    return this.httpClient.get(`${this.baseEndpoint}/availability`);
+  }
+
   getAllUsers(): Observable<User[]> {
     return this.httpClient.get<User[]>(`${this.baseEndpoint}`);
   }

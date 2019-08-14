@@ -114,12 +114,22 @@ public class UserAccount implements Serializable {
         this.isAdmin = isAdmin;
     }
 
+    public UserAccount(String email, String username, String password, String signature, Boolean isAdmin) {
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.signature = signature;
+        this.isAdmin = isAdmin;
+    }
+
     public UserAccount(String email, String username, String password, Boolean isAdmin) {
         this.email = email;
         this.username = username;
         this.password = password;
         this.isAdmin = isAdmin;
     }
+
+
     // getters
 
     public Long getId() {

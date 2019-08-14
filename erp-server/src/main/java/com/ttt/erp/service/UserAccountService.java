@@ -8,9 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserAccountService extends LogService {
@@ -45,18 +48,17 @@ public class UserAccountService extends LogService {
             } else {
                 user.setSignature(null);
             }
+
             user.setIsEnabled(true);
 
-            // was having cases where the logInsert was looking up the users, before the
-            // create transaction was completed
+            // Create the new User and user the new User's id
+            // as both the subjectId and the modifiedById. 
             UserAccount newUser = repository.save(user);
-            if (!newUser.getIsAdmin()) {
-                // works for creating a new user as an unlogged in user
-                logInsert(userAccountId, newUser.getClass().getSimpleName(), newUser.getId());
-            } else {
-                logInsert(userAccountId, newUser.getClass().getSimpleName(), newUser.getId());
-            }
+            Long newUserId = newUser.getId();
+            Long actingUserId = userAccountId == 0 ? newUserId : userAccountId;
+            logInsert(actingUserId, newUser.getClass().getSimpleName(), newUserId);
             return Optional.ofNullable(newUser);
+
         } catch (Exception e) {
             System.out.println("Error on UserAccount insert");
             e.printStackTrace();
@@ -110,5 +112,27 @@ public class UserAccountService extends LogService {
      */
     public List<Object[]> getUserAwardCounts() {
         return this.repository.getUserAwardCounts();
+    }
+
+    
+    /**
+     * Gets a list of existing usernames and emails
+     * to check for validation when attemtping to create
+     * a new user account.
+     * @return JSON list of arrays in the format of:
+     * [username, email]
+     */
+    public List<Object> getExistingUsernamesAndEmails() {
+      List<UserAccount> users = this.repository.findAll();
+      ArrayList<Object> results = new ArrayList<>();
+
+      users.forEach(u -> {
+        ArrayList<Object> curr = new ArrayList<>();
+          curr.add(u.getUsername());
+          curr.add(u.getEmail());
+          results.add(curr);
+      });
+
+      return results;
     }
 }

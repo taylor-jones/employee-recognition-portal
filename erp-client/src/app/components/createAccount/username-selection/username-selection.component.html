@@ -1,51 +1,83 @@
 <div class="username-selection-container">
-  <mat-card class="username-selection-card">
-    <mat-card-header>
-      <div class="username-selection-box-header">
-        <img [src]="'assets/Images/prototype-logo.svg'" class="username-selection-logo">
-      </div>
-    </mat-card-header>
-    <mat-card-content>
-      <form>
-        <table cellspacing="0">
-          <tr>
-            <td>
-              <mat-form-field class="username-input">
-                <input matInput placeholder="Choose your Username" [(ngModel)]="username" name="username" [disabled]="validUsername" required>
-              </mat-form-field>
-            </td>
-          </tr>
-          <div>
-            <tr>
-              <td>
-                <mat-form-field class="set-email">
-                  <input matInput placeholder="Enter Email" type="email" [(ngModel)]="email" name="email" required>
-                </mat-form-field>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <mat-form-field class="set-password">
-                  <input matInput placeholder="Enter Password" type="password" [(ngModel)]="password" name="password" required>
-                </mat-form-field>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <mat-form-field class="set-password">
-                  <input matInput placeholder="Re-Enter Password" type="password" [(ngModel)]="rePassword" name="rePassword" required>
-                </mat-form-field>
-              </td>
-            </tr>
-          </div>
-        </table>
-      </form>
-    </mat-card-content>
-    <div *ngIf="errorMessage">
-      {{errorMessage}}
-    </div>
-    <mat-card-actions>
-      <button mat-raised-button [disabled]="!password || !username || !rePassword" (click)="checkUsername()" color="primary" class="username-validation-button">Check Username</button>
-    </mat-card-actions>
-  </mat-card>
+  <form [formGroup]="selectionForm" (ngSubmit)="goToNextStep()">
+    <mat-card class="username-selection-card">
+
+      <mat-card-header>
+        <div class="username-selection-box-header">
+          <img [src]="'assets/Images/prototype-logo.svg'" class="username-selection-logo">
+        </div>
+      </mat-card-header>
+      
+      <mat-card-content>
+        <mat-form-field>
+          <input
+            (ngModelChange)="checkUsernameAvailable()"
+            matInput 
+            placeholder="Choose your Username" 
+            formControlName="username" 
+            name="username"
+            [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+          <mat-error *ngIf="f.username.errors" class="invalid-feedback">
+            <mat-error *ngIf="f.username.errors.unavailable">Username is not available</mat-error>
+          </mat-error>
+          <mat-error *ngIf="submitted && f.username.errors" class="invalid-feedback">
+            <mat-error *ngIf="f.username.errors.required">Username is required</mat-error>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input
+            (ngModelChange)="checkEmailAvailable()"
+            matInput placeholder="Enter Email" 
+            formControlName="email" 
+            name="email"
+            [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+          <mat-error *ngIf="submitted && f.email.errors" class="invalid-feedback">
+            <mat-error *ngIf="f.email.errors.required">Email is required</mat-error>
+            <mat-error *ngIf="f.email.errors.validEmail">Email must be valid</mat-error>
+          </mat-error>
+          <mat-error *ngIf="f.email.errors" class="invalid-feedback">
+            <mat-error *ngIf="f.email.errors.unavailable">Email is not available</mat-error>
+          </mat-error>
+
+        </mat-form-field>
+
+        <mat-form-field>
+          <input
+            (ngModelChange)="updatePassword()"
+            type="password" 
+            matInput placeholder="Enter Passowrd" 
+            formControlName="password" 
+            name="password"
+            [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+          <mat-error *ngIf="submitted && f.password.errors" class="invalid-feedback">
+            <mat-error *ngIf="f.password.errors.required">Password is required</mat-error>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input
+            type="password" 
+            matInput placeholder="Re-Enter Passowrd" 
+            formControlName="rePassword" 
+            name="rePassword"
+            pattern="{{ password }}"
+            [ngClass]="{ 'is-invalid': submitted && f.rePassword.errors }" />
+          <mat-error *ngIf="submitted && f.rePassword.errors" class="invalid-feedback">
+            <mat-error *ngIf="f.rePassword.errors.required">You must re-enter your password</mat-error>
+            <mat-error *ngIf="f.rePassword.errors.pattern">Password does not match</mat-error>
+          </mat-error>
+        </mat-form-field>
+
+        <div *ngIf="errorMessage">
+          {{errorMessage}}
+        </div>
+        
+        <mat-card-actions>
+          <button mat-raised-button type="submit" color="primary" class="username-validation-button">Next Step</button>
+        </mat-card-actions>
+      
+      </mat-card-content>
+    </mat-card>
+  </form>
 </div>
