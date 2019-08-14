@@ -157,11 +157,13 @@ export class ReportComponent implements OnInit {
   }
 
   onRegionAwardsChartSelect($event) {
-    const regionId = this.regionAwardCounts.find(region => region.name === $event.name).id;
+    const regionName = typeof $event === 'string' ? $event : $event.name;
+    const regionId = this.regionAwardCounts.find(region => region.name === regionName).id;
+
     this.selected = {
       region: {
         id: regionId,
-        name: $event.name
+        name: regionName,
       },
       employee: {
         id: null,
@@ -254,6 +256,8 @@ export class ReportComponent implements OnInit {
    * @param $event the selected chart element
    */
   onRegionEmployeeAwardsChartSelect($event) {
+    if (typeof $event === 'string') return;
+
     // find the associated awards for this employee 
     // and display the details.
     this.selected.employee.name = $event.series;
