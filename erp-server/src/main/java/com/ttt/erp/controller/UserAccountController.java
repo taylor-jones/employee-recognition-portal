@@ -131,6 +131,6 @@ public class UserAccountController {
 
     @PostMapping("/newAccount")
     public Optional<UserAccount> addUserCreatedAccount (@RequestBody UserAccount newUserAccount) {
-        return this.service.createUser(newUserAccount);
+        return this.service.createUser(0L, newUserAccount);
     }
 }

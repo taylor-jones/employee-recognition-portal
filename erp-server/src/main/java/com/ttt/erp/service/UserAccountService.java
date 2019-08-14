@@ -41,7 +41,7 @@ public class UserAccountService extends LogService {
         return Optional.ofNullable(this.repository.findByUsername(username).getSignature());
     }
 
-    public Optional<UserAccount> createUser(UserAccount user) {
+    public Optional<UserAccount> createUser(Long userAccountId, UserAccount user) {
         try {
             if (user.getIsAdmin() == null || !user.getIsAdmin()) {
                 user.setSignature(this.signatureService.newSignatureForUser(user.getSignature(), user));
@@ -55,7 +55,8 @@ public class UserAccountService extends LogService {
             // as both the subjectId and the modifiedById. 
             UserAccount newUser = repository.save(user);
             Long newUserId = newUser.getId();
-            logInsert(newUserId, newUser.getClass().getSimpleName(), newUserId);
+            Long actingUserId = userAccountId == 0 ? newUserId : userAccountId;
+            logInsert(actingUserId, newUser.getClass().getSimpleName(), newUserId);
             return Optional.ofNullable(newUser);
 
         } catch (Exception e) {
