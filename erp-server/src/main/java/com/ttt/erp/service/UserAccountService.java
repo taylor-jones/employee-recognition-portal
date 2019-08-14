@@ -41,25 +41,23 @@ public class UserAccountService extends LogService {
         return Optional.ofNullable(this.repository.findByUsername(username).getSignature());
     }
 
-    public Optional<UserAccount> createUser(Long userAccountId, UserAccount user) {
+    public Optional<UserAccount> createUser(UserAccount user) {
         try {
             if (user.getIsAdmin() == null || !user.getIsAdmin()) {
                 user.setSignature(this.signatureService.newSignatureForUser(user.getSignature(), user));
             } else {
                 user.setSignature(null);
             }
+
             user.setIsEnabled(true);
 
-            // was having cases where the logInsert was looking up the users, before the
-            // create transaction was completed
+            // Create the new User and user the new User's id
+            // as both the subjectId and the modifiedById. 
             UserAccount newUser = repository.save(user);
-            if (!newUser.getIsAdmin()) {
-                // works for creating a new user as an unlogged in user
-                logInsert(userAccountId, newUser.getClass().getSimpleName(), newUser.getId());
-            } else {
-                logInsert(userAccountId, newUser.getClass().getSimpleName(), newUser.getId());
-            }
+            Long newUserId = newUser.getId();
+            logInsert(newUserId, newUser.getClass().getSimpleName(), newUserId);
             return Optional.ofNullable(newUser);
+
         } catch (Exception e) {
             System.out.println("Error on UserAccount insert");
             e.printStackTrace();
