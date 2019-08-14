@@ -117,13 +117,11 @@ export class UsernameSelectionComponent implements OnInit {
    * so that the re-password can be checked against it
    */
   updatePassword() {
-    this.password = this.f.password.value;
+    this.password = this.f['password'].value || '';
   }
 
 
   sendEvent() {
-    console.log('sending event');
-
     this.event.emit({
       username: this.f.username.value,
       password: this.f.password.value,
