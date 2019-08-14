@@ -127,7 +127,6 @@ export class AwardComponent implements OnInit {
     this.cookieUser = cookies['user'];
     this.isAdmin = cookies['admin'] == 'true';
     this.userId = cookies['userId'] || 0;
-    // console.log(cookies);
   }
 
   ngOnInit() {
@@ -389,6 +388,9 @@ export class AwardComponent implements OnInit {
     this._awardService.updateAward(context).subscribe(response => {
       if (response && response.id) {
         this.createAwardForm.get('id').setValue(response.id);
+        const awardIndex = this.awards.findIndex(award => award.id === response.id);
+        this.awards[awardIndex] = response;
+        this.refreshAwardList();
         this.showSnackbarSuccess('Success! The award has been updated.');
       } else {
         this.showSnackbarError('Something has gone wrong. Award updating failed');
