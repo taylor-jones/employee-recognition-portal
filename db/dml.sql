@@ -1,3 +1,4 @@
+DELETE FROM recovery_question;
 DELETE FROM award;
 DELETE FROM award_type;
 DELETE FROM employee_region;
